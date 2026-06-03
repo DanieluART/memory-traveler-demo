@@ -1014,7 +1014,7 @@ button, .card-btn{
   .mobile-bottom-toolbar .icon-btn{padding:10px 8px;min-height:40px;font-size:12px;}
 }
 
-/* v38 mobile-first simplification */
+/* v39 mobile-first simplification */
 @media (max-width: 768px){
   .mini-brand-sub{display:none !important;}
   .mobile-topbar-simple{padding:8px 0 4px !important;}
@@ -1204,4 +1204,283 @@ button, .card-btn{
     min-height:38px !important;
     font-size:11px !important;
   }
+}
+
+
+/* v39 mobile refinement: larger usable card area + grounded character tuning */
+@media (max-width: 768px){
+  body{
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+
+  /* Less vertical chrome at the top */
+  .mobile-topbar-simple{
+    padding:4px 0 2px !important;
+  }
+  .mobile-topbar-simple .topbar-brand{
+    padding:10px 16px !important;
+    border-radius:14px !important;
+  }
+  .mini-brand-title{
+    font-size:22px !important;
+    letter-spacing:.02em !important;
+  }
+
+  /* Keep battle scene readable but not too tall */
+  .mobile-scene-shell{
+    height:31vh !important;
+    min-height:228px !important;
+    max-height:272px !important;
+  }
+  .battle-scene-image{
+    object-position:center center !important;
+  }
+
+  /* Character scale and grounded placement */
+  .mobile-scene-shell .actor-boy{
+    left:15.5% !important;
+    bottom:5.2% !important;
+    width:14.4% !important;
+    min-width:58px !important;
+  }
+  .mobile-scene-shell .actor-girl{
+    left:28.2% !important;
+    bottom:5.5% !important;
+    width:13.6% !important;
+    min-width:55px !important;
+  }
+  .mobile-scene-shell .actor-koro{
+    left:40.3% !important;
+    bottom:5.0% !important;
+    width:11.2% !important;
+    min-width:44px !important;
+  }
+  .mobile-scene-shell .actor-bear{
+    left:50.0% !important;
+    bottom:5.4% !important;
+    width:11.0% !important;
+    min-width:44px !important;
+  }
+  .mobile-scene-shell .actor-enemy{
+    right:3.2% !important;
+    bottom:4.3% !important;
+    width:34.5% !important;
+    min-width:132px !important;
+  }
+  .mobile-scene-shell .battle-actor::before{
+    bottom:0 !important;
+    height:10px !important;
+    opacity:.58 !important;
+    filter:blur(5px) !important;
+  }
+
+  /* More transparent HUDs inside battle scene */
+  .hud-pill.dark,
+  .block-bubble,
+  .mobile-enemy-intent-panel{
+    background:rgba(8,18,33,.36) !important;
+    backdrop-filter:blur(2px) !important;
+  }
+  .enemy-red-text,
+  .enemy-red-text strong,
+  .enemy-red-text b,
+  .enemy-red-text em,
+  .enemy-red-text .intent-title{
+    color:#ff7a7a !important;
+  }
+
+  /* Ultra-compact one-line info strip */
+  .battle-status-strip{
+    display:grid !important;
+    grid-template-columns:repeat(5, minmax(0, 1fr)) !important;
+    gap:3px !important;
+    overflow:visible !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+  .status-chip{
+    min-width:0 !important;
+    padding:4px 3px !important;
+    border-radius:9px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:1px !important;
+    text-align:center !important;
+    background:rgba(10,24,45,.46) !important;
+    border-color:rgba(255,255,255,.07) !important;
+    box-shadow:none !important;
+  }
+  .status-chip .chip-label{
+    font-size:8px !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+  }
+  .status-chip strong{
+    font-size:13px !important;
+    line-height:1 !important;
+  }
+  .status-chip small{
+    display:none !important;
+  }
+
+  /* Companion skill row reduced */
+  .mobile-companion-skill{
+    padding:4px 5px !important;
+    border-radius:10px !important;
+    margin-top:0 !important;
+  }
+  .mobile-companion-skill .companion-skill-title,
+  .mobile-companion-skill .companion-hint{
+    display:none !important;
+  }
+  .mobile-companion-skill .companion-btn-row{
+    grid-template-columns:1fr 1fr !important;
+    gap:5px !important;
+  }
+  .mobile-companion-skill .companion-btn{
+    min-height:30px !important;
+    padding:5px 7px !important;
+    font-size:10px !important;
+    line-height:1.05 !important;
+    border-radius:11px !important;
+  }
+
+  /* Card section: use most of the lower viewport */
+  .mobile-dock-shell{
+    padding:5px 5px 7px !important;
+    gap:5px !important;
+  }
+  .mobile-head{
+    padding:0 !important;
+    margin:0 !important;
+    gap:5px !important;
+    align-items:center !important;
+  }
+  .mobile-head h3{
+    font-size:13px !important;
+    line-height:1 !important;
+  }
+  .mobile-end-btn{
+    min-width:88px !important;
+    min-height:32px !important;
+    padding:7px 9px !important;
+    font-size:11px !important;
+    border-radius:11px !important;
+  }
+
+  /* Show more cards in a row; keep whole card visible */
+  .mobile-hand-scroll{
+    gap:4px !important;
+    padding:1px 0 0 !important;
+    scroll-padding-inline:3px !important;
+  }
+  .mobile-hand-scroll .card-btn{
+    min-width:88px !important;
+    max-width:88px !important;
+  }
+  .mobile-hand-scroll .card-image-wrap{
+    border-radius:9px !important;
+    border-width:1px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,.22) !important;
+  }
+  .mobile-hand-scroll .card-meta{
+    left:2px !important;
+    right:2px !important;
+    bottom:2px !important;
+    padding:3px 3px !important;
+    border-radius:7px !important;
+    background:rgba(12,22,38,.64) !important;
+  }
+  .mobile-hand-scroll .card-meta strong{
+    font-size:8px !important;
+    line-height:1 !important;
+  }
+  .mobile-hand-scroll .card-meta span{
+    font-size:7px !important;
+    line-height:1.1 !important;
+  }
+
+  /* Bottom tools de-emphasized */
+  .mobile-bottom-toolbar{
+    margin-top:5px !important;
+    padding:6px !important;
+    gap:5px !important;
+    border-radius:12px !important;
+    background:rgba(9,24,44,.72) !important;
+  }
+  .mobile-bottom-toolbar .icon-btn{
+    min-height:34px !important;
+    padding:7px 5px !important;
+    font-size:10px !important;
+    border-radius:10px !important;
+  }
+}
+
+/* iPhone 11 / 390px tuning */
+@media (min-width: 380px) and (max-width: 420px){
+  .mobile-hand-scroll .card-btn{
+    min-width:92px !important;
+    max-width:92px !important;
+  }
+  .mobile-scene-shell{
+    height:30vh !important;
+    min-height:222px !important;
+  }
+}
+
+/* Very narrow devices */
+@media (max-width: 360px){
+  .mobile-hand-scroll .card-btn{
+    min-width:84px !important;
+    max-width:84px !important;
+  }
+  .status-chip .chip-label{font-size:7px !important;}
+  .status-chip strong{font-size:12px !important;}
+}
+
+
+/* v40 mobile polish: one-line companion skills + better card tapping */
+@media (max-width: 768px){
+  .mobile-companion-skill{
+    padding:4px 6px !important;
+    margin-top:0 !important;
+  }
+  .mobile-companion-skill .companion-btn-row{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    gap:6px !important;
+    align-items:stretch !important;
+  }
+  .mobile-companion-skill .companion-btn{
+    flex:1 1 0 !important;
+    width:50% !important;
+    min-width:0 !important;
+    min-height:28px !important;
+    padding:5px 6px !important;
+    font-size:10px !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+  .mobile-dock-shell{gap:4px !important;}
+  .mobile-head{margin-top:0 !important;}
+  .mobile-hand-scroll{
+    gap:4px !important;
+    padding-top:0 !important;
+  }
+  .mobile-hand-scroll .card-btn{
+    min-width:96px !important;
+    max-width:96px !important;
+  }
+  .mobile-hand-scroll .card-image-wrap{
+    background:transparent !important;
+  }
+}
+@media (max-width: 390px){
+  .mobile-companion-skill .companion-btn{font-size:9.5px !important;}
+  .mobile-hand-scroll .card-btn{min-width:92px !important;max-width:92px !important;}
 }
