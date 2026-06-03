@@ -1,0 +1,6 @@
+GitHub Pages 上傳重點：
+1. 把這個資料夾內的所有檔案放到 GitHub repository 根目錄。
+2. 保持 assets 資料夾與 index.html 同一層。
+3. GitHub repository > Settings > Pages > Deploy from a branch。
+4. Branch 選 main，Folder 選 / root。
+5. 不需要 Node、npm、Vercel 或 build 指令。

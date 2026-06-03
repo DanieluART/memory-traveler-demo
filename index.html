@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>記憶旅人｜手機 DEMO v35</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main class="app-shell mobile-app">
+
+<section id="startScreen" class="screen start-screen cover-start-screen">
+  <article class="cover-entry-card menu-entry-card mobile-menu-entry fade-in-up">
+    <div class="cover-frame mobile-cover-ratio shimmer-frame">
+      <img class="cover-entry-image mobile-cover-image" src="assets/game_cover_entry.png" alt="記憶旅人遊戲封面" />
+      <div class="cover-entry-overlay mobile-cover-overlay">
+        <div class="menu-badge-row">
+          <span class="badge">MOBILE</span>
+          <span class="badge alt">DEMO v35</span>
+        </div>
+      </div>
+    </div>
+    <nav class="game-menu-panel mobile-menu-panel slide-in-up">
+      <button id="startButton" class="card-ui-btn menu-btn primary-glow">開始遊戲</button>
+      <button id="continueButton" class="card-ui-btn menu-btn">繼續 DEMO</button>
+      <button id="settingsButton" class="card-ui-btn menu-btn">設定</button>
+      <button id="openArtButton" class="card-ui-btn menu-btn alt-btn">查看美術總覽</button>
+    </nav>
+    <div class="cover-entry-caption mobile-cover-caption">
+      <h1>記憶旅人</h1>
+      <p>手機版開頭頁會以較適合直式畫面的比例顯示封面。</p>
+    </div>
+  </article>
+</section>
+
+<section id="gameScreen" class="screen game-screen hidden">
+  <header class="topbar mobile-topbar">
+    <div class="topbar-brand">
+      <div class="mini-brand-title">MEMORY TRAVELER</div>
+      <div class="mini-brand-sub">手機直式版</div>
+    </div>
+    <div class="topbar-actions compact-actions">
+      <button id="helpButton" class="card-ui-btn icon-btn">規則</button>
+      <button id="artButton" class="card-ui-btn icon-btn">美術</button>
+      <button id="restartTopButton" class="card-ui-btn icon-btn">重開</button>
+    </div>
+  </header>
+
+  <section class="battle-demo-layout mobile-layout">
+    <div class="battle-scene-shell mobile-scene-shell">
+      <img class="battle-scene-image" src="assets/battle_top_scene.png" alt="中興堂戰鬥畫面" />
+      <div class="battle-sprite-layer" aria-hidden="true">
+        <div id="actorBoy" class="battle-actor actor-boy hero-glow"><img id="actorBoyImg" src="assets/sprites/hero_boy_idle.png" alt=""></div>
+        <div id="actorGirl" class="battle-actor actor-girl hero-glow"><img id="actorGirlImg" src="assets/sprites/hero_girl_idle.png" alt=""></div>
+        <div id="actorKoro" class="battle-actor actor-koro hero-glow"><img id="actorKoroImg" src="assets/sprites/koro_idle.png" alt=""></div>
+        <div id="actorBear" class="battle-actor actor-bear hero-glow"><img id="actorBearImg" src="assets/sprites/bear_idle.png" alt=""></div>
+        <div id="actorEnemy" class="battle-actor actor-enemy enemy-glow"><img id="actorEnemyImg" src="assets/sprites/enemy_idle.png" alt=""></div>
+      </div>
+      <div id="effectLayer" class="effect-layer"></div>
+      <div class="mobile-chip-row left-row">
+        <div class="hud-pill dark">生命 <strong id="playerHpText">96 / 110</strong></div>
+        <div class="hud-pill dark small player-energy-pill">能量 <strong id="energyText">3 / 3</strong></div>
+      </div>
+      <div class="mobile-chip-row right-row">
+        <div class="hud-pill dark small enemy-hp-pill">敵方 HP <strong id="enemyHpText">240 / 300</strong></div>
+      </div>
+      <div class="block-bubble left">格擋 <strong id="playerBlockText">0</strong></div>
+      <div class="block-bubble right">敵格擋 <strong id="enemyBlockText">0</strong></div>
+      <div class="mobile-bottom-overlay mobile-turn-wrap">
+        <div class="hud-pill dark center-turn-pill mobile-turn-side-pill">回合 <strong id="turnText">3</strong></div>
+        <div class="intent-bubble compact-intent mobile-enemy-ui formal-intent-panel mobile-enemy-intent-panel">
+          <div class="intent-title-row"><span class="intent-title">敵人意圖</span><span class="intent-dot"></span></div>
+          <strong id="intentText">撲擊 10</strong>
+          <em>侵蝕 <b id="corruptionText">0</b></em>
+        </div>
+      </div>
+
+      <div class="mobile-floating-ui">
+        <div class="mobile-side-ui mobile-side-ui-left">
+          <div class="mini-card-stack small-stack floating-panel stack-panel">
+            <div class="stack-visual deck-visual"></div>
+            <div class="stack-count" id="deckCount">14</div>
+            <div class="stack-label">抽牌堆</div>
+          </div>
+          <div class="mini-card-stack small-stack floating-panel stack-panel">
+            <div class="stack-visual discard-visual"></div>
+            <div class="stack-count" id="discardCount">0</div>
+            <div class="stack-label">棄牌堆</div>
+          </div>
+          <div class="energy-panel compact-energy floating-panel floating-energy-panel">
+            <div class="energy-value" id="energyTextBottom">3 / 3</div>
+            <div class="energy-label">能量</div>
+          </div>
+        </div>
+        <div class="mobile-side-ui mobile-side-ui-right">
+          <div class="resource-chip compact-chip floating-panel stage-mobile-chip">階段 <strong id="stageText">1/3</strong><br><small id="passiveText">能力 無</small></div>
+          <div class="resource-chip compact-chip floating-panel">靈感 <strong id="inspirationText">0</strong><br><small>攻+ <b id="attackBoostText">0</b></small></div>
+          <div class="resource-chip compact-chip floating-panel corruption-mobile-chip">侵蝕 <strong id="corruptionStatusText">0</strong><br><small id="corruptionEffectText">敵攻 +0</small></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="battle-dock-shell mobile-dock-shell">
+<div class="companion-skill-panel mobile-companion-skill">
+        <div class="companion-skill-title">夥伴技｜每 5 回合</div>
+        <div class="companion-btn-row">
+          <button id="koroSkillButton" class="card-ui-btn companion-btn" disabled>KORO 格擋</button>
+          <button id="dainiSkillButton" class="card-ui-btn companion-btn" disabled>呆尼熊 攻擊+4</button>
+        </div>
+        <div id="companionHintText" class="companion-hint">第 5 回合可發動</div>
+      </div>
+      <div class="hand-dock-head mobile-head">
+        <div>
+          <h3>可使用卡牌</h3>
+          <p>卡牌區緊接在戰鬥畫面下方。</p>
+        </div>
+        <button id="endTurnButton" class="card-ui-btn primary-btn mobile-end-btn">結束回合</button>
+      </div>
+      <div id="handContainer" class="battle-hand-scroll mobile-hand-scroll"></div>
+      <div class="mobile-lower-info">
+        <div class="log-panel compact-log-panel">
+          <h4>戰鬥紀錄</h4>
+          <div id="logBox" class="log-box"></div>
+        </div>
+      </div>
+    </div>
+</section>
+</section>
+
+<section id="resultScreen" class="screen result-screen hidden">
+  <article id="resultCard" class="result-card fade-in-up win-state">
+    <span id="resultBadge" class="badge">DEMO 勝利</span>
+    <div class="result-visual-wrap">
+      <img class="result-side-art side-left result-win-art" src="assets/result_koro_cut.png" alt="KORO 角色插圖" />
+      <img class="result-side-art side-right result-win-art" src="assets/result_bear_cut.png" alt="呆尼熊角色插圖" />
+      <img class="result-side-art side-right result-lose-art hidden" src="assets/result_beast_cut.png" alt="噬憶獸角色插圖" />
+      <img class="cover-hero" id="resultImage" src="assets/victory_result.jpg" alt="戰鬥結果圖片" />
+    </div>
+    <h2 id="resultTitle">記憶守住了</h2>
+    <p id="resultText">你擊退了噬憶獸。</p>
+    <button id="restartButton" class="card-ui-btn primary-btn card-ui-btn result-btn">再玩一次</button>
+  </article>
+</section>
+
+
+
+<dialog id="rewardDialog" class="modal reward-modal">
+  <h3 id="rewardTitle">階段通過</h3>
+  <p id="rewardIntro" class="reward-intro">選擇一項能力或獎勵，進入下一階段。</p>
+  <div class="reward-choice-grid">
+    <button id="abilityChoiceButton" class="card-ui-btn reward-choice-card">
+      <span class="reward-type">能力</span>
+      <strong id="abilityChoiceTitle">永久能力</strong>
+      <small id="abilityChoiceDesc">每場戰鬥開始生效。</small>
+    </button>
+    <button id="rewardChoiceButton" class="card-ui-btn reward-choice-card">
+      <span class="reward-type">獎勵</span>
+      <strong id="rewardChoiceTitle">戰鬥獎勵</strong>
+      <small id="rewardChoiceDesc">立即生效或改善後續戰鬥。</small>
+    </button>
+  </div>
+</dialog>
+
+<dialog id="helpDialog" class="modal">
+  <h3>玩法規則</h3>
+  <ul>
+    <li>每回合會抽牌並恢復 3 點能量。</li>
+    <li>點擊卡牌可消耗能量發動效果。</li>
+    <li>按下「結束回合」後，敵人會依照意圖行動。</li>
+    <li>這版已將戰鬥上半部與下方出牌區整合成單畫面體驗。</li>
+  </ul>
+  <button id="closeHelpButton" class="card-ui-btn primary-btn">了解</button>
+</dialog>
+
+
+<dialog id="artDialog" class="modal art-modal">
+  <h3>美術總覽</h3>
+  <div class="dialog-art-grid">
+    <img src="assets/game_cover_entry.png" alt="遊戲封面" />
+    <img src="assets/battle_top_scene.png" alt="戰鬥畫面上半部" />
+    <img src="assets/ui_sheet_transparent.png" alt="UI 設計圖" />
+    <img src="assets/card_sheet.webp" alt="卡牌設計稿" />
+  </div>
+  <button id="closeArtButton" class="card-ui-btn primary-btn">關閉</button>
+</dialog>
+
+
+<dialog id="settingsDialog" class="modal settings-modal">
+  <h3>設定</h3>
+  <div class="settings-list">
+    <div class="settings-row"><span>音效</span><strong>開啟｜Web Audio</strong></div>
+    <div class="settings-row"><span>畫質</span><strong>標準</strong></div>
+    <div class="settings-row"><span>操作模式</span><strong>點選出牌</strong></div>
+  </div>
+  <button id="closeSettingsButton" class="card-ui-btn primary-btn">關閉</button>
+</dialog>
+
+</main>
+<script src="game.js"></script>
+</body>
+</html>

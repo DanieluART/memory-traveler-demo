@@ -1,0 +1,101 @@
+[
+  {
+    "file": "assets/sprites/hero_boy_idle.png",
+    "native_size": [
+      359,
+      500
+    ],
+    "format": "PNG transparent",
+    "usage": "hero_boy_idle"
+  },
+  {
+    "file": "assets/sprites/hero_boy_attack.png",
+    "native_size": [
+      451,
+      400
+    ],
+    "format": "PNG transparent",
+    "usage": "hero_boy_attack"
+  },
+  {
+    "file": "assets/sprites/hero_girl_idle.png",
+    "native_size": [
+      406,
+      490
+    ],
+    "format": "PNG transparent",
+    "usage": "hero_girl_idle"
+  },
+  {
+    "file": "assets/sprites/hero_girl_action.png",
+    "native_size": [
+      438,
+      370
+    ],
+    "format": "PNG transparent",
+    "usage": "hero_girl_action"
+  },
+  {
+    "file": "assets/sprites/koro_idle.png",
+    "native_size": [
+      374,
+      470
+    ],
+    "format": "PNG transparent",
+    "usage": "koro_idle"
+  },
+  {
+    "file": "assets/sprites/koro_skill.png",
+    "native_size": [
+      357,
+      400
+    ],
+    "format": "PNG transparent",
+    "usage": "koro_skill"
+  },
+  {
+    "file": "assets/sprites/bear_idle.png",
+    "native_size": [
+      344,
+      460
+    ],
+    "format": "PNG transparent",
+    "usage": "bear_idle"
+  },
+  {
+    "file": "assets/sprites/bear_skill.png",
+    "native_size": [
+      390,
+      390
+    ],
+    "format": "PNG transparent",
+    "usage": "bear_skill"
+  },
+  {
+    "file": "assets/sprites/enemy_idle.png",
+    "native_size": [
+      548,
+      660
+    ],
+    "format": "PNG transparent",
+    "usage": "enemy_idle"
+  },
+  {
+    "file": "assets/sprites/enemy_attack.png",
+    "native_size": [
+      656,
+      470
+    ],
+    "format": "PNG transparent",
+    "usage": "enemy_attack"
+  },
+  {
+    "file": "assets/sprites/enemy_roar.png",
+    "native_size": [
+      519,
+      470
+    ],
+    "format": "PNG transparent",
+    "usage": "enemy_roar"
+  }
+]
