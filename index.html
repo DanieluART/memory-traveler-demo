@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 DEMO v49</title>
+<title>記憶旅人｜手機 DEMO v50</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -1525,6 +1525,69 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 </style>
 
+
+<style id="v50-audio-and-glow-tuning">
+/* V50: remove outer ready glow, keep glow on card/image/text only */
+.card-btn.special-ready{
+  filter:none !important;
+  box-shadow:none !important;
+}
+.card-btn.special-ready::before,
+.card-btn.special-ready::after{
+  box-shadow:none !important;
+}
+.card-btn.special-ready .card-image-wrap{
+  border-color: rgba(255,232,153,.98) !important;
+  box-shadow:
+    0 0 0 2px rgba(249,223,132,.62),
+    0 0 12px rgba(255,216,102,.22),
+    0 10px 18px rgba(0,0,0,.24) !important;
+}
+.card-btn.special-ready .card-meta{
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.14) inset,
+    0 0 12px rgba(255,220,102,.36),
+    0 0 20px rgba(255,214,92,.18) !important;
+}
+/* Enemy glow when corruption is active */
+.battle-actor.actor-enemy.corruption-glow::before{
+  content:"";
+  position:absolute;
+  inset:-10% -10% -6% -10%;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255,78,116,.34) 0%, rgba(190,26,60,.18) 38%, transparent 68%),
+    radial-gradient(circle at 68% 30%, rgba(255,120,160,.26) 0%, transparent 30%),
+    radial-gradient(circle at 28% 70%, rgba(188,48,88,.18) 0%, transparent 28%);
+  filter:blur(10px);
+  animation:enemyCorruptionPulse 1.6s ease-in-out infinite;
+}
+.battle-actor.actor-enemy.corruption-glow img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28)) drop-shadow(0 0 10px rgba(220,52,96,.65)) drop-shadow(0 0 18px rgba(160,18,46,.32));
+}
+.battle-actor.actor-enemy.corruption-strong::before{
+  inset:-12% -12% -8% -12%;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255,96,132,.46) 0%, rgba(210,26,66,.26) 36%, transparent 68%),
+    conic-gradient(from 0deg, rgba(255,100,130,0) 0deg, rgba(255,100,130,.14) 65deg, rgba(255,100,130,0) 130deg, rgba(255,100,130,.18) 220deg, rgba(255,100,130,0) 300deg, rgba(255,100,130,0) 360deg);
+  filter:blur(11px) saturate(1.1);
+  animation:enemyCorruptionPulseStrong 1.15s ease-in-out infinite;
+}
+.battle-actor.actor-enemy.corruption-strong img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28)) drop-shadow(0 0 14px rgba(238,74,118,.88)) drop-shadow(0 0 24px rgba(160,18,46,.40));
+}
+@keyframes enemyCorruptionPulse{
+  0%,100%{transform:scale(.96); opacity:.78;}
+  50%{transform:scale(1.06); opacity:1;}
+}
+@keyframes enemyCorruptionPulseStrong{
+  0%,100%{transform:scale(.95); opacity:.84;}
+  50%{transform:scale(1.09); opacity:1;}
+}
+</style>
+
 </head>
 <body>
 <main class="app-shell mobile-app">
@@ -1535,7 +1598,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v49</span>
+<span class="badge alt">DEMO v50</span>
 </div>
 </div>
 </div>
@@ -1767,6 +1830,7 @@ function playNoise(ctx, duration=0.14, gainValue=0.035, delay=0){
   src.start(t0);
   src.stop(t0 + duration + 0.02);
 }
+
 function playSfx(kind='tap'){
   try{
     const ctx = getAudioCtx();
@@ -1777,7 +1841,22 @@ function playSfx(kind='tap'){
     } else if(kind === 'card'){
       playTone(ctx, 420, 0.07, 'triangle', 0.032, 0);
       playTone(ctx, 720, 0.09, 'triangle', 0.026, 0.055);
-    } else if(kind === 'enemy'){
+    } else if(kind === 'attack'){
+      playTone(ctx, 310, 0.045, 'square', 0.045, 0);
+      playTone(ctx, 210, 0.10, 'sawtooth', 0.028, 0.03);
+      playNoise(ctx, 0.08, 0.022, 0.015);
+    } else if(kind === 'block'){
+      playTone(ctx, 540, 0.08, 'triangle', 0.028, 0);
+      playTone(ctx, 760, 0.10, 'sine', 0.024, 0.05);
+    } else if(kind === 'effect'){
+      playTone(ctx, 470, 0.08, 'sine', 0.028, 0);
+      playTone(ctx, 680, 0.11, 'triangle', 0.022, 0.06);
+      playTone(ctx, 960, 0.09, 'triangle', 0.016, 0.14);
+    } else if(kind === 'companion'){
+      playTone(ctx, 520, 0.08, 'triangle', 0.028, 0);
+      playTone(ctx, 660, 0.10, 'triangle', 0.026, 0.06);
+      playTone(ctx, 880, 0.12, 'sine', 0.022, 0.16);
+    } else if(kind === 'enemy' || kind === 'enemyAttack'){
       playTone(ctx, 118, 0.18, 'sawtooth', 0.04, 0);
       playNoise(ctx, 0.18, 0.035, 0.02);
     } else if(kind === 'enemyHeavy'){
@@ -1797,6 +1876,7 @@ function playSfx(kind='tap'){
     }
   }catch(err){ /* audio is optional */ }
 }
+
 
 function bindPress(id, handler){
   const el = $(id);
@@ -1961,6 +2041,7 @@ class DemoGame {
   showCardEffect(card){
     this.handleCardSpriteAction(card);
     const flashType = card.kind === 'attack' ? 'attack' : (card.kind === 'support' ? 'support' : 'skill');
+    playSfx(flashType === 'attack' ? 'attack' : 'effect');
     let effectHtml = '';
     if (flashType === 'attack') {
       effectHtml = `<div class="battle-effect attack"><div class="effect-burst"></div><div class="effect-spark effect-spark-r"></div><div class="effect-label attack-label">${card.name}</div></div>`;
@@ -2105,6 +2186,7 @@ class DemoGame {
       this.log('夥伴技尚未準備完成。');
       return;
     }
+    playSfx('companion');
     if(type === 'koro'){
       const baseBlock = 10;
       const inspirationBonus = this.inspiration > 0 ? 8 : 0;
@@ -2144,6 +2226,7 @@ class DemoGame {
   }
 
   damageEnemy(n){
+    playSfx('attack');
     let amount = n + this.permanentAttack;
     if(this.permanentAttack > 0) this.log(`永久能力：本次攻擊 +${this.permanentAttack}。`, false);
     if(this.attackBoostCharges > 0){
@@ -2158,8 +2241,8 @@ class DemoGame {
     this.log(`對噬憶獸造成 ${damage} 點傷害。`, false);
   }
 
-  gainBlock(n){ this.playerBlock += n; this.log(`獲得 ${n} 點格擋。`, false); }
-  heal(n){ const before = this.playerHp; this.playerHp = Math.min(this.maxPlayerHp, this.playerHp + n); this.log(`回復 ${this.playerHp-before} 點生命。`, false); }
+  gainBlock(n){ playSfx('block'); this.playerBlock += n; this.log(`獲得 ${n} 點格擋。`, false); }
+  heal(n){ playSfx('effect'); const before = this.playerHp; this.playerHp = Math.min(this.maxPlayerHp, this.playerHp + n); this.log(`回復 ${this.playerHp-before} 點生命。`, false); }
 
   enemyAttack(n, mode='pounce'){
     const weakened = Math.max(0, n - this.enemyWeak);
@@ -2336,6 +2419,11 @@ class DemoGame {
     if(scene){
       scene.classList.toggle('corruption-active', this.corruption > 0);
       scene.dataset.corruption = String(this.corruption);
+    }
+    const actorEnemy = $('actorEnemy');
+    if(actorEnemy){
+      actorEnemy.classList.toggle('corruption-glow', this.corruption > 0);
+      actorEnemy.classList.toggle('corruption-strong', this.corruption >= 3);
     }
     document.querySelectorAll('.corruption-status-panel, .corruption-mobile-chip').forEach(el => {
       el.classList.toggle('active', this.corruption > 0);
