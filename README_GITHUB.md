@@ -1,3 +1,5 @@
+memory_traveler_github_pages_v38
+
 # 記憶旅人 Mobile DEMO v37
 
 這是 **GitHub Pages 專用版本**。  
