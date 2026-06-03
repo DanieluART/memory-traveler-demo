@@ -1,76 +1,9 @@
-memory_traveler_github_pages_v39
+# Memory Traveler GitHub Pages v41
 
-# 記憶旅人 Mobile DEMO v37
+- 手機優先微調版
+- 卡牌說明文字加大並精簡
+- 敵人意圖 UI 移到右上方，避免遮住敵人
+- 夥伴技能按鈕壓成單行
+- 卡牌區留出更多可視與點選空間
 
-這是 **GitHub Pages 專用版本**。  
-本版以手機與行動裝置介面為主，使用純靜態檔案，不需要 Node build、不需要 Vercel。
-
-## 檔案結構
-
-```text
-index.html      # GitHub Pages 入口
-style.css       # 手機優先版樣式
-game.js         # 遊戲邏輯
-assets/         # 全部遊戲美術與卡牌資產
-.nojekyll       # 停用 Jekyll，讓靜態資產直接被 GitHub Pages 讀取
-```
-
-## GitHub Pages 上傳方式
-
-### 方法 A：直接上傳到 GitHub 網頁介面
-
-1. 在 GitHub 建立新 repository。
-2. 將本資料夾中的所有檔案上傳到 repository 根目錄。
-3. 進入 repository 的 `Settings`。
-4. 進入 `Pages`。
-5. Source 選擇 `Deploy from a branch`。
-6. Branch 選擇 `main`，資料夾選 `/ root`。
-7. 儲存後等待 GitHub Pages 部署完成。
-
-完成後網址通常會是：
-
-```text
-https://你的帳號.github.io/你的repository名稱/
-```
-
-## 本機測試
-
-直接開啟：
-
-```text
-index.html
-```
-
-或使用簡單靜態伺服器：
-
-```bash
-python -m http.server 8000
-```
-
-然後開啟：
-
-```text
-http://localhost:8000
-```
-
-## 注意事項
-
-- 請不要只上傳 `index.html`，必須連同 `assets/`、`style.css`、`game.js` 一起上傳。
-- 若圖片無法顯示，通常是 `assets/` 沒有一起上傳，或資料夾層級不正確。
-- 本版本不需要 `package.json`、`vercel.json` 或任何 build command。
-
-
-## v39 更新
-- 依照手機版優先策略再調整一次。
-- 中間資訊列壓成五格超精簡單行。
-- 夥伴技能按鈕縮小。
-- 卡牌區高度與可視空間加大。
-- 單張卡牌寬度縮小，使同畫面可看到更多卡牌。
-- 角色放大並重新貼近地面位置。
-- 非必要 UI 透明化與弱化。
-
-
-## v40 更新
-- 手機版夥伴技能按鈕調整為單行顯示。
-- 卡牌區可視與點選空間優化。
-- 修正部分卡牌圖片的假透明棋盤格問題，重新裁切並輸出卡圖資產。
+上傳到 GitHub Pages 時，請將 `index.html` 放在 repository 根目錄。
