@@ -940,3 +940,114 @@ button, .card-btn{
   }
   .mobile-hand-scroll .card-btn{min-width:112px !important;max-width:112px !important;}
 }
+
+
+/* v36 iPhone 11 mobile refinement */
+@media (max-width: 480px){
+  /* Battle HUD: make overlays more transparent so the scene is clearer */
+  .mobile-side-ui .floating-panel,
+  .mobile-scene-shell .hud-pill,
+  .mobile-scene-shell .mobile-turn-side-pill,
+  .mobile-scene-shell .block-bubble,
+  .mobile-scene-shell .mobile-enemy-intent-panel{
+    background:linear-gradient(180deg, rgba(10,24,45,.46), rgba(7,17,33,.42)) !important;
+    border-color:rgba(255,255,255,.10) !important;
+    box-shadow:0 6px 14px rgba(0,0,0,.12) !important;
+    backdrop-filter:blur(3px) !important;
+  }
+  .mobile-scene-shell .mobile-enemy-intent-panel{ opacity:.72 !important; }
+  .mobile-side-ui .resource-chip,
+  .mobile-side-ui .compact-energy,
+  .mobile-side-ui .small-stack{
+    background:transparent !important;
+  }
+
+  /* Companion skill buttons: smaller and aligned on one row */
+  .mobile-companion-skill{
+    padding:6px 8px !important;
+  }
+  .mobile-companion-skill .companion-skill-title,
+  .mobile-companion-skill .companion-hint{
+    display:none !important;
+  }
+  .mobile-companion-skill .companion-btn-row{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:4px !important;
+    align-items:center !important;
+  }
+  .mobile-companion-skill .companion-btn{
+    min-height:30px !important;
+    padding:5px 6px !important;
+    font-size:10px !important;
+    line-height:1.1 !important;
+    border-radius:10px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  /* More room for cards */
+  .mobile-dock-shell{
+    padding:6px 6px 8px !important;
+    gap:5px !important;
+  }
+  .mobile-head{
+    gap:6px !important;
+    padding:0 2px !important;
+  }
+  .mobile-head h3{ font-size:14px !important; }
+  .mobile-head .mobile-end-btn{
+    min-width:88px !important;
+    min-height:34px !important;
+    padding:7px 10px !important;
+    font-size:11px !important;
+  }
+
+  /* Cards: reduce whitespace, show fuller card art/text */
+  .mobile-hand-scroll{
+    gap:4px !important;
+    padding:4px 0 6px !important;
+    scroll-padding-inline:4px !important;
+  }
+  .mobile-hand-scroll .card-btn,
+  .mobile-hand-scroll .card-btn.card-btn,
+  .mobile-hand-scroll .card-btn.disabled{
+    min-width:108px !important;
+    max-width:108px !important;
+  }
+  .mobile-hand-scroll .card-btn .card-image-wrap{
+    border-radius:12px !important;
+  }
+  .mobile-hand-scroll .card-meta{
+    left:3px !important;
+    right:3px !important;
+    bottom:3px !important;
+    padding:4px 4px !important;
+    border-radius:8px !important;
+    background:rgba(10,20,35,.66) !important;
+  }
+  .mobile-hand-scroll .card-meta strong{
+    font-size:8px !important;
+    line-height:1.05 !important;
+  }
+  .mobile-hand-scroll .card-meta span{
+    font-size:7px !important;
+    line-height:1.1 !important;
+    margin-top:1px !important;
+  }
+
+  /* Slightly tighten card row container */
+  #handContainer{ margin-top:0 !important; }
+}
+
+/* Extra tuning for iPhone 11 / 390px wide screens */
+@media (min-width: 380px) and (max-width: 420px){
+  .mobile-hand-scroll .card-btn,
+  .mobile-hand-scroll .card-btn.card-btn,
+  .mobile-hand-scroll .card-btn.disabled{
+    min-width:112px !important;
+    max-width:112px !important;
+  }
+  .mobile-hand-scroll{ gap:5px !important; }
+}
