@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 DEMO v47</title>
+<title>記憶旅人｜手機 DEMO v49</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -1332,6 +1332,199 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 </style>
 
+
+<style id="v48-game-tuning">
+/* V48: stage aura, actionable glow, tea_rest transparency */
+.card-btn.special-ready{
+  box-shadow:0 0 0 2px rgba(243,210,127,.72), 0 0 14px rgba(243,210,127,.42), 0 0 24px rgba(84,175,255,.2);
+  animation:cardReadyPulse 1.8s ease-in-out infinite;
+}
+.card-btn.special-ready .card-image-wrap{
+  border-color:rgba(243,210,127,.95) !important;
+}
+.companion-btn.ready{
+  border-color:rgba(247,215,118,.98) !important;
+  box-shadow:0 0 0 2px rgba(247,215,118,.28) inset, 0 0 12px rgba(247,215,118,.4), 0 0 24px rgba(84,175,255,.2);
+  animation:companionReadyGlow 1.7s ease-in-out infinite;
+}
+@keyframes cardReadyPulse{
+  0%,100%{transform:translateY(0); box-shadow:0 0 0 2px rgba(243,210,127,.62), 0 0 14px rgba(243,210,127,.30), 0 0 24px rgba(84,175,255,.12);} 
+  50%{transform:translateY(-1px); box-shadow:0 0 0 2px rgba(255,229,145,.95), 0 0 20px rgba(255,214,92,.5), 0 0 32px rgba(84,175,255,.24);} 
+}
+@keyframes companionReadyGlow{
+  0%,100%{filter:brightness(1);}
+  50%{filter:brightness(1.08);}
+}
+.battle-actor.actor-enemy::after{
+  content:""; position:absolute; inset:-12% -10% -8% -10%; border-radius:50%; pointer-events:none; opacity:0; z-index:-1;
+}
+.battle-scene-shell[data-stage="2"] .actor-enemy::after{
+  opacity:.95;
+  background:radial-gradient(circle, rgba(120,205,255,.35) 0%, rgba(107,125,255,.26) 34%, rgba(96,74,255,.12) 58%, transparent 74%);
+  filter:blur(10px);
+  animation:stageAuraBlue 2.2s ease-in-out infinite;
+}
+.battle-scene-shell[data-stage="3"] .actor-enemy::after{
+  opacity:.98;
+  background:radial-gradient(circle, rgba(255,94,94,.38) 0%, rgba(255,75,115,.28) 32%, rgba(114,12,26,.20) 58%, transparent 76%);
+  filter:blur(12px);
+  animation:stageAuraCrimson 1.8s ease-in-out infinite;
+}
+.battle-scene-shell[data-stage="2"] .actor-enemy img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28)) drop-shadow(0 0 12px rgba(126,190,255,.75)) drop-shadow(0 0 24px rgba(105,110,255,.35));
+}
+.battle-scene-shell[data-stage="3"] .actor-enemy img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.3)) drop-shadow(0 0 14px rgba(255,98,98,.82)) drop-shadow(0 0 26px rgba(178,10,47,.42));
+}
+@keyframes stageAuraBlue{
+  0%,100%{transform:scale(.94); opacity:.76;}
+  50%{transform:scale(1.04); opacity:1;}
+}
+@keyframes stageAuraCrimson{
+  0%,100%{transform:scale(.96); opacity:.80;}
+  50%{transform:scale(1.08); opacity:1;}
+}
+</style>
+
+
+<style id="v49-glow-upgrades">
+/* V49: stronger ready glows, richer stage auras, companion actor shine */
+.card-btn.special-ready{
+  filter: drop-shadow(0 0 10px rgba(255,220,120,.35));
+}
+.card-btn.special-ready .card-image-wrap{
+  border-color: rgba(255,232,153,.98) !important;
+  box-shadow:
+    0 0 0 2px rgba(249,223,132,.75),
+    0 0 16px rgba(255,216,102,.45),
+    0 10px 18px rgba(0,0,0,.28) !important;
+}
+.card-btn.special-ready .card-image-wrap::after{
+  content:"";
+  position:absolute; inset:0; pointer-events:none; border-radius:14px;
+  box-shadow: inset 0 0 0 2px rgba(255,239,175,.9), inset 0 0 14px rgba(255,223,104,.22);
+  animation: readyFrameTwinkle 1.25s ease-in-out infinite;
+}
+.card-btn.special-ready .card-meta{
+  background: linear-gradient(180deg, rgba(62,74,96,.94), rgba(36,45,63,.96));
+  border: 2px solid rgba(248,228,157,.95);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.18) inset,
+    0 0 10px rgba(255,220,102,.42),
+    0 0 22px rgba(255,214,92,.22);
+  animation: readyTextGlow 1.2s ease-in-out infinite;
+}
+.card-btn.special-ready .card-meta strong,
+.card-btn.special-ready .card-meta span{
+  color:#fff8dd !important;
+  text-shadow:
+    0 0 2px rgba(0,0,0,.85),
+    0 0 5px rgba(255,225,126,.46),
+    0 0 10px rgba(255,214,92,.30);
+}
+.card-btn.special-ready .card-meta strong{
+  letter-spacing:.2px;
+}
+@keyframes readyFrameTwinkle{
+  0%,100%{opacity:.88; box-shadow: inset 0 0 0 2px rgba(255,239,175,.75), inset 0 0 12px rgba(255,223,104,.15);} 
+  50%{opacity:1; box-shadow: inset 0 0 0 2px rgba(255,248,205,.98), inset 0 0 18px rgba(255,223,104,.28);} 
+}
+@keyframes readyTextGlow{
+  0%,100%{transform:translateY(0); box-shadow:0 0 0 1px rgba(255,255,255,.14) inset, 0 0 8px rgba(255,220,102,.28), 0 0 18px rgba(255,214,92,.16);} 
+  50%{transform:translateY(-1px); box-shadow:0 0 0 1px rgba(255,255,255,.22) inset, 0 0 14px rgba(255,225,126,.48), 0 0 26px rgba(255,214,92,.26);} 
+}
+.companion-btn.ready{
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(255,229,145,.98) !important;
+  color:#fffdf2 !important;
+  text-shadow:0 0 2px rgba(0,0,0,.72), 0 0 10px rgba(255,226,132,.42);
+  box-shadow:
+    0 0 0 2px rgba(245,216,120,.30) inset,
+    0 0 14px rgba(255,223,111,.42),
+    0 0 26px rgba(90,173,255,.22) !important;
+  animation:companionButtonPulse 1.3s ease-in-out infinite;
+}
+.companion-btn.ready::after{
+  content:"";
+  position:absolute; inset:-20% auto -20% -35%; width:40%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), rgba(255,244,194,.45), transparent);
+  transform:skewX(-20deg);
+  animation: companionSweep 2.1s linear infinite;
+  pointer-events:none;
+}
+@keyframes companionButtonPulse{
+  0%,100%{transform:translateY(0); filter:brightness(1);} 
+  50%{transform:translateY(-1px); filter:brightness(1.08);} 
+}
+@keyframes companionSweep{
+  0%{left:-45%; opacity:0;} 15%{opacity:.0;} 25%{opacity:.65;} 55%{opacity:.2;} 100%{left:115%; opacity:0;}
+}
+.actor-koro.companion-ready::after,
+.actor-bear.companion-ready::after{
+  content:"";
+  position:absolute; inset:-18% -18% -12% -18%; border-radius:50%; pointer-events:none;
+  z-index:-1;
+  filter:blur(10px);
+}
+.actor-koro.companion-ready::after{
+  background:radial-gradient(circle, rgba(143,231,255,.58) 0%, rgba(80,181,255,.28) 38%, rgba(76,123,255,.12) 62%, transparent 74%);
+  animation:companionActorAuraBlue 1.4s ease-in-out infinite;
+}
+.actor-bear.companion-ready::after{
+  background:radial-gradient(circle, rgba(255,242,167,.60) 0%, rgba(255,215,97,.30) 36%, rgba(255,180,57,.14) 62%, transparent 74%);
+  animation:companionActorAuraGold 1.4s ease-in-out infinite;
+}
+.actor-koro.companion-ready img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28)) drop-shadow(0 0 12px rgba(108,214,255,.88)) drop-shadow(0 0 22px rgba(77,159,255,.36));
+}
+.actor-bear.companion-ready img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28)) drop-shadow(0 0 12px rgba(255,218,92,.92)) drop-shadow(0 0 22px rgba(255,176,38,.38));
+}
+@keyframes companionActorAuraBlue{
+  0%,100%{transform:scale(.94); opacity:.80;} 50%{transform:scale(1.08); opacity:1;}
+}
+@keyframes companionActorAuraGold{
+  0%,100%{transform:scale(.94); opacity:.80;} 50%{transform:scale(1.08); opacity:1;}
+}
+.battle-scene-shell[data-stage="2"] .actor-enemy::after{
+  opacity:1;
+  inset:-18% -18% -10% -18%;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(173,236,255,.54) 0%, rgba(107,176,255,.28) 28%, rgba(81,107,255,.20) 48%, transparent 70%),
+    conic-gradient(from 0deg, rgba(173,236,255,.0) 0deg, rgba(173,236,255,.0) 30deg, rgba(160,220,255,.42) 75deg, rgba(120,138,255,.18) 118deg, rgba(173,236,255,.0) 160deg, rgba(173,236,255,.0) 210deg, rgba(160,220,255,.42) 255deg, rgba(120,138,255,.18) 298deg, rgba(173,236,255,.0) 340deg, rgba(173,236,255,.0) 360deg);
+  border-radius:50%;
+  filter:blur(8px) saturate(1.1);
+  animation:stageAuraBlueDeluxe 2.4s linear infinite;
+}
+.battle-scene-shell[data-stage="3"] .actor-enemy::after{
+  opacity:1;
+  inset:-20% -20% -12% -20%;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255,132,132,.62) 0%, rgba(255,79,109,.34) 26%, rgba(138,14,34,.22) 52%, transparent 72%),
+    conic-gradient(from 0deg, rgba(255,132,132,0) 0deg, rgba(255,132,132,0) 28deg, rgba(255,123,123,.45) 72deg, rgba(255,52,90,.22) 112deg, rgba(255,132,132,0) 150deg, rgba(255,132,132,0) 208deg, rgba(255,123,123,.45) 252deg, rgba(255,52,90,.22) 292deg, rgba(255,132,132,0) 330deg, rgba(255,132,132,0) 360deg);
+  border-radius:50%;
+  filter:blur(8px) saturate(1.15);
+  animation:stageAuraCrimsonDeluxe 1.8s linear infinite;
+}
+.battle-scene-shell[data-stage="2"] .actor-enemy img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28)) drop-shadow(0 0 14px rgba(138,215,255,.95)) drop-shadow(0 0 28px rgba(90,112,255,.38)) saturate(1.04);
+}
+.battle-scene-shell[data-stage="3"] .actor-enemy img{
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.30)) drop-shadow(0 0 16px rgba(255,112,112,.98)) drop-shadow(0 0 32px rgba(185,18,54,.46)) saturate(1.08);
+}
+@keyframes stageAuraBlueDeluxe{
+  0%{transform:rotate(0deg) scale(.94); opacity:.86;} 
+  50%{transform:rotate(180deg) scale(1.08); opacity:1;} 
+  100%{transform:rotate(360deg) scale(.94); opacity:.86;}
+}
+@keyframes stageAuraCrimsonDeluxe{
+  0%{transform:rotate(0deg) scale(.96); opacity:.88;} 
+  50%{transform:rotate(180deg) scale(1.10); opacity:1;} 
+  100%{transform:rotate(360deg) scale(.96); opacity:.88;}
+}
+</style>
+
 </head>
 <body>
 <main class="app-shell mobile-app">
@@ -1342,7 +1535,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v47</span>
+<span class="badge alt">DEMO v49</span>
 </div>
 </div>
 </div>
@@ -1503,7 +1696,7 @@ const CARD_ASSETS = {
   ink_line: 'assets/asset_018_40ed5fe5.png',
   local_memory: 'assets/asset_019_0ce14595.webp',
   red_shard: 'assets/asset_020_6e76d18c.webp',
-  tea_rest: 'assets/asset_021_f5eb0981.webp'
+  tea_rest: 'assets/asset_023_tea_rest.png'
 };
 
 const SPRITE_ASSETS = {
@@ -1648,7 +1841,7 @@ class DemoGame {
   }
 
   reset(){
-    this.playerHp = 96;
+    this.playerHp = this.maxPlayerHp;
     this.maxPlayerHp = 110;
     this.stage = 1;
     this.permanentAttack = 0;
@@ -2133,6 +2326,7 @@ class DemoGame {
     setText('corruptionStatusText', this.corruption);
     setText('corruptionEffectText', `敵方攻擊 +${this.corruption}`);
     this.renderCorruptionState();
+    this.renderStageEffects();
     this.renderHand();
     this.renderLog();
   }
@@ -2149,15 +2343,31 @@ class DemoGame {
     });
   }
 
+  renderStageEffects(){
+    const scene = document.querySelector('.battle-scene-shell');
+    if(scene) scene.dataset.stage = String(this.stage);
+  }
+
+  canTriggerSpecial(card){
+    if(!card) return false;
+    if(card.id === 'inspiration_slash' || card.id === 'idea_burst') return this.inspiration > 0;
+    if(card.id === 'tea_rest') return this.playerHp < this.maxPlayerHp;
+    return false;
+  }
+
   renderCompanionSkills(){
     const ready = this.isCompanionReady();
     const koroBtn = $('koroSkillButton');
     const dainiBtn = $('dainiSkillButton');
     const hint = $('companionHintText');
+    const actorKoro = $('actorKoro');
+    const actorBear = $('actorBear');
     if(koroBtn) koroBtn.disabled = !ready;
     if(dainiBtn) dainiBtn.disabled = !ready;
     if(koroBtn) koroBtn.classList.toggle('ready', ready);
     if(dainiBtn) dainiBtn.classList.toggle('ready', ready);
+    if(actorKoro) actorKoro.classList.toggle('companion-ready', ready);
+    if(actorBear) actorBear.classList.toggle('companion-ready', ready);
     if(hint){
       if(ready) hint.textContent = '夥伴技已準備：本回合可選擇 1 位發動。';
       else {
@@ -2174,8 +2384,10 @@ class DemoGame {
     box.innerHTML = '';
     this.hand.forEach(card => {
       const btn = document.createElement('button');
-      btn.className = 'card-btn' + (card.cost > this.energy || this.processingTurn ? ' disabled' : '');
-      btn.disabled = card.cost > this.energy || this.processingTurn;
+      const disabled = card.cost > this.energy || this.processingTurn;
+      const readySpecial = !disabled && this.canTriggerSpecial(card);
+      btn.className = 'card-btn' + (disabled ? ' disabled' : '') + (readySpecial ? ' special-ready' : '');
+      btn.disabled = disabled;
       btn.innerHTML = `<div class="card-image-wrap"><img src="${card.art}" alt="${card.name}" loading="eager" /><div class="card-meta"><strong>${card.name}</strong><span>${card.desc}</span></div></div>`;
       bindPressElement(btn, ()=>this.playCard(card.uid));
       box.appendChild(btn);
