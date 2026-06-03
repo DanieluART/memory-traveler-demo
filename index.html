@@ -1,206 +1,1579 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>記憶旅人｜手機 DEMO v37</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>記憶旅人｜手機 DEMO v42</title>
+<style>
+:root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
+*{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
+.badge,.hand-tip{display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;border-radius:999px;font-weight:800;font-size:12px;border:1px solid rgba(217,179,106,.78);background:linear-gradient(180deg,#1b5bb3,#0c3371);} .badge.alt{background:linear-gradient(180deg,#17365d,#0a203f);} .primary-btn,.secondary-btn,.icon-btn,.menu-btn{appearance:none;border:2px solid rgba(217,179,106,.82);border-radius:14px;color:#fff;font-weight:900;cursor:pointer;} .primary-btn,.menu-btn.primary-glow{background:linear-gradient(180deg,var(--blue),var(--blue2));box-shadow:0 10px 20px rgba(15,77,168,.3),0 0 0 rgba(40,153,255,.0);padding:12px 16px;} .secondary-btn,.icon-btn,.menu-btn{background:linear-gradient(180deg,#17365d,#0a203f);padding:10px 12px;} .menu-btn{width:100%;padding:14px 16px;font-size:18px;} .menu-btn.alt-btn{background:linear-gradient(180deg,#244a7d,#102a4d);} .menu-btn.primary-glow{animation:glowPulse 2.2s ease-in-out infinite;}
+.cover-entry-card{width:100%;display:grid;gap:10px;} .mobile-cover-ratio{height:72vh;position:relative;border-radius:22px;overflow:hidden;border:3px solid rgba(217,179,106,.68);background:#0c1e38;box-shadow:0 20px 40px rgba(0,0,0,.36);} .mobile-cover-image{width:100%;height:100%;object-fit:contain;object-position:center top;background:linear-gradient(180deg,#0f1e37,#0b1629);} .mobile-cover-overlay{position:absolute;inset:auto 0 0 0;padding:12px;background:linear-gradient(180deg,rgba(7,17,31,0) 0%,rgba(7,17,31,.76) 48%,rgba(7,17,31,.92) 100%);} .menu-badge-row{display:flex;gap:8px;flex-wrap:wrap;} .mobile-menu-panel{display:grid;gap:8px;padding:12px;border-radius:18px;background:linear-gradient(180deg,rgba(16,37,68,.9),rgba(9,24,44,.95));border:2px solid rgba(217,179,106,.24);} .mobile-cover-caption{padding:12px 14px;border-radius:16px;border:2px solid rgba(217,179,106,.22);background:linear-gradient(180deg,rgba(16,37,68,.88),rgba(9,24,44,.92));} .mobile-cover-caption h1{margin:0 0 6px;font-size:24px;} .mobile-cover-caption p{margin:0;color:#d8e9ff;line-height:1.6;font-size:14px;}
+.fade-in-up{animation:fadeInUp .8s ease-out both;} .slide-in-up{animation:slideInUp .9s ease-out both .15s;} .shimmer-frame::after{content:"";position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.10) 48%,transparent 60%);transform:translateX(-120%) rotate(2deg);animation:shimmer 5s linear infinite;} 
+.topbar{display:flex;flex-direction:column;gap:8px;padding:10px 12px;margin-bottom:8px;border:2px solid rgba(217,179,106,.32);border-radius:16px;background:linear-gradient(180deg,rgba(16,37,68,.95),rgba(10,25,46,.97));box-shadow:0 14px 28px var(--shadow);} .topbar-actions{display:flex;gap:8px;flex-wrap:wrap;} .mini-brand-title{font-size:18px;font-weight:1000;} .mini-brand-sub{color:#9cc8ff;font-size:12px;margin-top:2px;}
+.battle-demo-layout,.battle-dock-shell,.log-panel,.result-card,.modal{border:2px solid rgba(217,179,106,.32);border-radius:16px;background:linear-gradient(180deg,rgba(16,37,68,.95),rgba(9,24,44,.98));box-shadow:0 14px 28px var(--shadow);} .battle-demo-layout{padding:8px;display:grid;gap:8px;} .mobile-scene-shell{position:relative;height:34vh;min-height:250px;overflow:hidden;} .battle-scene-image{width:100%;height:100%;object-fit:cover;object-position:center top;} .mobile-chip-row{position:absolute;top:8px;display:flex;gap:6px;flex-wrap:wrap;} .left-row{left:8px;max-width:58%;} .right-row{right:8px;max-width:38%;justify-content:flex-end;} .hud-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:999px;font-size:12px;font-weight:900;} .hud-pill.dark{background:rgba(8,18,33,.86);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(4px);} .hud-pill strong{font-size:13px;} .hud-pill.small strong{font-size:12px;} .block-bubble{position:absolute;top:12px;padding:10px 14px;border-radius:16px;background:rgba(12,19,32,.88);font-size:16px;font-weight:1000;box-shadow:0 10px 22px rgba(0,0,0,.24);} .block-bubble.left{left:10px;top:58px;} .block-bubble.right{right:10px;top:58px;} .block-bubble strong{font-size:20px;} .mobile-bottom-overlay{position:absolute;left:8px;right:8px;bottom:8px;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:end;} .intent-bubble{padding:10px 12px;border-radius:14px;background:rgba(7,18,33,.82);backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.08);} .intent-bubble span{display:block;color:#aed4ff;font-size:11px;} .intent-bubble strong{display:block;font-size:16px;margin-top:2px;} .intent-bubble em{display:block;margin-top:4px;color:#d9ebff;font-style:normal;font-size:12px;} .intent-bubble b{font-size:16px;}
+.effect-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;} .effect-layer.attack-flash::after,.effect-layer.skill-flash::after,.effect-layer.support-flash::after{content:"";position:absolute;inset:0;opacity:0;animation:screenFlash 1.05s ease-out;} .effect-layer.attack-flash::after{background:radial-gradient(circle at 72% 45%, rgba(255,90,90,.28), transparent 28%);} .effect-layer.skill-flash::after{background:radial-gradient(circle at 36% 52%, rgba(88,176,255,.26), transparent 28%);} .effect-layer.support-flash::after{background:radial-gradient(circle at 34% 50%, rgba(129,255,174,.26), transparent 28%);} .battle-effect{position:absolute;inset:0;} .battle-effect .effect-label{position:absolute;padding:8px 12px;border-radius:999px;font-weight:1000;font-size:14px;color:#fff;background:rgba(8,16,31,.72);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(5px);animation:floatLabel 1.05s ease-out both;} .attack-label{right:12%;top:18%;} .skill-label{left:18%;bottom:22%;} .support-label{left:24%;bottom:18%;} .effect-burst{position:absolute;left:22%;top:50%;width:56%;height:12px;background:linear-gradient(90deg,transparent 0%, rgba(255,76,76,.25) 10%, rgba(255,88,88,.95) 42%, rgba(255,245,245,.98) 50%, rgba(255,88,88,.95) 58%, transparent 100%);transform:rotate(-9deg);filter:drop-shadow(0 0 12px rgba(255,70,70,.78));animation:slashMove .72s ease-out both;} .effect-spark-r{position:absolute;right:17%;top:28%;width:74px;height:74px;border-radius:50%;border:3px solid rgba(255,96,96,.85);box-shadow:0 0 0 10px rgba(255,96,96,.12),0 0 20px rgba(255,96,96,.44);animation:enemySpark .75s ease-out both;} .effect-ring{position:absolute;left:23%;bottom:16%;width:112px;height:112px;border-radius:50%;border:4px solid rgba(88,176,255,.86);box-shadow:0 0 0 10px rgba(88,176,255,.14),0 0 18px rgba(88,176,255,.36);animation:ringPulse .9s ease-out both;} .effect-shield{position:absolute;left:27%;bottom:21%;width:70px;height:84px;background:linear-gradient(180deg,rgba(205,236,255,.92),rgba(88,176,255,.55));clip-path:polygon(50% 0%, 92% 22%, 84% 78%, 50% 100%, 16% 78%, 8% 22%);filter:drop-shadow(0 0 12px rgba(88,176,255,.75));animation:shieldRise .9s ease-out both;} .effect-pulse{position:absolute;left:23%;bottom:14%;width:116px;height:116px;border-radius:50%;background:radial-gradient(circle, rgba(129,255,174,.32) 0%, rgba(129,255,174,.12) 35%, transparent 70%);animation:pulseGrow .85s ease-out both;} .effect-heal{position:absolute;left:30%;bottom:20%;width:52px;height:52px;filter:drop-shadow(0 0 12px rgba(129,255,174,.62));animation:healPop .85s ease-out both;} .effect-heal::before,.effect-heal::after{content:"";position:absolute;background:linear-gradient(180deg,#eafff0,#73f3a1);border-radius:8px;} .effect-heal::before{left:20px;top:0;width:12px;height:52px;} .effect-heal::after{left:0;top:20px;width:52px;height:12px;}
+.mobile-dock-shell{padding:8px;display:grid;gap:8px;} .mobile-dock-top{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;} .small-stack,.compact-energy,.compact-chip{min-height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;} .mini-card-stack{color:#e8f2ff;} .stack-visual{width:42px;height:58px;border-radius:10px;border:2px solid #d6e8ff88;background:linear-gradient(180deg,#1b4f8e 0%, #102c56 100%);position:relative;} .stack-visual::before{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:#cfe8ff;font-size:20px;} .discard-visual::before{content:"◇";} .discard-visual{filter:grayscale(.35);opacity:.92;} .stack-count{width:34px;height:34px;margin-top:-12px;border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:16px;color:#fff;background:linear-gradient(180deg,#143860,#0d2546);border:2px solid #f0d087;} .stack-label{font-size:12px;color:#dbe9ff;margin-top:4px;} .energy-panel{padding:8px;text-align:center;} .energy-value{font-size:24px;font-weight:1000;line-height:1;color:#9fe0ff;} .energy-label{margin-top:4px;font-size:12px;color:#dbe9ff;} .resource-chip{padding:8px;text-align:center;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.06);} .resource-chip strong{font-size:18px;} .mobile-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-end;} .mobile-head h3{margin:0 0 3px;font-size:16px;} .mobile-head p{margin:0;color:#c6dbff;font-size:13px;} .mobile-end-btn{min-width:112px;}.battle-hand-scroll{display:flex;gap:8px;overflow-x:auto;padding:2px 1px 4px;scroll-snap-type:x proximity;} .battle-hand-scroll::-webkit-scrollbar,.log-box::-webkit-scrollbar,.dialog-art-grid::-webkit-scrollbar{height:7px;width:7px;} .battle-hand-scroll::-webkit-scrollbar-thumb,.log-box::-webkit-scrollbar-thumb,.dialog-art-grid::-webkit-scrollbar-thumb{background:#8db6f088;border-radius:999px;} .card-btn{appearance:none;background:none;border:none;padding:0;min-width:118px;max-width:118px;scroll-snap-align:start;flex:0 0 auto;} .card-btn .card-image-wrap{position:relative;border-radius:14px;overflow:hidden;border:2px solid #cfe0f5;box-shadow:0 8px 16px rgba(0,0,0,.28);background:#e8f2ff;min-height:164px;} .card-btn img{width:100%;height:auto;display:block;} .card-meta{position:absolute;left:5px;right:5px;bottom:5px;background:rgba(12,22,38,.82);color:#fff;border-radius:10px;padding:5px 6px;} .card-meta strong{display:block;font-size:12px;} .card-meta span{display:block;margin-top:2px;color:#d2e5ff;font-size:10px;line-height:1.35;} .card-btn.disabled{opacity:.52;filter:grayscale(.1);} .log-panel{padding:10px;} .log-panel h4{margin-bottom:6px;font-size:14px;} .log-box{display:grid;gap:6px;max-height:122px;overflow:auto;} .log-box p{margin:0;padding:7px 8px;border-radius:9px;background:rgba(255,255,255,.06);line-height:1.4;color:#eef5ff;font-size:12px;} .result-card{padding:14px;} .cover-hero{border-radius:12px;border:2px solid rgba(217,179,106,.85);margin:12px 0;} .modal{width:min(92vw,720px);padding:18px;color:#fff;background:linear-gradient(180deg,#11274a,#0b1c34);} .modal::backdrop{background:rgba(0,0,0,.6);} .modal h3{color:#f1dba8;} .modal ul{padding-left:20px;line-height:1.8;} .dialog-art-grid{display:grid;gap:12px;margin:12px 0 16px;max-height:70vh;overflow:auto;} .dialog-art-grid img{width:100%;border-radius:12px;border:2px solid rgba(217,179,106,.72);background:#fff;} .settings-list{display:grid;gap:10px;margin:12px 0 16px;} .settings-row{display:flex;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(255,255,255,.06);} 
+@keyframes glowPulse{0%,100%{box-shadow:0 10px 20px rgba(15,77,168,.3),0 0 0 rgba(40,153,255,0);}50%{box-shadow:0 10px 24px rgba(15,77,168,.42),0 0 24px rgba(76,170,255,.35);}} @keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}} @keyframes slideInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}} @keyframes shimmer{0%{transform:translateX(-120%) rotate(2deg);}60%,100%{transform:translateX(120%) rotate(2deg);}} @keyframes screenFlash{0%{opacity:0;}18%{opacity:1;}100%{opacity:0;}} @keyframes slashMove{0%{opacity:0;transform:translateX(-24px) rotate(-12deg) scaleX(.65);}20%{opacity:1;}100%{opacity:0;transform:translateX(24px) rotate(-6deg) scaleX(1.12);}} @keyframes enemySpark{0%{opacity:0;transform:scale(.42);}24%{opacity:1;}100%{opacity:0;transform:scale(1.22);}} @keyframes ringPulse{0%{opacity:0;transform:scale(.55);}24%{opacity:1;}100%{opacity:0;transform:scale(1.15);}} @keyframes shieldRise{0%{opacity:0;transform:translateY(18px) scale(.7);}26%{opacity:1;}100%{opacity:0;transform:translateY(-12px) scale(1.05);}} @keyframes pulseGrow{0%{opacity:0;transform:scale(.6);}24%{opacity:1;}100%{opacity:0;transform:scale(1.22);}} @keyframes healPop{0%{opacity:0;transform:scale(.5);}26%{opacity:1;}100%{opacity:0;transform:scale(1.12) translateY(-6px);}} @keyframes floatLabel{0%{opacity:0;transform:translateY(14px) scale(.84);}18%{opacity:1;}100%{opacity:0;transform:translateY(-14px) scale(1);}}
+@media (max-width:420px){ .app-shell{padding:6px;} .mobile-cover-ratio{height:68vh;} .mobile-dock-top{grid-template-columns:1fr 1fr;} .mobile-head{flex-direction:column;align-items:stretch;} .mobile-end-btn{width:100%;} }
+
+
+/* v13 updates */
+.mobile-enemy-ui{
+  position:absolute;
+  right:8px;
+  top:108px;
+  bottom:auto;
+  width:42%;
+  max-width:170px;
+  opacity:0.5;
+  background:rgba(7,18,33,.72);
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.08);
+  z-index:3;
+}
+.mobile-enemy-ui strong{font-size:15px;}
+.mobile-bottom-overlay{grid-template-columns:auto 1fr; align-items:end;}
+/* prevent covering center by moving turn chip slightly left bottom */
+.mobile-bottom-overlay > .hud-pill.dark{justify-self:start;}
+.result-card{padding:14px; max-width:100%;}
+.result-card .cover-hero, .result-card #resultImage{width:100%; border-radius:14px; border:2px solid rgba(217,179,106,.85); margin:12px 0 14px; box-shadow:0 12px 22px rgba(0,0,0,.24);} 
+.result-card h2{font-size:30px; margin-bottom:8px;} 
+.result-card p{color:#dbe9ff; line-height:1.6; font-size:15px;}
+/* same visual language */
+.mobile-dock-shell, .battle-demo-layout, .log-panel{box-shadow:0 14px 28px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.03);} 
+@media (max-width:420px){
+  .mobile-enemy-ui{right:6px; top:102px; width:45%; max-width:160px;}
+}
+
+
+/* v14: enemy intent panel moved right with 50% transparency */
+.mobile-enemy-ui{
+  right: 8px;
+  top: 86px;
+  width: 35%;
+  max-width: 156px;
+  opacity: .5;
+  background: linear-gradient(180deg, rgba(8,24,48,.84), rgba(5,16,30,.80));
+  border: 1px solid rgba(132,178,240,.26);
+  box-shadow: 0 10px 24px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter: blur(10px);
+}
+.mobile-enemy-ui::before{
+  content:""; position:absolute; inset:6px; border-radius:10px; border:1px solid rgba(255,255,255,.05); pointer-events:none;
+}
+.mobile-enemy-ui span{color:#92baf6; font-size:11px; font-weight:800; letter-spacing:.05em;}
+.mobile-enemy-ui strong{font-size:15px; line-height:1.12; margin-top:4px;}
+.mobile-enemy-ui em{font-size:13px; margin-top:6px;}
+.mobile-enemy-ui b{font-size:16px;}
+
+/* v14: card-inspired button UI */
+.card-ui-btn, .primary-btn, .secondary-btn, .icon-btn, .menu-btn{
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  border: 2px solid #d7b16b !important;
+  background: linear-gradient(180deg,#2b7fe8 0%, #175cae 45%, #0d3b7a 100%) !important;
+  box-shadow: 0 10px 22px rgba(6,25,53,.28), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -2px 0 rgba(0,0,0,.16) !important;
+}
+.card-ui-btn::before, .primary-btn::before, .secondary-btn::before, .icon-btn::before, .menu-btn::before{
+  content:""; position:absolute; inset:4px; border-radius:10px; border:1.3px solid rgba(247,237,209,.72); pointer-events:none;
+}
+.card-ui-btn::after, .primary-btn::after, .secondary-btn::after, .icon-btn::after, .menu-btn::after{
+  content:"✦"; position:absolute; top:2px; right:6px; color:rgba(243,228,186,.76); font-size:11px; pointer-events:none;
+}
+.menu-btn.alt-btn{ background: linear-gradient(180deg,#305f99 0%, #193d6f 50%, #0d274a 100%) !important; }
+.result-btn{ width:100%; }
+
+/* v14: result arts and transitions */
+.result-card{ position:relative; overflow:visible; }
+.result-visual-wrap{ position:relative; margin:14px 0 16px; }
+.result-side-art{
+  position:absolute; bottom:-4px; width:96px; z-index:2;
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,.26));
+  animation: resultFloat 2.8s ease-in-out infinite;
+}
+.side-left{ left:-8px; }
+.side-right{ right:-8px; }
+.result-lose-art.side-right{ width:138px; right:-12px; bottom:-8px; animation-duration:3.4s; }
+.result-win-art.side-right{ animation-delay:.2s; }
+.result-card.win-state #resultBadge{ background:linear-gradient(180deg,#2f8dff,#1656b2); }
+.result-card.lose-state #resultBadge{ background:linear-gradient(180deg,#b54a5f,#6f2030); }
+.result-card.lose-state .result-btn, .result-card.lose-state #restartButton{ background: linear-gradient(180deg,#7c3f56 0%, #5c2538 55%, #3c1726 100%) !important; }
+@keyframes resultFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@media (max-width:420px){
+  .mobile-enemy-ui{ top:82px; width:38%; max-width:150px; right:6px; }
+  .result-side-art{ width:88px; }
+  .result-lose-art.side-right{ width:128px; }
+}
+
+
+/* v15: formal enemy intent panel */
+.formal-intent-panel{
+  padding: 10px 11px 11px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(8,24,48,.88), rgba(5,16,30,.84));
+  border: 1px solid rgba(91,145,224,.34);
+  box-shadow: 0 12px 24px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter: blur(10px);
+}
+.intent-title-row{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:5px;}
+.intent-title{display:inline-flex; align-items:center; color:#9ec4ff !important; font-size:10px !important; font-weight:900; letter-spacing:.07em;}
+.intent-dot{width:6px; height:6px; border-radius:999px; background:#f06b6b; box-shadow:0 0 8px rgba(240,107,107,.62);} 
+.formal-intent-panel strong{font-size:15px; line-height:1.12;}
+.formal-intent-panel em{display:flex; justify-content:space-between; align-items:baseline; margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,.08); font-size:12px;}
+.formal-intent-panel b{font-size:15px;}
+
+/* v15: enemy attack effect */
+.effect-layer.enemy-flash::after{content:""; position:absolute; inset:0; opacity:0; animation:enemyScreenPulse 1.05s ease-out; background: radial-gradient(circle at 22% 52%, rgba(255,98,98,.22), transparent 18%), linear-gradient(90deg, rgba(165,25,25,.00) 0%, rgba(165,25,25,.08) 18%, rgba(165,25,25,.02) 38%, transparent 60%);} 
+.enemy-attack{position:absolute; inset:0;}
+.enemy-claw{position:absolute; left:9%; width:120px; height:12px; border-radius:999px; background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,102,102,.92), rgba(255,242,242,.96), rgba(255,102,102,.92), transparent); filter:drop-shadow(0 0 12px rgba(255,72,72,.72)); transform-origin:left center;}
+.enemy-claw-a{top:46%; transform:rotate(-18deg); animation:enemyClawA .72s ease-out both;}
+.enemy-claw-b{top:55%; transform:rotate(12deg); animation:enemyClawB .72s ease-out both .04s;}
+.enemy-impact{position:absolute; left:18%; top:41%; width:70px; height:70px; border-radius:50%; border:3px solid rgba(255,110,110,.86); box-shadow:0 0 0 10px rgba(255,110,110,.12), 0 0 18px rgba(255,110,110,.38); animation:enemyImpact .82s ease-out both;}
+.enemy-label{left:10%; top:28%; font-size:12px !important; background:rgba(34,7,12,.74) !important; border-color: rgba(255,154,154,.22) !important;}
+@keyframes enemyScreenPulse{0%{opacity:0;}16%{opacity:1;}100%{opacity:0;}}
+@keyframes enemyClawA{0%{opacity:0; transform:translateX(40px) rotate(-22deg) scaleX(.2);}20%{opacity:1;}100%{opacity:0; transform:translateX(-8px) rotate(-18deg) scaleX(1.2);}}
+@keyframes enemyClawB{0%{opacity:0; transform:translateX(42px) rotate(16deg) scaleX(.2);}20%{opacity:1;}100%{opacity:0; transform:translateX(-6px) rotate(12deg) scaleX(1.12);}}
+@keyframes enemyImpact{0%{opacity:0; transform:scale(.4);}24%{opacity:1;}100%{opacity:0; transform:scale(1.24);}}
+
+
+/* v16 fixes and enhancements */
+.card-ui-btn.busy, .primary-btn.busy{opacity:.84; filter:saturate(.82);}
+.battle-scene-shell.scene-hit, .battle-scene-shell.scene-hit-heavy, .battle-scene-shell.scene-blocked{position:relative;}
+.battle-scene-shell.scene-hit{animation:sceneShake .34s linear 1;}
+.battle-scene-shell.scene-hit-heavy{animation:sceneShakeHeavy .46s linear 1;}
+.battle-scene-shell.scene-blocked{animation:sceneBlock .4s ease-out 1;}
+.battle-scene-shell.scene-hit::after, .battle-scene-shell.scene-hit-heavy::after, .battle-scene-shell.scene-blocked::after{content:""; position:absolute; inset:0 auto 0 0; width:48%; pointer-events:none;}
+.battle-scene-shell.scene-hit::after{background:linear-gradient(90deg, rgba(255,255,255,.22), rgba(255,92,92,.18), transparent 72%); animation:playerFlash .46s ease-out 1;}
+.battle-scene-shell.scene-hit-heavy::after{background:linear-gradient(90deg, rgba(255,255,255,.24), rgba(170,72,255,.22), transparent 72%); animation:playerFlash .52s ease-out 1;}
+.battle-scene-shell.scene-blocked::after{background:linear-gradient(90deg, rgba(190,226,255,.24), rgba(95,170,255,.16), transparent 72%); animation:playerFlash .44s ease-out 1;}
+.effect-layer.devour-flash::after{content:""; position:absolute; inset:0; opacity:0; animation:enemyScreenPulse 1.05s ease-out; background: radial-gradient(circle at 22% 50%, rgba(185,92,255,.22), transparent 18%), linear-gradient(90deg, rgba(76,24,124,.00) 0%, rgba(76,24,124,.1) 18%, rgba(76,24,124,.02) 40%, transparent 64%);} 
+.effect-layer.enemy-skill-flash::after{content:""; position:absolute; inset:0; opacity:0; animation:enemyScreenPulse 1s ease-out; background: radial-gradient(circle at 72% 46%, rgba(255,94,94,.18), transparent 18%), radial-gradient(circle at 72% 46%, rgba(81,128,255,.12), transparent 32%);} 
+.enemy-devour,.enemy-skill{position:absolute; inset:0;}
+.devour-vortex{position:absolute; left:12%; top:39%; width:86px; height:86px; border-radius:50%; border:3px solid rgba(195,121,255,.86); box-shadow:0 0 0 8px rgba(195,121,255,.12), 0 0 20px rgba(144,88,255,.34); animation:devourSpin 1s ease-out both;}
+.devour-vortex.vortex-b{left:17%; top:46%; width:56px; height:56px; border-width:3px; animation-duration:.9s;}
+.devour-trail{position:absolute; left:18%; top:48%; width:40%; height:12px; border-radius:999px; background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(169,95,255,.84), rgba(232,222,255,.96), transparent); filter:drop-shadow(0 0 12px rgba(169,95,255,.56)); animation:devourTrail .82s ease-out both;}
+.enemy-skill-label{right:8%; top:22%; font-size:11px!important; background:rgba(10,20,42,.76)!important; border-color:rgba(168,196,255,.22)!important;}
+.charge-crystal{position:absolute; right:18%; top:40%; width:40px; height:60px; background:linear-gradient(180deg, rgba(255,222,222,.96), rgba(255,88,88,.92)); clip-path:polygon(50% 0%, 92% 24%, 78% 100%, 22% 100%, 8% 24%); filter:drop-shadow(0 0 12px rgba(255,76,76,.58)); animation:chargePulse 1s ease-out both;}
+.charge-crystal.crystal-main{width:48px; height:72px; right:17%; top:36%;}
+.charge-crystal.crystal-s1{width:22px; height:34px; right:24%; top:35%; animation-delay:.08s;}
+.charge-crystal.crystal-s2{width:20px; height:30px; right:13%; top:48%; animation-delay:.12s;}
+.armor-ring{position:absolute; right:10%; top:36%; width:118px; height:118px; border-radius:50%; border:4px solid rgba(120,146,184,.42); box-shadow:0 0 0 8px rgba(63,78,111,.12),0 0 18px rgba(9,17,31,.44); animation:armorRise .98s ease-out both;}
+.armor-ring.ring-b{width:88px; height:88px; right:14%; top:41%; border-width:3px; animation-delay:.08s;}
+.armor-smoke{position:absolute; right:9%; top:37%; width:132px; height:122px; background:radial-gradient(circle at 40% 40%, rgba(27,39,60,.38), transparent 28%), radial-gradient(circle at 56% 56%, rgba(14,20,34,.48), transparent 32%), radial-gradient(circle at 72% 44%, rgba(38,52,84,.34), transparent 28%); filter:blur(7px); animation:smokePulse .96s ease-out both;}
+@keyframes playerFlash{0%{opacity:0;}20%{opacity:1;}100%{opacity:0;}}
+@keyframes sceneShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-4px);}40%{transform:translateX(4px);}60%{transform:translateX(-3px);}80%{transform:translateX(3px);}}
+@keyframes sceneShakeHeavy{0%,100%{transform:translateX(0);}15%{transform:translateX(-6px);}30%{transform:translateX(6px);}45%{transform:translateX(-5px);}60%{transform:translateX(5px);}75%{transform:translateX(-2px);}90%{transform:translateX(2px);}}
+@keyframes sceneBlock{0%,100%{transform:scale(1);}30%{transform:scale(1.01);}60%{transform:scale(.996);}}
+@keyframes devourSpin{0%{opacity:0; transform:scale(.4) rotate(0deg);}25%{opacity:1;}100%{opacity:0; transform:scale(1.24) rotate(240deg);}}
+@keyframes devourTrail{0%{opacity:0; transform:translateX(28px) scaleX(.2);}20%{opacity:1;}100%{opacity:0; transform:translateX(-8px) scaleX(1.14);}}
+@keyframes chargePulse{0%{opacity:0; transform:scale(.68) translateY(16px);}25%{opacity:1;}100%{opacity:0; transform:scale(1.15) translateY(-10px);}}
+@keyframes armorRise{0%{opacity:0; transform:scale(.6);}20%{opacity:1;}100%{opacity:0; transform:scale(1.18);}}
+@keyframes smokePulse{0%{opacity:0; transform:scale(.8);}25%{opacity:1;}100%{opacity:0; transform:scale(1.14);}}
+
+
+/* v17: SFX and turn fix polish */
+.end-turn-btn.busy, .mobile-end-btn.busy, #endTurnButton.busy{
+  pointer-events:none;
+  opacity:.72;
+  filter:saturate(.7);
+}
+.card-btn:not(.disabled):active .card-image-wrap{
+  transform:translateY(2px) scale(.985);
+}
+.card-btn .card-image-wrap{
+  transition: transform .12s ease, filter .12s ease;
+}
+.card-ui-btn.busy::after, .primary-btn.busy::after{
+  content:"…";
+}
+
+
+/* v18: inspiration cards and companion skills */
+.mobile-companion-skill{
+  margin:0;
+  padding:8px;
+  border-radius:14px;
+  border:1px solid rgba(217,179,106,.35);
+  background:linear-gradient(180deg,rgba(8,24,48,.74),rgba(5,16,30,.70));
+  display:grid;
+  gap:6px;
+}
+.companion-skill-title{
+  color:#f1dba8;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.04em;
+}
+.companion-btn-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+.companion-btn{
+  min-height:40px;
+  padding:8px;
+  font-size:12px;
+}
+.companion-btn.ready{
+  animation:companionReadyPulse 1.6s ease-in-out infinite;
+  filter:brightness(1.08);
+}
+.companion-hint{
+  color:#b9d5ff;
+  line-height:1.4;
+  font-size:11px;
+}
+.compact-chip small{
+  color:#cfe0ff;
+  font-size:11px;
+}
+.compact-chip b{
+  color:#f1dba8;
+  font-size:14px;
+}
+@keyframes companionReadyPulse{
+  0%,100%{box-shadow:0 8px 18px rgba(6,25,53,.26),0 0 0 rgba(83,174,255,0), inset 0 1px 0 rgba(255,255,255,.18);}
+  50%{box-shadow:0 8px 22px rgba(6,25,53,.32),0 0 18px rgba(83,174,255,.32), inset 0 1px 0 rgba(255,255,255,.18);}
+}
+@media (max-width:420px){
+  .companion-btn-row{grid-template-columns:1fr;}
+}
+
+
+/* v19: mobile-visible corruption state */
+.mobile-dock-top{
+  grid-template-columns:repeat(5,1fr);
+}
+.corruption-mobile-chip{
+  background:linear-gradient(180deg,rgba(48,10,20,.78),rgba(13,10,24,.72)) !important;
+  border:1px solid rgba(255,110,120,.32) !important;
+  box-shadow:0 8px 18px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.corruption-mobile-chip strong{
+  color:#ff6d78;
+  text-shadow:0 0 12px rgba(255,69,84,.28);
+}
+.corruption-mobile-chip small{
+  color:#ffe0e4;
+}
+.corruption-mobile-chip.active{
+  animation:corruptionPanelPulse 2.2s ease-in-out infinite;
+}
+.corruption-mobile-chip.danger{
+  border-color:rgba(255,76,92,.58) !important;
+  box-shadow:0 8px 18px rgba(0,0,0,.18), 0 0 18px rgba(255,69,84,.22), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.battle-scene-shell.corruption-active::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 74% 44%, rgba(255,54,70,.20), transparent 24%),
+    radial-gradient(circle at 82% 58%, rgba(150,0,40,.16), transparent 28%),
+    linear-gradient(90deg, transparent 45%, rgba(88,0,30,.14) 100%);
+  animation:corruptionMist 2.4s ease-in-out infinite;
+}
+.battle-scene-shell.corruption-active .effect-layer,
+.battle-scene-shell.corruption-active .mobile-chip-row,
+.battle-scene-shell.corruption-active .block-bubble,
+.battle-scene-shell.corruption-active .mobile-bottom-overlay{
+  z-index:2;
+}
+@keyframes corruptionMist{
+  0%,100%{opacity:.55; filter:saturate(1);}
+  50%{opacity:.86; filter:saturate(1.25);}
+}
+@keyframes corruptionPanelPulse{
+  0%,100%{transform:translateY(0); filter:brightness(1);}
+  50%{transform:translateY(-2px); filter:brightness(1.14);}
+}
+@media (max-width:420px){
+  .mobile-dock-top{grid-template-columns:1fr 1fr;}
+}
+
+
+/* v20: independent character sprites for demo */
+.battle-sprite-layer{position:absolute; inset:0; pointer-events:none; z-index:2;}
+.battle-actor{position:absolute; display:block; transform-origin:50% 100%; will-change:transform, filter;}
+.battle-actor img{display:block; width:100%; height:auto; filter:drop-shadow(0 8px 14px rgba(0,0,0,.26));}
+.battle-actor::before{content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-5px; width:78%; height:18px; border-radius:50%; filter:blur(6px); opacity:.76;}
+.hero-glow::before{background:radial-gradient(circle, rgba(135,206,255,.34), rgba(70,120,255,.08) 60%, transparent 78%);} 
+.enemy-glow::before{background:radial-gradient(circle, rgba(255,92,92,.34), rgba(120,0,20,.12) 60%, transparent 78%);} 
+.actor-boy{left:14%; bottom:22px; width:18%; min-width:74px;}
+.actor-girl{left:27%; bottom:25px; width:16.5%; min-width:68px;}
+.actor-koro{left:39.5%; bottom:24px; width:14.4%; min-width:60px;}
+.actor-bear{left:51%; bottom:26px; width:14.2%; min-width:58px;}
+.actor-enemy{right:10%; bottom:18px; width:33%; min-width:120px;}
+.battle-actor.anim-idle{animation:actorIdle 2.6s ease-in-out infinite;}
+.actor-girl.anim-idle{animation-delay:.16s;} .actor-koro.anim-idle{animation-delay:.32s;} .actor-bear.anim-idle{animation-delay:.52s;} .actor-enemy.anim-idle{animation-duration:3s; animation-delay:.38s;}
+.battle-actor.anim-attack{animation:actorAttack .56s ease-out 1;}
+.battle-actor.anim-skill{animation:actorSkill .74s ease-out 1;}
+.battle-actor.anim-support{animation:actorSupport .76s ease-out 1;}
+.battle-actor.anim-hit{animation:actorHit .42s ease-out 1;}
+.battle-actor.anim-roar{animation:actorRoar .72s ease-out 1;}
+@keyframes actorIdle{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+@keyframes actorAttack{0%{transform:translate(0,0) scale(1);}25%{transform:translate(8px,-8px) scale(1.05);}55%{transform:translate(14px,-2px) scale(1.08);}100%{transform:translate(0,0) scale(1);} }
+@keyframes actorSkill{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-7px) scale(1.04);}55%{transform:translateY(-3px) scale(1.08);}100%{transform:translateY(0) scale(1);} }
+@keyframes actorSupport{0%{transform:translateY(0) scale(1);}35%{transform:translateY(-8px) scale(1.09);}65%{transform:translateY(-3px) scale(1.06);}100%{transform:translateY(0) scale(1);} }
+@keyframes actorHit{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px) rotate(-2deg);}50%{transform:translateX(6px) rotate(2deg);}75%{transform:translateX(-3px) rotate(-1deg);} }
+@keyframes actorRoar{0%{transform:scale(1);}30%{transform:scale(1.08) translateX(-8px);}55%{transform:scale(1.1) translateX(-12px);}100%{transform:scale(1);} }
+
+
+/* v21: three-stage battle and reward selection */
+.reward-modal{max-width:760px;}
+.reward-intro{color:#dbe9ff;line-height:1.7;}
+.reward-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.reward-choice-card{min-height:170px;padding:18px;display:grid;align-content:start;gap:10px;text-align:left;}
+.reward-choice-card .reward-type{width:max-content;padding:6px 10px;border-radius:999px;color:#14345f;background:#f1dba8;font-weight:1000;font-size:13px;}
+.reward-choice-card strong{font-size:24px;line-height:1.2;}
+.reward-choice-card small{color:#dceaff;line-height:1.55;font-size:15px;}
+.stage-chip strong{color:#f1dba8;}
+.passive-chip strong{display:block;margin-top:4px;color:#dbe9ff;font-size:13px;line-height:1.35;}
+@media (max-width:720px){.reward-choice-grid{grid-template-columns:1fr;}}
+
+.stage-mobile-chip strong{color:#f1dba8;}
+.stage-mobile-chip small{display:block;margin-top:3px;color:#dbe9ff;line-height:1.25;}
+.reward-choice-card{min-height:140px;}
+.reward-choice-card strong{font-size:20px;}
+.reward-choice-card small{font-size:13px;}
+
+/* v22 provided art integration */
+.battle-scene-image{
+  filter:saturate(1.06) contrast(1.02);
+}
+.actor-boy{left:12%; bottom:14px; width:20%; min-width:76px;}
+.actor-girl{left:26%; bottom:16px; width:18.2%; min-width:72px;}
+.actor-koro{left:40%; bottom:18px; width:14.8%; min-width:60px;}
+.actor-bear{left:51.6%; bottom:18px; width:15.1%; min-width:60px;}
+.actor-enemy{right:7.5%; bottom:12px; width:35%; min-width:128px;}
+.battle-actor img{
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.32));
+}
+
+
+/* v23: mobile character spacing refined */
+.mobile-stage-frame .battle-scene-image{object-position:center center;}
+.mobile-stage-frame .actor-boy{left:6.5%; bottom:4%; width:12.5%; min-width:54px;}
+.mobile-stage-frame .actor-girl{left:17.5%; bottom:4.6%; width:12%; min-width:52px;}
+.mobile-stage-frame .actor-koro{left:28.6%; bottom:4.2%; width:9.8%; min-width:44px;}
+.mobile-stage-frame .actor-bear{left:37.2%; bottom:4.8%; width:10%; min-width:45px;}
+.mobile-stage-frame .actor-enemy{right:6.2%; bottom:2.6%; width:25.2%; min-width:94px;}
+.mobile-stage-frame .battle-actor::before{bottom:-2px; height:12px; opacity:.58;}
+.mobile-stage-frame .battle-actor img{filter:drop-shadow(0 7px 14px rgba(0,0,0,.3));}
+
+
+/* v24: mobile battle layout refinement */
+.mobile-stage-frame .battle-scene-image{object-position:center center;}
+.mobile-stage-frame .left-row{
+  left:8px; top:8px;
+  display:flex; flex-direction:column; gap:6px;
+  align-items:flex-start; max-width:40%;
+}
+.mobile-stage-frame .right-row{
+  right:8px; top:8px;
+  display:flex; flex-direction:column; gap:6px;
+  align-items:flex-end; max-width:38%;
+}
+.mobile-stage-frame .center-turn-pill{
+  position:absolute; left:50%; top:8px;
+  transform:translateX(-50%);
+  z-index:6; padding:6px 14px; font-size:12px;
+}
+.mobile-stage-frame .mobile-turn-wrap{
+  position:static;
+}
+.mobile-stage-frame .mobile-enemy-intent-panel{
+  position:absolute; right:8px; top:48px;
+  width:122px;
+  transform:scale(.72);
+  transform-origin:top right;
+  opacity:.78;
+}
+.mobile-stage-frame .block-bubble{
+  top:auto; bottom:8px;
+  padding:7px 10px;
+  font-size:13px;
+}
+.mobile-stage-frame .block-bubble strong{font-size:16px;}
+.mobile-stage-frame .block-bubble.left{left:6px;}
+.mobile-stage-frame .block-bubble.right{right:6px;}
+.mobile-dock-top .compact-energy{display:none !important;}
+
+/* v24: mobile character sizing/position */
+.mobile-stage-frame .actor-boy{left:8.5%; bottom:4.0%; width:11.3%; min-width:46px;}
+.mobile-stage-frame .actor-girl{left:18.8%; bottom:4.4%; width:10.9%; min-width:45px;}
+.mobile-stage-frame .actor-koro{left:28.8%; bottom:4.2%; width:8.8%; min-width:36px;}
+.mobile-stage-frame .actor-bear{left:36.9%; bottom:4.6%; width:8.9%; min-width:36px;}
+.mobile-stage-frame .actor-enemy{right:4.5%; bottom:2.2%; width:28.9%; min-width:108px;} /* ~15% larger */
+.mobile-stage-frame .battle-actor::before{bottom:-2px; height:11px; opacity:.56;}
+
+
+/* v25 : mobile arrangement closer to planned interface */
+.mobile-scene-shell{
+  height:36vh;
+  min-height:276px;
+}
+.mobile-stage-frame .battle-scene-image,
+.mobile-scene-shell .battle-scene-image{
+  object-position:center center;
+}
+.mobile-stage-frame .left-row,
+.mobile-scene-shell .left-row{
+  left:8px; top:8px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  align-items:flex-start;
+  max-width:46%;
+}
+.mobile-stage-frame .right-row,
+.mobile-scene-shell .right-row{
+  right:8px; top:8px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  align-items:flex-end;
+  max-width:38%;
+}
+.mobile-stage-frame .mobile-turn-side-pill,
+.mobile-scene-shell .mobile-turn-side-pill{
+  position:absolute;
+  left:8px;
+  top:74px;
+  transform:none;
+  min-width:58px;
+  min-height:74px;
+  padding:8px 8px;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  z-index:6;
+}
+.mobile-stage-frame .mobile-turn-side-pill strong,
+.mobile-scene-shell .mobile-turn-side-pill strong{
+  font-size:26px;
+  line-height:1;
+}
+.mobile-stage-frame .mobile-enemy-intent-panel,
+.mobile-scene-shell .mobile-enemy-intent-panel{
+  position:absolute;
+  right:8px;
+  top:74px;
+  width:118px;
+  transform:none;
+  opacity:.72;
+  z-index:6;
+}
+.mobile-stage-frame .block-bubble,
+.mobile-scene-shell .block-bubble{
+  top:auto;
+  bottom:8px;
+  padding:6px 8px;
+  font-size:12px;
+}
+.mobile-stage-frame .block-bubble strong,
+.mobile-scene-shell .block-bubble strong{font-size:15px;}
+.mobile-stage-frame .block-bubble.left,
+.mobile-scene-shell .block-bubble.left{left:8px;}
+.mobile-stage-frame .block-bubble.right,
+.mobile-scene-shell .block-bubble.right{right:8px;}
+
+.mobile-dock-top{
+  grid-template-columns:1fr 1fr 1fr;
+}
+.mobile-dock-top .compact-energy{
+  display:flex !important;
+}
+.mobile-dock-top .stage-mobile-chip{
+  grid-column:1 / span 2;
+}
+.mobile-dock-top .corruption-mobile-chip{
+  grid-column:3;
+}
+.mobile-head{
+  align-items:center;
+}
+.mobile-head .mobile-end-btn{
+  min-width:118px;
+}
+.mobile-hand-scroll{gap:10px;}
+.mobile-hand-scroll .card-btn{min-width:122px; max-width:122px;}
+
+.mobile-scene-shell .actor-boy{left:15.0%; bottom:4.6%; width:11.0%; min-width:48px;}
+.mobile-scene-shell .actor-girl{left:25.0%; bottom:4.8%; width:10.4%; min-width:46px;}
+.mobile-scene-shell .actor-koro{left:34.2%; bottom:4.6%; width:8.5%; min-width:37px;}
+.mobile-scene-shell .actor-bear{left:41.8%; bottom:5.0%; width:8.4%; min-width:36px;}
+.mobile-scene-shell .actor-enemy{right:6.0%; bottom:4.0%; width:27.5%; min-width:110px;}
+.mobile-scene-shell .battle-actor::before{bottom:-2px; height:10px; opacity:.52;}
+
+
+/* v26 card art correction */
+.mobile-hand-scroll .card-btn,
+.card-btn{
+  min-width:124px;
+  max-width:124px;
+}
+.card-btn .card-image-wrap{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  min-height:0;
+  background:transparent;
+  overflow:visible;
+  border:none;
+  box-shadow:none;
+}
+.card-btn img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  filter:drop-shadow(0 8px 15px rgba(0,0,0,.32));
+}
+.card-meta{
+  left:6px;
+  right:6px;
+  bottom:6px;
+}
+
+
+/* ===== v41 mobile optimization overrides ===== */
+.enemy-red-text,
+.enemy-red-text strong,
+.enemy-red-text b,
+.enemy-red-text .intent-title{ color:#ff8d8d !important; }
+.enemy-red-text .intent-dot{ background:#ff5d5d !important; }
+
+.topbar-actions{ margin-top:4px; }
+.mobile-scene-shell{
+  height:36vh !important;
+  min-height:265px !important;
+}
+/* enlarge and ground characters */
+.mobile-scene-shell .actor-boy{ left:16.5% !important; bottom:3.8% !important; width:13.6% !important; min-width:58px !important; }
+.mobile-scene-shell .actor-girl{ left:28.3% !important; bottom:4.1% !important; width:12.7% !important; min-width:54px !important; }
+.mobile-scene-shell .actor-koro{ left:39.0% !important; bottom:3.9% !important; width:10.1% !important; min-width:42px !important; }
+.mobile-scene-shell .actor-bear{ left:47.6% !important; bottom:4.2% !important; width:10.0% !important; min-width:42px !important; }
+.mobile-scene-shell .actor-enemy{ right:4.5% !important; bottom:3.4% !important; width:32% !important; min-width:128px !important; }
+
+/* keep enemy UI away from the enemy sprite */
+.mobile-turn-wrap{
+  left:auto !important;
+  right:8px !important;
+  top:76px !important;
+  bottom:auto !important;
+  width:120px !important;
+  display:block !important;
+}
+.mobile-turn-side-pill{
+  position:absolute !important;
+  top:86px !important;
+  right:-2px !important;
+  transform:scale(.92);
+  opacity:.88;
+}
+.mobile-enemy-intent-panel{
+  position:absolute !important;
+  right:0 !important;
+  top:0 !important;
+  width:118px !important;
+  padding:8px 9px 9px !important;
+  background:linear-gradient(180deg, rgba(42,16,22,.82), rgba(14,16,24,.78)) !important;
+  backdrop-filter: blur(8px) !important;
+}
+.mobile-enemy-intent-panel strong{ font-size:14px !important; }
+.mobile-enemy-intent-panel em{ font-size:11px !important; margin-top:4px !important; }
+
+/* compact helper UI to free space */
+.mobile-floating-ui .small-stack,
+.mobile-floating-ui .compact-energy,
+.mobile-floating-ui .compact-chip{
+  min-height:60px !important;
+  padding:6px 5px !important;
+}
+.mobile-floating-ui .stack-visual{ width:32px !important; height:44px !important; }
+.mobile-floating-ui .stack-count{ width:28px !important; height:28px !important; font-size:14px !important; }
+.mobile-floating-ui .stack-label,
+.mobile-floating-ui .energy-label,
+.mobile-floating-ui .resource-chip small{ font-size:10px !important; }
+.mobile-floating-ui .energy-value,
+.mobile-floating-ui .resource-chip strong{ font-size:18px !important; }
+
+/* companion buttons in one tight row */
+.mobile-companion-skill{
+  padding:6px 8px !important;
+  gap:4px !important;
+}
+.mobile-companion-skill .companion-skill-title,
+.mobile-companion-skill .companion-hint{
+  font-size:10px !important;
+  line-height:1.1 !important;
+  margin:0 !important;
+}
+.mobile-companion-skill .companion-btn-row{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  gap:6px !important;
+}
+.mobile-companion-skill .companion-btn{
+  flex:1 1 0 !important;
+  min-height:32px !important;
+  padding:6px 8px !important;
+  font-size:11px !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* free more room for cards */
+.mobile-dock-shell{ gap:6px !important; }
+.hand-dock-head{ margin-top:0 !important; }
+.mobile-head h3{ font-size:15px !important; }
+.mobile-head p{ display:none !important; }
+.mobile-end-btn{ min-width:96px !important; padding:8px 12px !important; }
+.mobile-lower-info{ display:none !important; }
+.battle-hand-scroll{
+  gap:6px !important;
+  padding:2px 0 8px !important;
+  min-height:228px !important;
+}
+.card-btn{
+  min-width:104px !important;
+  max-width:104px !important;
+}
+.card-btn .card-image-wrap{
+  min-height:188px !important;
+  background:transparent !important;
+}
+.card-meta{
+  left:4px !important;
+  right:4px !important;
+  bottom:4px !important;
+  padding:6px 7px !important;
+  background:rgba(8,18,34,.78) !important;
+}
+.card-meta strong{
+  font-size:13px !important;
+  line-height:1.15 !important;
+}
+.card-meta span{
+  margin-top:3px !important;
+  font-size:11.5px !important;
+  line-height:1.25 !important;
+  color:#eef5ff !important;
+}
+
+@media (max-width: 390px){
+  .card-btn{ min-width:98px !important; max-width:98px !important; }
+  .card-btn .card-image-wrap{ min-height:180px !important; }
+  .mobile-enemy-intent-panel{ width:112px !important; }
+}
+
+</style>
+<!-- v42 small-file GitHub Pages build: images externalized to avoid GitHub 25MB upload limit. -->
 </head>
 <body>
 <main class="app-shell mobile-app">
-
-<section id="startScreen" class="screen start-screen cover-start-screen">
-  <article class="cover-entry-card menu-entry-card mobile-menu-entry fade-in-up">
-    <div class="cover-frame mobile-cover-ratio shimmer-frame">
-      <img class="cover-entry-image mobile-cover-image" src="assets/game_cover_entry.png" alt="記憶旅人遊戲封面" />
-      <div class="cover-entry-overlay mobile-cover-overlay">
-        <div class="menu-badge-row">
-          <span class="badge">MOBILE</span>
-          <span class="badge alt">DEMO v37</span>
-        </div>
-      </div>
-    </div>
-    <nav class="game-menu-panel mobile-menu-panel slide-in-up">
-      <button id="startButton" class="card-ui-btn menu-btn primary-glow">開始遊戲</button>
-      <button id="continueButton" class="card-ui-btn menu-btn">繼續 DEMO</button>
-      <button id="settingsButton" class="card-ui-btn menu-btn">設定</button>
-      <button id="openArtButton" class="card-ui-btn menu-btn alt-btn">查看美術總覽</button>
-    </nav>
-    <div class="cover-entry-caption mobile-cover-caption">
-      <h1>記憶旅人</h1>
-      <p>手機版開頭頁會以較適合直式畫面的比例顯示封面。</p>
-    </div>
-  </article>
+<section class="screen start-screen cover-start-screen" id="startScreen">
+<article class="cover-entry-card menu-entry-card mobile-menu-entry fade-in-up">
+<div class="cover-frame mobile-cover-ratio shimmer-frame">
+<img alt="記憶旅人遊戲封面" class="cover-entry-image mobile-cover-image" src="assets/asset_001_6eb67549.webp"/>
+<div class="cover-entry-overlay mobile-cover-overlay">
+<div class="menu-badge-row">
+<span class="badge">MOBILE</span>
+<span class="badge alt">DEMO v42</span>
+</div>
+</div>
+</div>
+<nav class="game-menu-panel mobile-menu-panel slide-in-up">
+<button class="card-ui-btn menu-btn primary-glow" id="startButton">開始遊戲</button>
+<button class="card-ui-btn menu-btn" id="continueButton">繼續 DEMO</button>
+<button class="card-ui-btn menu-btn" id="settingsButton">設定</button>
+<button class="card-ui-btn menu-btn alt-btn" id="openArtButton">查看美術總覽</button>
+</nav>
+<div class="cover-entry-caption mobile-cover-caption">
+<h1>記憶旅人</h1>
+<p>手機版開頭頁會以較適合直式畫面的比例顯示封面。</p>
+</div>
+</article>
 </section>
-
-<section id="gameScreen" class="screen game-screen hidden">
-  <header class="topbar mobile-topbar mobile-topbar-simple">
-    <div class="topbar-brand">
-      <div class="mini-brand-title">MEMORY TRAVELER</div>
-      <div class="mini-brand-sub">手機直式版</div>
-    </div>
-  </header>
-
-  <section class="battle-demo-layout mobile-layout">
-    <div class="battle-scene-shell mobile-scene-shell">
-      <img class="battle-scene-image" src="assets/battle_top_scene.png" alt="中興堂戰鬥畫面" />
-      <div class="battle-sprite-layer" aria-hidden="true">
-        <div id="actorBoy" class="battle-actor actor-boy hero-glow"><img id="actorBoyImg" src="assets/sprites/hero_boy_idle.png" alt=""></div>
-        <div id="actorGirl" class="battle-actor actor-girl hero-glow"><img id="actorGirlImg" src="assets/sprites/hero_girl_idle.png" alt=""></div>
-        <div id="actorKoro" class="battle-actor actor-koro hero-glow"><img id="actorKoroImg" src="assets/sprites/koro_idle.png" alt=""></div>
-        <div id="actorBear" class="battle-actor actor-bear hero-glow"><img id="actorBearImg" src="assets/sprites/bear_idle.png" alt=""></div>
-        <div id="actorEnemy" class="battle-actor actor-enemy enemy-glow"><img id="actorEnemyImg" src="assets/sprites/enemy_idle.png" alt=""></div>
-      </div>
-      <div id="effectLayer" class="effect-layer"></div>
-      <div class="mobile-chip-row left-row">
-        <div class="hud-pill dark">生命 <strong id="playerHpText">96 / 110</strong></div>
-        <div class="hud-pill dark small player-energy-pill">能量 <strong id="energyText">3 / 3</strong></div>
-      </div>
-      <div class="mobile-chip-row right-row">
-        <div class="hud-pill dark small enemy-hp-pill enemy-red-text">敵方 HP <strong id="enemyHpText">240 / 300</strong></div>
-      </div>
-      <div class="block-bubble left">格擋 <strong id="playerBlockText">0</strong></div>
-      <div class="block-bubble right enemy-red-text">敵格擋 <strong id="enemyBlockText">0</strong></div>
-      <div class="mobile-bottom-overlay mobile-turn-wrap">
-        <div class="hud-pill dark center-turn-pill mobile-turn-side-pill">回合 <strong id="turnText">3</strong></div>
-        <div class="intent-bubble compact-intent mobile-enemy-ui formal-intent-panel mobile-enemy-intent-panel enemy-red-text">
-          <div class="intent-title-row"><span class="intent-title">敵人意圖</span><span class="intent-dot"></span></div>
-          <strong id="intentText">撲擊 10</strong>
-          <em>侵蝕 <b id="corruptionText">0</b></em>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="battle-dock-shell mobile-dock-shell">
-      <div class="battle-status-strip compact-status-row" aria-label="戰鬥資訊橫列">
-        <div class="status-chip status-chip-stage">
-          <span class="chip-label">階段</span>
-          <strong id="stageText">1/3</strong>
-          <small id="passiveText">能力 無</small>
-        </div>
-        <div class="status-chip">
-          <span class="chip-label">靈感</span>
-          <strong id="inspirationText">0</strong>
-          <small>攻+ <b id="attackBoostText">0</b></small>
-        </div>
-        <div class="status-chip enemy-status-chip">
-          <span class="chip-label">侵蝕</span>
-          <strong id="corruptionStatusText">0</strong>
-          <small id="corruptionEffectText">敵攻 +0</small>
-        </div>
-        <div class="status-chip">
-          <span class="chip-label">抽牌堆</span>
-          <strong id="deckCount">14</strong>
-          <small>剩餘牌數</small>
-        </div>
-        <div class="status-chip">
-          <span class="chip-label">棄牌堆</span>
-          <strong id="discardCount">0</strong>
-          <small>已使用牌</small>
-        </div>
-      </div>
+<section class="screen game-screen hidden" id="gameScreen">
+<header class="topbar mobile-topbar">
+<div class="topbar-brand">
+<div class="mini-brand-title">MEMORY TRAVELER</div>
+<div class="mini-brand-sub">手機直式版</div>
+</div>
+<div class="topbar-actions compact-actions">
+<button class="card-ui-btn icon-btn" id="helpButton">規則</button>
+<button class="card-ui-btn icon-btn" id="artButton">美術</button>
+<button class="card-ui-btn icon-btn" id="restartTopButton">重開</button>
+</div>
+</header>
+<section class="battle-demo-layout mobile-layout">
+<div class="battle-scene-shell mobile-scene-shell">
+<img alt="中興堂戰鬥畫面" class="battle-scene-image" src="assets/asset_002_f2b2699f.webp"/>
+<div aria-hidden="true" class="battle-sprite-layer">
+<div class="battle-actor actor-boy hero-glow" id="actorBoy"><img alt="" id="actorBoyImg" src="assets/asset_003_2e7b54f4.webp"/></div>
+<div class="battle-actor actor-girl hero-glow" id="actorGirl"><img alt="" id="actorGirlImg" src="assets/asset_004_a0f9d2ea.webp"/></div>
+<div class="battle-actor actor-koro hero-glow" id="actorKoro"><img alt="" id="actorKoroImg" src="assets/asset_005_e94f2e4d.webp"/></div>
+<div class="battle-actor actor-bear hero-glow" id="actorBear"><img alt="" id="actorBearImg" src="assets/asset_006_29a3f902.webp"/></div>
+<div class="battle-actor actor-enemy enemy-glow" id="actorEnemy"><img alt="" id="actorEnemyImg" src="assets/asset_007_b9b402e7.webp"/></div>
+</div>
+<div class="effect-layer" id="effectLayer"></div>
+<div class="mobile-chip-row left-row">
+<div class="hud-pill dark">生命 <strong id="playerHpText">96 / 110</strong></div>
+<div class="hud-pill dark small player-energy-pill">能量 <strong id="energyText">3 / 3</strong></div>
+</div>
+<div class="mobile-chip-row right-row">
+<div class="hud-pill dark small enemy-hp-pill enemy-red-text">敵方 HP <strong id="enemyHpText">240 / 300</strong></div>
+</div>
+<div class="block-bubble left">格擋 <strong id="playerBlockText">0</strong></div>
+<div class="block-bubble right enemy-red-text">敵格擋 <strong id="enemyBlockText">0</strong></div>
+<div class="mobile-bottom-overlay mobile-turn-wrap">
+<div class="hud-pill dark center-turn-pill mobile-turn-side-pill">回合 <strong id="turnText">3</strong></div>
+<div class="intent-bubble compact-intent mobile-enemy-ui formal-intent-panel mobile-enemy-intent-panel enemy-red-text">
+<div class="intent-title-row"><span class="intent-title">敵人意圖</span><span class="intent-dot"></span></div>
+<strong id="intentText">撲擊 10</strong>
+<em>侵蝕 <b id="corruptionText">0</b></em>
+</div>
+</div>
+</div>
+<div class="battle-dock-shell mobile-dock-shell">
+<div class="mobile-dock-top">
+<div class="mini-card-stack small-stack">
+<div class="stack-visual deck-visual"></div>
+<div class="stack-count" id="deckCount">14</div>
+<div class="stack-label">抽牌堆</div>
+</div>
+<div class="mini-card-stack small-stack">
+<div class="stack-visual discard-visual"></div>
+<div class="stack-count" id="discardCount">0</div>
+<div class="stack-label">棄牌堆</div>
+</div>
+<div class="energy-panel compact-energy">
+<div class="energy-value" id="energyTextBottom">3 / 3</div>
+<div class="energy-label">能量</div>
+</div>
+<div class="resource-chip compact-chip stage-mobile-chip">階段 <strong id="stageText">1/3</strong><br/><small id="passiveText">能力 無</small></div>
+<div class="resource-chip compact-chip">靈感 <strong id="inspirationText">0</strong><br/><small>攻+ <b id="attackBoostText">0</b></small></div>
+<div class="resource-chip compact-chip corruption-mobile-chip">侵蝕 <strong id="corruptionStatusText">0</strong><br/><small id="corruptionEffectText">敵攻 +0</small></div>
+</div>
 <div class="companion-skill-panel mobile-companion-skill">
-        <div class="companion-skill-title">夥伴技｜每 5 回合</div>
-        <div class="companion-btn-row">
-          <button id="koroSkillButton" class="card-ui-btn companion-btn" disabled>KORO 格擋</button>
-          <button id="dainiSkillButton" class="card-ui-btn companion-btn" disabled>呆尼熊 攻擊+4</button>
-        </div>
-        <div id="companionHintText" class="companion-hint">第 5 回合可發動</div>
-      </div>
-      <div class="hand-dock-head mobile-head">
-        <div>
-          <h3>可使用卡牌</h3>
-          <p>卡牌區緊接在戰鬥畫面下方。</p>
-        </div>
-        <button id="endTurnButton" class="card-ui-btn primary-btn mobile-end-btn">結束回合</button>
-      </div>
-      <div id="handContainer" class="battle-hand-scroll mobile-hand-scroll"></div>
-      <div class="mobile-lower-info">
-        <div class="log-panel compact-log-panel">
-          <h4>戰鬥紀錄</h4>
-          <div id="logBox" class="log-box"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="topbar-actions compact-actions mobile-bottom-toolbar">
-      <button id="helpButton" class="card-ui-btn icon-btn">規則</button>
-      <button id="artButton" class="card-ui-btn icon-btn">美術</button>
-      <button id="restartTopButton" class="card-ui-btn icon-btn">重開</button>
-    </div>
+<div class="companion-skill-title">夥伴技能</div>
+<div class="companion-btn-row">
+<button class="card-ui-btn companion-btn" disabled="" id="koroSkillButton">KORO 格擋</button>
+<button class="card-ui-btn companion-btn" disabled="" id="dainiSkillButton">呆尼熊 攻擊+4</button>
+</div>
+<div class="companion-hint" id="companionHintText">每 5 回合可用</div>
+</div>
+<div class="hand-dock-head mobile-head">
+<div>
+<h3>可使用卡牌</h3>
+<p>卡牌區緊接在戰鬥畫面下方。</p>
+</div>
+<button class="card-ui-btn primary-btn mobile-end-btn" id="endTurnButton">結束回合</button>
+</div>
+<div class="battle-hand-scroll mobile-hand-scroll" id="handContainer"></div>
+<div class="mobile-lower-info">
+<div class="log-panel compact-log-panel">
+<h4>戰鬥紀錄</h4>
+<div class="log-box" id="logBox"></div>
+</div>
+</div>
+</div>
 </section>
 </section>
-
-<section id="resultScreen" class="screen result-screen hidden">
-  <article id="resultCard" class="result-card fade-in-up win-state">
-    <span id="resultBadge" class="badge">DEMO 勝利</span>
-    <div class="result-visual-wrap">
-      <img class="result-side-art side-left result-win-art" src="assets/result_koro_cut.png" alt="KORO 角色插圖" />
-      <img class="result-side-art side-right result-win-art" src="assets/result_bear_cut.png" alt="呆尼熊角色插圖" />
-      <img class="result-side-art side-right result-lose-art hidden" src="assets/result_beast_cut.png" alt="噬憶獸角色插圖" />
-      <img class="cover-hero" id="resultImage" src="assets/victory_result.jpg" alt="戰鬥結果圖片" />
-    </div>
-    <h2 id="resultTitle">記憶守住了</h2>
-    <p id="resultText">你擊退了噬憶獸。</p>
-    <button id="restartButton" class="card-ui-btn primary-btn card-ui-btn result-btn">再玩一次</button>
-  </article>
+<section class="screen result-screen hidden" id="resultScreen">
+<article class="result-card fade-in-up win-state" id="resultCard">
+<span class="badge" id="resultBadge">DEMO 勝利</span>
+<div class="result-visual-wrap">
+<img alt="KORO 角色插圖" class="result-side-art side-left result-win-art" src="assets/asset_008_7f3d1308.webp">
+<img alt="呆尼熊角色插圖" class="result-side-art side-right result-win-art" src="assets/asset_009_d0a71280.webp">
+<img alt="噬憶獸角色插圖" class="result-side-art side-right result-lose-art hidden" src="assets/asset_010_d388dbc5.webp">
+<img alt="戰鬥結果圖片" class="cover-hero" id="resultImage" src="assets/asset_011_4ab1bb41.webp">
+</img></img></img></img></div>
+<h2 id="resultTitle">記憶守住了</h2>
+<p id="resultText">你擊退了噬憶獸。</p>
+<button class="card-ui-btn primary-btn card-ui-btn result-btn" id="restartButton">再玩一次</button>
+</article>
 </section>
-
-
-
-<dialog id="rewardDialog" class="modal reward-modal">
-  <h3 id="rewardTitle">階段通過</h3>
-  <p id="rewardIntro" class="reward-intro">選擇一項能力或獎勵，進入下一階段。</p>
-  <div class="reward-choice-grid">
-    <button id="abilityChoiceButton" class="card-ui-btn reward-choice-card">
-      <span class="reward-type">能力</span>
-      <strong id="abilityChoiceTitle">永久能力</strong>
-      <small id="abilityChoiceDesc">每場戰鬥開始生效。</small>
-    </button>
-    <button id="rewardChoiceButton" class="card-ui-btn reward-choice-card">
-      <span class="reward-type">獎勵</span>
-      <strong id="rewardChoiceTitle">戰鬥獎勵</strong>
-      <small id="rewardChoiceDesc">立即生效或改善後續戰鬥。</small>
-    </button>
-  </div>
+<dialog class="modal reward-modal" id="rewardDialog">
+<h3 id="rewardTitle">階段通過</h3>
+<p class="reward-intro" id="rewardIntro">選擇一項能力或獎勵，進入下一階段。</p>
+<div class="reward-choice-grid">
+<button class="card-ui-btn reward-choice-card" id="abilityChoiceButton">
+<span class="reward-type">能力</span>
+<strong id="abilityChoiceTitle">永久能力</strong>
+<small id="abilityChoiceDesc">每場戰鬥開始生效。</small>
+</button>
+<button class="card-ui-btn reward-choice-card" id="rewardChoiceButton">
+<span class="reward-type">獎勵</span>
+<strong id="rewardChoiceTitle">戰鬥獎勵</strong>
+<small id="rewardChoiceDesc">立即生效或改善後續戰鬥。</small>
+</button>
+</div>
 </dialog>
-
-<dialog id="helpDialog" class="modal">
-  <h3>玩法規則</h3>
-  <ul>
-    <li>每回合會抽牌並恢復 3 點能量。</li>
-    <li>點擊卡牌可消耗能量發動效果。</li>
-    <li>按下「結束回合」後，敵人會依照意圖行動。</li>
-    <li>這版已將戰鬥上半部與下方出牌區整合成單畫面體驗。</li>
-  </ul>
-  <button id="closeHelpButton" class="card-ui-btn primary-btn">了解</button>
+<dialog class="modal" id="helpDialog">
+<h3>玩法規則</h3>
+<ul>
+<li>每回合會抽牌並恢復 3 點能量。</li>
+<li>點擊卡牌可消耗能量發動效果。</li>
+<li>按下「結束回合」後，敵人會依照意圖行動。</li>
+<li>這版已將戰鬥上半部與下方出牌區整合成單畫面體驗。</li>
+</ul>
+<button class="card-ui-btn primary-btn" id="closeHelpButton">了解</button>
 </dialog>
-
-
-<dialog id="artDialog" class="modal art-modal">
-  <h3>美術總覽</h3>
-  <div class="dialog-art-grid">
-    <img src="assets/game_cover_entry.png" alt="遊戲封面" />
-    <img src="assets/battle_top_scene.png" alt="戰鬥畫面上半部" />
-    <img src="assets/ui_sheet_transparent.png" alt="UI 設計圖" />
-    <img src="assets/card_sheet.webp" alt="卡牌設計稿" />
-  </div>
-  <button id="closeArtButton" class="card-ui-btn primary-btn">關閉</button>
+<dialog class="modal art-modal" id="artDialog">
+<h3>美術總覽</h3>
+<div class="dialog-art-grid">
+<img alt="遊戲封面" src="assets/asset_001_6eb67549.webp">
+<img alt="戰鬥畫面上半部" src="assets/asset_002_f2b2699f.webp"/>
+<img alt="UI 設計圖" src="assets/asset_012_6f392e20.webp"/>
+<img alt="卡牌設計稿" src="assets/asset_013_c7efbd70.webp"/>
+</img></div>
+<button class="card-ui-btn primary-btn" id="closeArtButton">關閉</button>
 </dialog>
-
-
-<dialog id="settingsDialog" class="modal settings-modal">
-  <h3>設定</h3>
-  <div class="settings-list">
-    <div class="settings-row"><span>音效</span><strong>開啟｜Web Audio</strong></div>
-    <div class="settings-row"><span>畫質</span><strong>標準</strong></div>
-    <div class="settings-row"><span>操作模式</span><strong>點選出牌</strong></div>
-  </div>
-  <button id="closeSettingsButton" class="card-ui-btn primary-btn">關閉</button>
+<dialog class="modal settings-modal" id="settingsDialog">
+<h3>設定</h3>
+<div class="settings-list">
+<div class="settings-row"><span>音效</span><strong>開啟｜Web Audio</strong></div>
+<div class="settings-row"><span>畫質</span><strong>標準</strong></div>
+<div class="settings-row"><span>操作模式</span><strong>點選出牌</strong></div>
+</div>
+<button class="card-ui-btn primary-btn" id="closeSettingsButton">關閉</button>
 </dialog>
-
 </main>
-<script src="game.js"></script>
+<script>
+const CARD_ASSETS = {
+  memory_slash: 'assets/asset_014_aa5e03db.webp',
+  paper_map: 'assets/asset_015_3d1fc6e5.webp',
+  koro_guide: 'assets/asset_016_b4f69b6b.webp',
+  daini_courage: 'assets/asset_017_3788328c.webp',
+  ink_line: 'assets/asset_018_40ed5fe5.webp',
+  local_memory: 'assets/asset_019_0ce14595.webp',
+  red_shard: 'assets/asset_020_6e76d18c.webp',
+  tea_rest: 'assets/asset_021_f5eb0981.webp'
+};
+
+const SPRITE_ASSETS = {
+  boy: { idle:'assets/asset_003_2e7b54f4.webp', attack:'assets/asset_003_2e7b54f4.webp' },
+  girl:{ idle:'assets/asset_004_a0f9d2ea.webp', action:'assets/asset_004_a0f9d2ea.webp' },
+  koro:{ idle:'assets/asset_005_e94f2e4d.webp', skill:'assets/asset_005_e94f2e4d.webp' },
+  bear:{ idle:'assets/asset_006_29a3f902.webp', skill:'assets/asset_006_29a3f902.webp' },
+  enemy:{ idle:'assets/asset_007_b9b402e7.webp', attack:'assets/asset_007_b9b402e7.webp', roar:'assets/asset_007_b9b402e7.webp' }
+};
+
+const CARDS = [
+  { id:'memory_slash', name:'記憶斬擊', cost:1, kind:'attack', art:CARD_ASSETS.memory_slash, desc:'12 傷＋抽 1', effect:(g)=>{ g.damageEnemy(12); g.drawCards(1, false); } },
+  { id:'paper_map', name:'紙本地圖', cost:1, kind:'skill', art:CARD_ASSETS.paper_map, desc:'格擋＋5', effect:(g)=>{ g.gainBlock(5); } },
+  { id:'koro_guide', name:'KORO 導覽', cost:1, kind:'skill', art:CARD_ASSETS.koro_guide, desc:'抽 2＋靈感 1', effect:(g)=>{ g.drawCards(2, false); g.gainInspiration(1, 'KORO 帶來導覽支援。'); } },
+  { id:'daini_courage', name:'呆尼熊的勇氣', cost:1, kind:'support', art:CARD_ASSETS.daini_courage, desc:'全隊格擋＋6', effect:(g)=>{ g.gainBlock(6); } },
+  { id:'ink_line', name:'手繪墨線', cost:1, kind:'skill', art:CARD_ASSETS.ink_line, desc:'格擋＋4，敵攻-3', effect:(g)=>{ g.gainBlock(4); g.enemyWeak = Math.max(g.enemyWeak, 3); } },
+  { id:'local_memory', name:'地方記憶', cost:1, kind:'skill', art:CARD_ASSETS.local_memory, desc:'格擋＋4＋抽 1', effect:(g)=>{ g.gainBlock(4); g.drawCards(1, false); } },
+  { id:'red_shard', name:'記憶石碎光', cost:2, kind:'attack', art:CARD_ASSETS.red_shard, desc:'18 傷；侵蝕時＋6', effect:(g)=>{ g.damageEnemy(18 + (g.corruption>0?6:0)); } },
+  { id:'tea_rest', name:'奉茶休息', cost:2, kind:'support', art:CARD_ASSETS.tea_rest, desc:'回 8＋抽 2', effect:(g)=>{ g.heal(8); g.drawCards(2, false); } },
+  { id:'inspiration_slash', name:'靈感斬擊', cost:1, kind:'attack', art:CARD_ASSETS.memory_slash, desc:'9 傷；耗 1 靈感再＋10', effect:(g)=>{ let bonus = g.consumeInspiration('靈感斬擊額外傷害') ? 10 : 0; g.damageEnemy(9 + bonus); } },
+  { id:'idea_burst', name:'靈感爆發', cost:1, kind:'skill', art:CARD_ASSETS.local_memory, desc:'有靈感：抽2回1能；否則靈感+1', effect:(g)=>{ if(g.consumeInspiration('靈感爆發')){ g.drawCards(2, false); g.gainEnergy(1); } else { g.gainInspiration(1, '靈感尚未累積，轉為收集靈感。'); } } },
+];
+
+const INTENTS = [
+  { label:'撲擊 10', type:'pounce', act:(g)=>g.enemyAttack(10, 'pounce') },
+  { label:'記憶吞噬 15', type:'devour', act:(g)=>g.enemyAttack(15, 'devour') },
+  { label:'紅色記憶石凝聚', type:'charge', act:(g)=>{ g.corruption += 1; g.showEnemySkillEffect('charge'); g.log(`噬憶獸凝聚紅色記憶石，侵蝕 +1；目前侵蝕 ${g.corruption} 層，敵方攻擊 +${g.corruption}。`, false); } },
+  { label:'黑霧硬殼 +8', type:'armor', act:(g)=>{ g.enemyBlock += 8; g.showEnemySkillEffect('armor'); g.log('噬憶獸生成黑霧硬殼，獲得 8 點格擋。', false); } },
+];
+
+const $ = (id)=>document.getElementById(id);
+function setText(id, value){ const el = $(id); if (el) el.textContent = value; }
+function uid(p){ return `${p}_${Math.random().toString(36).slice(2)}_${Date.now()}`; }
+function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+let audioCtx = null;
+function getAudioCtx(){
+  const AudioCtor = window.AudioContext || window.webkitAudioContext;
+  if(!AudioCtor) return null;
+  if(!audioCtx) audioCtx = new AudioCtor();
+  if(audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
+  return audioCtx;
+}
+function playTone(ctx, freq, duration=0.08, type='sine', gainValue=0.045, delay=0){
+  const t0 = ctx.currentTime + delay;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, t0);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(gainValue, t0 + 0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(t0);
+  osc.stop(t0 + duration + 0.025);
+}
+function playNoise(ctx, duration=0.14, gainValue=0.035, delay=0){
+  const t0 = ctx.currentTime + delay;
+  const buffer = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * duration)), ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for(let i=0;i<data.length;i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+  const src = ctx.createBufferSource();
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(gainValue, t0);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  src.buffer = buffer;
+  src.connect(gain).connect(ctx.destination);
+  src.start(t0);
+  src.stop(t0 + duration + 0.02);
+}
+function playSfx(kind='tap'){
+  try{
+    const ctx = getAudioCtx();
+    if(!ctx) return;
+    if(kind === 'tap'){
+      playTone(ctx, 620, 0.055, 'triangle', 0.026, 0);
+      playTone(ctx, 880, 0.045, 'triangle', 0.018, 0.045);
+    } else if(kind === 'card'){
+      playTone(ctx, 420, 0.07, 'triangle', 0.032, 0);
+      playTone(ctx, 720, 0.09, 'triangle', 0.026, 0.055);
+    } else if(kind === 'enemy'){
+      playTone(ctx, 118, 0.18, 'sawtooth', 0.04, 0);
+      playNoise(ctx, 0.18, 0.035, 0.02);
+    } else if(kind === 'enemyHeavy'){
+      playTone(ctx, 88, 0.24, 'sawtooth', 0.05, 0);
+      playTone(ctx, 132, 0.18, 'square', 0.026, 0.05);
+      playNoise(ctx, 0.24, 0.045, 0.02);
+    } else if(kind === 'enemySkill'){
+      playTone(ctx, 180, 0.12, 'sine', 0.035, 0);
+      playTone(ctx, 250, 0.16, 'triangle', 0.025, 0.08);
+    } else if(kind === 'win'){
+      playTone(ctx, 523.25, 0.10, 'triangle', 0.035, 0);
+      playTone(ctx, 659.25, 0.12, 'triangle', 0.032, 0.10);
+      playTone(ctx, 783.99, 0.16, 'triangle', 0.034, 0.22);
+    } else if(kind === 'lose'){
+      playTone(ctx, 220, 0.18, 'sawtooth', 0.035, 0);
+      playTone(ctx, 164.81, 0.24, 'sawtooth', 0.03, 0.18);
+    }
+  }catch(err){ /* audio is optional */ }
+}
+
+function bindPress(id, handler){
+  const el = $(id);
+  if(!el || el.dataset.bound === '1') return;
+  el.dataset.bound = '1';
+  let lastFire = 0;
+  const fire = (e) => {
+    if(e){ e.preventDefault?.(); }
+    const now = Date.now();
+    if(now - lastFire < 320) return;
+    lastFire = now;
+    playSfx('tap');
+    handler(e);
+  };
+  el.addEventListener('click', fire);
+  el.addEventListener('touchend', fire, { passive:false });
+}
+
+function bindPressElement(el, handler){
+  if(!el || el.dataset.bound === '1') return;
+  el.dataset.bound = '1';
+  let lastFire = 0;
+  const fire = (e) => {
+    if(e){ e.preventDefault?.(); }
+    const now = Date.now();
+    if(now - lastFire < 260) return;
+    lastFire = now;
+    playSfx('card');
+    handler(e);
+  };
+  el.addEventListener('click', fire);
+  el.addEventListener('touchend', fire, { passive:false });
+}
+
+class DemoGame {
+  constructor(){
+    this.maxPlayerHp = 110;
+    this.maxEnemyHp = 80;
+    this.maxEnergy = 3;
+    this.stageHpRanges = [{min:60,max:80},{min:150,max:180},{min:250,max:250}];
+    this.reset();
+  }
+
+  reset(){
+    this.playerHp = 96;
+    this.maxPlayerHp = 110;
+    this.stage = 1;
+    this.permanentAttack = 0;
+    this.permanentInspiration = 0;
+    this.permanentBlock = 0;
+    this.partnerCooldownReduction = 0;
+    this.attackBoostCharges = 0;
+    this.lastCompanionTurnUsed = null;
+    this.pendingReward = null;
+    this.processingReward = false;
+    this.gameOver = false;
+    this.processingTurn = false;
+    this.effectTimer = null;
+    this.sceneTimer = null;
+    this.logs = [];
+    this.startStageBattle(true);
+  }
+
+  startStageBattle(isFirst=false){
+    const range = this.stageHpRanges[this.stage - 1] || this.stageHpRanges[2];
+    this.maxEnemyHp = randomInt(range.min, range.max);
+    this.enemyHp = this.maxEnemyHp;
+    this.playerBlock = this.permanentBlock;
+    this.enemyBlock = 0;
+    this.energy = this.maxEnergy;
+    this.turn = 1;
+    this.corruption = 0;
+    this.inspiration = this.permanentInspiration;
+    this.enemyWeak = 0;
+    this.discard = [];
+    this.hand = [];
+    this.deck = this.shuffle(this.buildDeck());
+    this.intent = this.pickIntent();
+    this.resetSpriteState();
+    this.drawCards(5, false);
+    if(isFirst) this.log('三階段戰鬥開始。', false);
+    this.log(`第 ${this.stage} 階段開始，噬憶獸 HP ${this.enemyHp}。`, false);
+    if(this.permanentAttack || this.permanentInspiration || this.permanentBlock){
+      this.log(`永久能力生效：攻擊 +${this.permanentAttack}／靈感 +${this.permanentInspiration}／格擋 +${this.permanentBlock}。`, false);
+    }
+    this.render();
+    this.setTurnBusy(false);
+  }
+
+  buildDeck(){
+    const list = [];
+    const copies = { memory_slash:3, paper_map:2, koro_guide:2, daini_courage:2, ink_line:2, local_memory:2, red_shard:2, tea_rest:1, inspiration_slash:2, idea_burst:2 };
+    for (const c of CARDS){
+      for(let i=0;i<(copies[c.id]||1);i++) list.push({ ...c, uid: uid(c.id) });
+    }
+    return list;
+  }
+
+  shuffle(arr){
+    const a=[...arr];
+    for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  pickIntent(){ return INTENTS[Math.floor(Math.random()*INTENTS.length)]; }
+  delay(ms){ return new Promise(resolve => setTimeout(resolve, ms)); }
+
+  setTurnBusy(isBusy){
+    this.processingTurn = !!isBusy;
+    const btn = $('endTurnButton');
+    if(btn){
+      btn.disabled = !!isBusy;
+      btn.classList.toggle('busy', !!isBusy);
+      btn.textContent = isBusy ? '敵方行動中…' : '結束回合';
+    }
+    if(!isBusy) this.renderHand();
+  }
+
+  drawCards(n, render=true){
+    for(let i=0;i<n;i++){
+      if(!this.deck.length){
+        if(!this.discard.length) break;
+        this.deck = this.shuffle(this.discard);
+        this.discard = [];
+        this.log('棄牌堆重新洗入牌庫。', false);
+      }
+      const c = this.deck.shift();
+      if(c) this.hand.push(c);
+    }
+    if(render) this.render();
+  }
+
+  playLayerEffect(effectClass, effectHtml, duration=1200){
+    const layer = $('effectLayer');
+    if(!layer) return;
+    clearTimeout(this.effectTimer);
+    layer.className = 'effect-layer';
+    layer.innerHTML = '';
+    void layer.offsetWidth;
+    requestAnimationFrame(()=>{
+      layer.className = `effect-layer ${effectClass}`;
+      layer.innerHTML = effectHtml;
+      this.effectTimer = setTimeout(()=>{
+        layer.className = 'effect-layer';
+        layer.innerHTML = '';
+      }, duration);
+    });
+  }
+
+  animateSceneHit(type='hit'){
+    const scene = document.querySelector('.battle-scene-shell');
+    if(!scene) return;
+    scene.classList.remove('scene-hit','scene-hit-heavy','scene-blocked');
+    void scene.offsetWidth;
+    if(type === 'blocked') scene.classList.add('scene-blocked');
+    else if(type === 'heavy') scene.classList.add('scene-hit','scene-hit-heavy');
+    else scene.classList.add('scene-hit');
+    clearTimeout(this.sceneTimer);
+    this.sceneTimer = setTimeout(()=>scene.classList.remove('scene-hit','scene-hit-heavy','scene-blocked'), 560);
+  }
+
+  showCardEffect(card){
+    this.handleCardSpriteAction(card);
+    const flashType = card.kind === 'attack' ? 'attack' : (card.kind === 'support' ? 'support' : 'skill');
+    let effectHtml = '';
+    if (flashType === 'attack') {
+      effectHtml = `<div class="battle-effect attack"><div class="effect-burst"></div><div class="effect-spark effect-spark-r"></div><div class="effect-label attack-label">${card.name}</div></div>`;
+    } else if (flashType === 'support') {
+      effectHtml = `<div class="battle-effect support"><div class="effect-pulse"></div><div class="effect-heal"></div><div class="effect-label support-label">${card.name}</div></div>`;
+    } else {
+      effectHtml = `<div class="battle-effect skill"><div class="effect-ring"></div><div class="effect-shield"></div><div class="effect-label skill-label">${card.name}</div></div>`;
+    }
+    this.playLayerEffect(`${flashType}-flash`, effectHtml, 1250);
+  }
+
+  showEnemyAttackEffect(mode='pounce', total=0, damage=0, blocked=0){
+    this.animateActor('enemy', mode === 'devour' ? 'roar' : 'attack');
+    playSfx(mode === 'devour' ? 'enemyHeavy' : 'enemy');
+    const defendText = blocked > 0 ? `｜格擋 ${blocked}` : '';
+    let effectClass = 'enemy-flash';
+    let effectHtml = '';
+    if(mode === 'devour'){
+      effectClass = 'devour-flash';
+      effectHtml = `<div class="battle-effect enemy-devour"><div class="devour-vortex vortex-a"></div><div class="devour-vortex vortex-b"></div><div class="devour-trail"></div><div class="effect-label enemy-label">記憶吞噬 - ${damage}${defendText}</div></div>`;
+    } else {
+      effectHtml = `<div class="battle-effect enemy-attack"><div class="enemy-claw enemy-claw-a"></div><div class="enemy-claw enemy-claw-b"></div><div class="enemy-impact"></div><div class="effect-label enemy-label">噬憶獸攻擊 - ${damage}${defendText}</div></div>`;
+    }
+    this.playLayerEffect(effectClass, effectHtml, 1250);
+  }
+
+  showEnemySkillEffect(type='charge'){
+    this.animateActor('enemy','roar');
+    playSfx('enemySkill');
+    let effectHtml = '';
+    if(type === 'armor'){
+      effectHtml = `<div class="battle-effect enemy-skill armor-skill"><div class="armor-ring"></div><div class="armor-ring ring-b"></div><div class="armor-smoke"></div><div class="effect-label enemy-skill-label">黑霧硬殼 +8</div></div>`;
+    } else {
+      effectHtml = `<div class="battle-effect enemy-skill charge-skill"><div class="charge-crystal crystal-main"></div><div class="charge-crystal crystal-s1"></div><div class="charge-crystal crystal-s2"></div><div class="effect-label enemy-skill-label">紅色記憶石凝聚</div></div>`;
+    }
+    this.playLayerEffect('enemy-skill-flash', effectHtml, 1180);
+  }
+
+
+  resetSpriteState(){
+    this.spriteTimers = this.spriteTimers || {};
+    this.setActorSprite('Boy', SPRITE_ASSETS.boy.idle);
+    this.setActorSprite('Girl', SPRITE_ASSETS.girl.idle);
+    this.setActorSprite('Koro', SPRITE_ASSETS.koro.idle);
+    this.setActorSprite('Bear', SPRITE_ASSETS.bear.idle);
+    this.setActorSprite('Enemy', SPRITE_ASSETS.enemy.idle);
+    ['actorBoy','actorGirl','actorKoro','actorBear','actorEnemy'].forEach(id=>{
+      const el=$(id);
+      if(!el) return;
+      el.className = el.className.split(' ').filter(c=>!c.startsWith('anim-')).join(' ');
+      el.classList.add('anim-idle');
+    });
+  }
+
+  setActorSprite(key, src){
+    const img = $(`actor${key}Img`);
+    if(img) img.src = src;
+  }
+
+  pulseActor(actorId, animClass, duration=700){
+    const el = $(actorId);
+    if(!el) return;
+    el.classList.remove('anim-idle','anim-attack','anim-skill','anim-support','anim-hit','anim-roar');
+    void el.offsetWidth;
+    el.classList.add(animClass);
+    clearTimeout(this.spriteTimers[actorId]);
+    this.spriteTimers[actorId] = setTimeout(()=>{
+      el.classList.remove('anim-attack','anim-skill','anim-support','anim-hit','anim-roar');
+      el.classList.add('anim-idle');
+    }, duration);
+  }
+
+  animateActor(actorKey, pose='idle'){
+    const map = {
+      boy:{id:'actorBoy', idle:SPRITE_ASSETS.boy.idle, attack:SPRITE_ASSETS.boy.attack, cls:'anim-attack', ms:620},
+      girl:{id:'actorGirl', idle:SPRITE_ASSETS.girl.idle, action:SPRITE_ASSETS.girl.action, cls:'anim-skill', ms:720},
+      koro:{id:'actorKoro', idle:SPRITE_ASSETS.koro.idle, skill:SPRITE_ASSETS.koro.skill, cls:'anim-skill', ms:760},
+      bear:{id:'actorBear', idle:SPRITE_ASSETS.bear.idle, skill:SPRITE_ASSETS.bear.skill, cls:'anim-support', ms:760},
+      enemy:{id:'actorEnemy', idle:SPRITE_ASSETS.enemy.idle, attack:SPRITE_ASSETS.enemy.attack, roar:SPRITE_ASSETS.enemy.roar, cls:'anim-roar', ms:820},
+    };
+    const conf = map[actorKey];
+    if(!conf) return;
+    const src = conf[pose] || conf.idle;
+    this.setActorSprite(actorKey.charAt(0).toUpperCase()+actorKey.slice(1), src);
+    const cls = actorKey === 'boy' ? 'anim-attack' : actorKey === 'girl' ? 'anim-skill' : actorKey === 'koro' ? 'anim-skill' : actorKey === 'bear' ? 'anim-support' : (pose==='attack' ? 'anim-attack' : 'anim-roar');
+    this.pulseActor(conf.id, cls, conf.ms);
+    clearTimeout(this.spriteTimers[conf.id+'_img']);
+    this.spriteTimers[conf.id+'_img'] = setTimeout(()=>this.setActorSprite(actorKey.charAt(0).toUpperCase()+actorKey.slice(1), conf.idle), conf.ms);
+  }
+
+  reactPartyHit(){
+    ['actorBoy','actorGirl','actorKoro','actorBear'].forEach(id=>this.pulseActor(id,'anim-hit',450));
+  }
+
+  handleCardSpriteAction(card){
+    if(!card) return;
+    const id = card.id || '';
+    if(['memory_slash','red_shard','inspiration_slash'].includes(id)){
+      this.animateActor('boy','attack');
+    } else if(['paper_map','ink_line','local_memory','idea_burst'].includes(id)){
+      this.animateActor('girl','action');
+    } else if(id === 'koro_guide'){
+      this.animateActor('koro','skill');
+    } else if(['daini_courage','tea_rest'].includes(id)){
+      this.animateActor('bear','skill');
+    } else {
+      if(card.kind === 'attack') this.animateActor('boy','attack');
+      else if(card.kind === 'support') this.animateActor('bear','skill');
+      else this.animateActor('girl','action');
+    }
+  }
+
+  gainInspiration(n=1, source=''){
+    this.inspiration += n;
+    this.log(`${source ? source + '，' : ''}獲得 ${n} 點靈感。`, false);
+  }
+
+  consumeInspiration(reason=''){
+    if(this.inspiration <= 0) return false;
+    this.inspiration -= 1;
+    this.log(`${reason ? reason + '：' : ''}消耗 1 點靈感。`, false);
+    return true;
+  }
+
+  gainEnergy(n=1){
+    const before = this.energy;
+    this.energy = Math.min(this.maxEnergy, this.energy + n);
+    this.log(`回復 ${this.energy - before} 點能量。`, false);
+  }
+
+  getCompanionInterval(){
+    return Math.max(2, 5 - this.partnerCooldownReduction);
+  }
+
+  isCompanionReady(){
+    const interval = this.getCompanionInterval();
+    return this.turn > 0 && this.turn % interval === 0 && this.lastCompanionTurnUsed !== this.turn && !this.processingTurn && !this.gameOver;
+  }
+
+  useCompanion(type){
+    if(!this.isCompanionReady()){
+      this.log('夥伴技尚未準備完成。');
+      return;
+    }
+    if(type === 'koro'){
+      const baseBlock = 10;
+      const inspirationBonus = this.inspiration > 0 ? 8 : 0;
+      this.gainBlock(baseBlock + inspirationBonus);
+      this.lastCompanionTurnUsed = this.turn;
+      this.showCardEffect({id:'koro_guide', name:'KORO 夥伴技', kind:'skill'});
+      this.animateActor('koro','skill');
+      this.log(`KORO 發動導覽護盾，格擋 +${baseBlock}${inspirationBonus ? '，靈感狀態額外 +8' : ''}。`, false);
+    } else if(type === 'daini'){
+      this.attackBoostCharges += 2;
+      this.lastCompanionTurnUsed = this.turn;
+      this.showCardEffect({id:'daini_courage', name:'呆尼熊 夥伴技', kind:'support'});
+      this.animateActor('bear','skill');
+      this.log('呆尼熊發動勇氣應援，接下來 2 次攻擊各 +4。', false);
+    }
+    this.render();
+  }
+
+  playCard(id){
+    if(this.gameOver || this.processingTurn) return;
+    const idx = this.hand.findIndex(c=>c.uid===id);
+    if(idx < 0) return;
+    const card = this.hand[idx];
+    if(card.cost > this.energy){ this.log(`能量不足，無法使用「${card.name}」。`); return; }
+    this.energy -= card.cost;
+    this.hand.splice(idx,1);
+    this.log(`使用「${card.name}」。`);
+    this.showCardEffect(card);
+    card.effect(this);
+    this.discard.push(card);
+    if(card.kind === 'attack' && this.inspiration > 0){
+      this.inspiration -= 1;
+      this.log('消耗 1 點靈感，使攻擊更集中。', false);
+    }
+    this.check();
+    this.render();
+  }
+
+  damageEnemy(n){
+    let amount = n + this.permanentAttack;
+    if(this.permanentAttack > 0) this.log(`永久能力：本次攻擊 +${this.permanentAttack}。`, false);
+    if(this.attackBoostCharges > 0){
+      amount += 4;
+      this.attackBoostCharges -= 1;
+      this.log('呆尼熊勇氣應援：本次攻擊 +4。', false);
+    }
+    const blocked = Math.min(this.enemyBlock, amount);
+    this.enemyBlock -= blocked;
+    const damage = amount - blocked;
+    this.enemyHp = Math.max(0, this.enemyHp - damage);
+    this.log(`對噬憶獸造成 ${damage} 點傷害。`, false);
+  }
+
+  gainBlock(n){ this.playerBlock += n; this.log(`獲得 ${n} 點格擋。`, false); }
+  heal(n){ const before = this.playerHp; this.playerHp = Math.min(this.maxPlayerHp, this.playerHp + n); this.log(`回復 ${this.playerHp-before} 點生命。`, false); }
+
+  enemyAttack(n, mode='pounce'){
+    const weakened = Math.max(0, n - this.enemyWeak);
+    const total = weakened + this.corruption;
+    const blocked = Math.min(this.playerBlock, total);
+    this.playerBlock -= blocked;
+    const damage = total - blocked;
+    this.playerHp = Math.max(0, this.playerHp - damage);
+    this.showEnemyAttackEffect(mode, total, damage, blocked);
+    this.reactPartyHit();
+    this.animateSceneHit(damage > 0 ? (mode === 'devour' ? 'heavy' : 'hit') : 'blocked');
+    this.log(`噬憶獸造成 ${damage} 點傷害（侵蝕加成 +${this.corruption}）。`, false);
+    this.enemyWeak = 0;
+  }
+
+  async endTurn(){
+    if(this.gameOver || this.processingTurn) return;
+    this.setTurnBusy(true);
+    this.log(`第 ${this.turn} 回合結束。`);
+    this.hand.forEach(c => this.discard.push(c));
+    this.hand = [];
+    this.render();
+    await this.delay(80);
+
+    try {
+      this.intent.act(this);
+    } catch(err) {
+      console.error('Enemy action error:', err);
+      this.log('敵方行動特效修復中，已完成本次行動。', false);
+    }
+
+    this.check();
+    this.render();
+    await this.delay(900);
+    if(this.gameOver){
+      this.setTurnBusy(false);
+      return;
+    }
+
+    this.turn += 1;
+    this.energy = this.maxEnergy;
+    this.playerBlock = 0;
+    this.intent = this.pickIntent();
+    this.drawCards(5, false);
+    this.log(`第 ${this.turn} 回合開始，抽 5 張牌。`, false);
+    this.setTurnBusy(false);
+    this.render();
+  }
+
+  check(){
+    if(this.enemyHp <= 0){
+      if(this.stage < 3){
+        this.handleStageClear();
+      } else {
+        this.gameOver = true;
+        this.showResult(true);
+      }
+    } else if(this.playerHp <= 0){
+      this.gameOver = true;
+      this.showResult(false);
+    }
+  }
+
+  handleStageClear(){
+    if(this.processingReward) return;
+    this.processingReward = true;
+    this.gameOver = false;
+    this.setTurnBusy(true);
+    this.hand.forEach(c => this.discard.push(c));
+    this.hand = [];
+    this.log(`第 ${this.stage} 階段通過。`, false);
+    this.render();
+    this.openRewardChoice();
+  }
+
+  randomAbilityChoice(){
+    const list = [
+      { id:'atk', title:'記憶銳化', desc:'每場戰鬥開始保持：攻擊力 +1。', apply:(g)=>{ g.permanentAttack += 1; g.log('獲得能力：每場戰鬥攻擊力 +1。', false); } },
+      { id:'ins', title:'靈感核心', desc:'每場戰鬥開始保持：靈感 +1。', apply:(g)=>{ g.permanentInspiration += 1; g.log('獲得能力：每場戰鬥靈感 +1。', false); } },
+      { id:'blk', title:'記憶護膜', desc:'每場戰鬥開始保持：格擋 +1。', apply:(g)=>{ g.permanentBlock += 1; g.log('獲得能力：每場戰鬥格擋 +1。', false); } },
+    ];
+    return list[randomInt(0, list.length - 1)];
+  }
+
+  randomRewardChoice(){
+    const list = [
+      { id:'heal', title:'HP 回復', desc:'立即回復 40 點 HP。', apply:(g)=>{ const before = g.playerHp; g.playerHp = Math.min(g.maxPlayerHp, g.playerHp + 40); g.log(`獲得獎勵：HP 回復 ${g.playerHp - before}。`, false); } },
+      { id:'maxhp', title:'最大 HP +50', desc:'最大 HP 增加 50，並回復 50 HP。', apply:(g)=>{ g.maxPlayerHp += 50; g.playerHp = Math.min(g.maxPlayerHp, g.playerHp + 50); g.log('獲得獎勵：最大 HP +50。', false); } },
+      { id:'partner', title:'夥伴技冷卻 -1', desc:'夥伴技發動間隔減少 1 回合。', apply:(g)=>{ g.partnerCooldownReduction = Math.min(3, g.partnerCooldownReduction + 1); g.log(`獲得獎勵：夥伴技間隔縮短，目前每 ${g.getCompanionInterval()} 回合可用。`, false); } },
+    ];
+    return list[randomInt(0, list.length - 1)];
+  }
+
+  openRewardChoice(){
+    this.pendingReward = {
+      ability: this.randomAbilityChoice(),
+      reward: this.randomRewardChoice()
+    };
+    setText('rewardTitle', `第 ${this.stage} 階段通過`);
+    setText('rewardIntro', '選擇一項能力或獎勵，進入下一階段。');
+    setText('abilityChoiceTitle', this.pendingReward.ability.title);
+    setText('abilityChoiceDesc', this.pendingReward.ability.desc);
+    setText('rewardChoiceTitle', this.pendingReward.reward.title);
+    setText('rewardChoiceDesc', this.pendingReward.reward.desc);
+    $('rewardDialog')?.showModal();
+  }
+
+  chooseReward(type){
+    if(!this.pendingReward) return;
+    const selected = this.pendingReward[type];
+    if(!selected) return;
+    selected.apply(this);
+    this.pendingReward = null;
+    $('rewardDialog')?.close();
+    this.processingReward = false;
+    this.stage += 1;
+    this.startStageBattle(false);
+  }
+
+  showResult(win){
+    playSfx(win ? 'win' : 'lose');
+    $('gameScreen')?.classList.add('hidden');
+    $('resultScreen')?.classList.remove('hidden');
+    setText('resultBadge', win ? 'DEMO 勝利' : 'DEMO 失敗');
+    setText('resultTitle', win ? '記憶守住了' : '記憶被吞噬');
+    setText('resultText', win ? `你在第 ${this.turn} 回合擊退了噬憶獸，並完成本次戰鬥展示。` : '旅人小隊暫時失利，可以重新安排出牌節奏再挑戰。');
+    const resultImage = $('resultImage');
+    if(resultImage) resultImage.src = win ? 'assets/asset_011_4ab1bb41.webp' : 'assets/asset_022_c8921f36.webp';
+    const card = $('resultCard');
+    if(card){
+      card.classList.toggle('win-state', !!win);
+      card.classList.toggle('lose-state', !win);
+    }
+    document.querySelectorAll('.result-win-art').forEach(el => el.classList.toggle('hidden', !win));
+    document.querySelectorAll('.result-lose-art').forEach(el => el.classList.toggle('hidden', !!win));
+  }
+
+  log(t, render=true){
+    this.logs.unshift(t);
+    this.logs = this.logs.slice(0, 12);
+    if(render) this.renderLog();
+  }
+
+  render(){
+    setText('playerHpText', `${this.playerHp} / ${this.maxPlayerHp}`);
+    setText('playerHpMini', `${this.playerHp}/${this.maxPlayerHp}`);
+    setText('enemyHpText', `${this.enemyHp} / ${this.maxEnemyHp}`);
+    setText('enemyHpMini', `${this.enemyHp}/${this.maxEnemyHp}`);
+    setText('stageText', `${this.stage} / 3`);
+    setText('passiveText', `攻+${this.permanentAttack} 靈+${this.permanentInspiration} 格+${this.permanentBlock}`);
+    setText('energyText', `${this.energy} / ${this.maxEnergy}`);
+    setText('energyTextBottom', `${this.energy} / ${this.maxEnergy}`);
+    setText('turnText', this.turn);
+    setText('turnTextMirror', this.turn);
+    setText('playerBlockText', this.playerBlock);
+    setText('enemyBlockText', this.enemyBlock);
+    setText('deckCount', this.deck.length);
+    setText('discardCount', this.discard.length);
+    setText('inspirationText', this.inspiration);
+    setText('attackBoostText', this.attackBoostCharges);
+    this.renderCompanionSkills();
+    setText('intentText', this.intent.label);
+    setText('corruptionText', this.corruption);
+    setText('corruptionStatusText', this.corruption);
+    setText('corruptionEffectText', `敵方攻擊 +${this.corruption}`);
+    this.renderCorruptionState();
+    this.renderHand();
+    this.renderLog();
+  }
+
+  renderCorruptionState(){
+    const scene = document.querySelector('.battle-scene-shell');
+    if(scene){
+      scene.classList.toggle('corruption-active', this.corruption > 0);
+      scene.dataset.corruption = String(this.corruption);
+    }
+    document.querySelectorAll('.corruption-status-panel, .corruption-mobile-chip').forEach(el => {
+      el.classList.toggle('active', this.corruption > 0);
+      el.classList.toggle('danger', this.corruption >= 3);
+    });
+  }
+
+  renderCompanionSkills(){
+    const ready = this.isCompanionReady();
+    const koroBtn = $('koroSkillButton');
+    const dainiBtn = $('dainiSkillButton');
+    const hint = $('companionHintText');
+    if(koroBtn) koroBtn.disabled = !ready;
+    if(dainiBtn) dainiBtn.disabled = !ready;
+    if(koroBtn) koroBtn.classList.toggle('ready', ready);
+    if(dainiBtn) dainiBtn.classList.toggle('ready', ready);
+    if(hint){
+      if(ready) hint.textContent = '夥伴技已準備：本回合可選擇 1 位發動。';
+      else {
+        const interval = this.getCompanionInterval();
+        const next = Math.ceil((this.turn + 1) / interval) * interval;
+        hint.textContent = this.lastCompanionTurnUsed === this.turn ? '本回合已使用夥伴技。' : `第 ${next} 回合可發動。`;
+      }
+    }
+  }
+
+  renderHand(){
+    const box = $('handContainer');
+    if(!box) return;
+    box.innerHTML = '';
+    this.hand.forEach(card => {
+      const btn = document.createElement('button');
+      btn.className = 'card-btn' + (card.cost > this.energy || this.processingTurn ? ' disabled' : '');
+      btn.disabled = card.cost > this.energy || this.processingTurn;
+      btn.innerHTML = `<div class="card-image-wrap"><img src="${card.art}" alt="${card.name}" loading="eager" /><div class="card-meta"><strong>${card.name}</strong><span>${card.desc}</span></div></div>`;
+      bindPressElement(btn, ()=>this.playCard(card.uid));
+      box.appendChild(btn);
+    });
+  }
+
+  renderLog(){
+    const box = $('logBox');
+    if(!box) return;
+    box.innerHTML = this.logs.map(x => `<p>・${x}</p>`).join('');
+  }
+}
+
+let game = null;
+function startGame(){
+  $('startScreen')?.classList.add('hidden');
+  $('resultScreen')?.classList.add('hidden');
+  $('gameScreen')?.classList.remove('hidden');
+  game = new DemoGame();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+function openSettings(){ $('settingsDialog')?.showModal(); }
+function closeSettings(){ $('settingsDialog')?.close(); }
+
+bindPress('startButton', startGame);
+bindPress('continueButton', startGame);
+bindPress('restartTopButton', startGame);
+bindPress('restartButton', startGame);
+bindPress('endTurnButton', ()=>game?.endTurn());
+bindPress('helpButton', ()=>$('helpDialog')?.showModal());
+bindPress('closeHelpButton', ()=>$('helpDialog')?.close());
+bindPress('artButton', ()=>$('artDialog')?.showModal());
+bindPress('openArtButton', ()=>$('artDialog')?.showModal());
+bindPress('closeArtButton', ()=>$('artDialog')?.close());
+bindPress('settingsButton', openSettings);
+bindPress('closeSettingsButton', closeSettings);
+bindPress('koroSkillButton', ()=>game?.useCompanion('koro'));
+bindPress('dainiSkillButton', ()=>game?.useCompanion('daini'));
+bindPress('abilityChoiceButton', ()=>game?.chooseReward('ability'));
+bindPress('rewardChoiceButton', ()=>game?.chooseReward('reward'));
+</script>
 </body>
 </html>
