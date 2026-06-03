@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 DEMO v43</title>
+<title>記憶旅人｜手機 DEMO v45</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -679,7 +679,7 @@
 }
 
 </style>
-<!-- v43 flat-info GitHub Pages build: images externalized to avoid GitHub 25MB upload limit. -->
+<!-- v45 mobile-polish GitHub Pages build: images externalized to avoid GitHub 25MB upload limit. -->
 
 <style id="v43-flat-info-ui">
 /* v43：參考 V40，修正資訊列呈現失敗，壓成更扁平、更短的一行 */
@@ -854,6 +854,390 @@
 }
 </style>
 
+
+<style id="v44-compact-fix">
+/* v44: restore compact V40-like mobile strip */
+@media (max-width: 768px){
+  .topbar-actions{ margin-top:4px !important; }
+
+  /* Battle UI: keep enemy info away from enemy sprite */
+  .mobile-turn-wrap{
+    left:auto !important;
+    right:8px !important;
+    top:70px !important;
+    bottom:auto !important;
+    width:110px !important;
+    display:block !important;
+    z-index:7 !important;
+  }
+  .mobile-enemy-intent-panel{
+    position:absolute !important;
+    top:0 !important;
+    right:0 !important;
+    width:110px !important;
+    padding:7px 8px !important;
+    border-radius:14px !important;
+    background:linear-gradient(180deg, rgba(42,16,22,.62), rgba(14,16,24,.54)) !important;
+    backdrop-filter: blur(8px) !important;
+    opacity:.86 !important;
+  }
+  .mobile-enemy-intent-panel .intent-title{ font-size:10px !important; }
+  .mobile-enemy-intent-panel strong{ font-size:13px !important; line-height:1.15 !important; display:block !important; }
+  .mobile-enemy-intent-panel em{ font-size:10px !important; margin-top:3px !important; display:block !important; }
+  .mobile-turn-side-pill{
+    position:absolute !important;
+    top:88px !important;
+    right:-1px !important;
+    min-width:68px !important;
+    min-height:72px !important;
+    padding:6px 8px !important;
+    background:linear-gradient(180deg, rgba(9,24,44,.76), rgba(7,19,36,.72)) !important;
+    border-radius:16px !important;
+    opacity:.88 !important;
+  }
+  .mobile-turn-side-pill strong{ font-size:24px !important; }
+
+  /* Slightly larger grounded characters */
+  .mobile-scene-shell{ height:36vh !important; min-height:265px !important; }
+  .mobile-scene-shell .actor-boy{ left:17.0% !important; bottom:3.8% !important; width:13.8% !important; min-width:58px !important; }
+  .mobile-scene-shell .actor-girl{ left:29.0% !important; bottom:4.0% !important; width:12.9% !important; min-width:54px !important; }
+  .mobile-scene-shell .actor-koro{ left:40.2% !important; bottom:3.8% !important; width:10.3% !important; min-width:42px !important; }
+  .mobile-scene-shell .actor-bear{ left:49.0% !important; bottom:4.2% !important; width:10.1% !important; min-width:42px !important; }
+  .mobile-scene-shell .actor-enemy{ right:4.8% !important; bottom:3.2% !important; width:31% !important; min-width:124px !important; }
+
+  /* Restore compact single-row middle strip */
+  .mobile-dock-shell{
+    gap:6px !important;
+    padding:6px 7px 8px !important;
+  }
+  .mobile-dock-top{
+    display:block !important;
+  }
+  .mobile-status-strip,
+  .compact-status-row{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:4px !important;
+    width:100% !important;
+    min-height:42px !important;
+    max-height:42px !important;
+    padding:4px !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    border-radius:14px !important;
+    background:linear-gradient(180deg, rgba(9,24,44,.78), rgba(7,19,36,.74)) !important;
+    border:1px solid rgba(217,179,106,.24) !important;
+    box-shadow:none !important;
+  }
+  .mobile-status-strip .status-chip,
+  .compact-status-row .status-chip{
+    flex:1 1 0 !important;
+    min-width:0 !important;
+    height:34px !important;
+    min-height:34px !important;
+    max-height:34px !important;
+    padding:2px 4px !important;
+    border-radius:10px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:4px !important;
+    background:rgba(255,255,255,.05) !important;
+    border:1px solid rgba(255,255,255,.05) !important;
+    text-align:center !important;
+  }
+  .mobile-status-strip .status-chip .chip-label,
+  .compact-status-row .status-chip .chip-label{
+    font-size:10px !important;
+    line-height:1 !important;
+    color:#d7e6ff !important;
+    white-space:nowrap !important;
+    opacity:.94 !important;
+  }
+  .mobile-status-strip .status-chip strong,
+  .compact-status-row .status-chip strong{
+    font-size:16px !important;
+    line-height:1 !important;
+    color:#fff5dd !important;
+    white-space:nowrap !important;
+  }
+  .mobile-status-strip .enemy-status-chip,
+  .compact-status-row .enemy-status-chip{
+    background:rgba(52,14,22,.46) !important;
+    border-color:rgba(255,106,106,.12) !important;
+  }
+  .mobile-status-strip .enemy-status-chip .chip-label,
+  .mobile-status-strip .enemy-status-chip strong,
+  .compact-status-row .enemy-status-chip .chip-label,
+  .compact-status-row .enemy-status-chip strong{
+    color:#ff8d8d !important;
+  }
+
+  /* Smaller one-line companion skill buttons */
+  .mobile-companion-skill{
+    padding:4px 6px !important;
+    gap:4px !important;
+    border-radius:14px !important;
+  }
+  .mobile-companion-skill .companion-skill-title,
+  .mobile-companion-skill .companion-hint{ display:none !important; }
+  .mobile-companion-skill .companion-btn-row{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    gap:6px !important;
+  }
+  .mobile-companion-skill .companion-btn{
+    flex:1 1 0 !important;
+    min-width:0 !important;
+    min-height:30px !important;
+    padding:6px 8px !important;
+    font-size:11px !important;
+    line-height:1 !important;
+    border-radius:10px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  .mobile-head{ align-items:center !important; }
+  .mobile-head h3{ font-size:15px !important; margin:0 !important; }
+  .mobile-head p{ display:none !important; }
+  .mobile-end-btn{ min-width:98px !important; min-height:32px !important; padding:7px 10px !important; font-size:11px !important; }
+
+  /* Bigger usable card area */
+  .battle-hand-scroll,
+  .mobile-hand-scroll{
+    gap:6px !important;
+    padding:2px 0 8px !important;
+    min-height:224px !important;
+  }
+  .card-btn{
+    min-width:104px !important;
+    max-width:104px !important;
+  }
+  .card-btn .card-image-wrap{
+    min-height:188px !important;
+    background:transparent !important;
+    border:none !important;
+    box-shadow:none !important;
+  }
+  .card-btn img{
+    width:100% !important;
+    height:auto !important;
+    object-fit:contain !important;
+    display:block !important;
+  }
+  .card-meta{
+    left:4px !important;
+    right:4px !important;
+    bottom:4px !important;
+    padding:6px 7px !important;
+    background:rgba(8,18,34,.78) !important;
+  }
+  .card-meta strong{ font-size:13px !important; line-height:1.12 !important; }
+  .card-meta span{ font-size:11px !important; line-height:1.22 !important; color:#eef5ff !important; }
+
+  .mobile-lower-info{ display:none !important; }
+}
+
+@media (max-width: 390px){
+  .mobile-status-strip,
+  .compact-status-row{ gap:3px !important; padding:3px !important; min-height:40px !important; max-height:40px !important; }
+  .mobile-status-strip .status-chip,
+  .compact-status-row .status-chip{ height:32px !important; min-height:32px !important; max-height:32px !important; padding:2px 3px !important; gap:3px !important; }
+  .mobile-status-strip .status-chip .chip-label,
+  .compact-status-row .status-chip .chip-label{ font-size:9px !important; }
+  .mobile-status-strip .status-chip strong,
+  .compact-status-row .status-chip strong{ font-size:14px !important; }
+  .card-btn{ min-width:98px !important; max-width:98px !important; }
+  .card-btn .card-image-wrap{ min-height:180px !important; }
+  .mobile-enemy-intent-panel{ width:104px !important; }
+}
+</style>
+
+
+<style id="v45-mobile-polish">
+/* v45: mobile polish based on v44 */
+@media (max-width: 768px){
+  /* 將規則 / 美術 / 重開固定在底部，減少上方佔位 */
+  .topbar .topbar-actions,
+  header.topbar .topbar-actions,
+  .mobile-topbar .topbar-actions{
+    position:fixed !important;
+    left:max(10px, env(safe-area-inset-left)) !important;
+    right:max(10px, env(safe-area-inset-right)) !important;
+    bottom:max(8px, env(safe-area-inset-bottom)) !important;
+    z-index:80 !important;
+    display:grid !important;
+    grid-template-columns:repeat(3, 1fr) !important;
+    gap:8px !important;
+    margin:0 !important;
+    padding:8px !important;
+    border-radius:16px !important;
+    border:1px solid rgba(217,179,106,.32) !important;
+    background:linear-gradient(180deg, rgba(9,24,44,.82), rgba(6,17,32,.86)) !important;
+    backdrop-filter:blur(10px) !important;
+    box-shadow:0 10px 26px rgba(0,0,0,.30) !important;
+  }
+  .topbar .topbar-actions .icon-btn,
+  header.topbar .topbar-actions .icon-btn,
+  .mobile-topbar .topbar-actions .icon-btn{
+    min-height:38px !important;
+    padding:8px 6px !important;
+    font-size:12px !important;
+    border-radius:12px !important;
+  }
+  body{ padding-bottom:72px !important; }
+  .mobile-topbar-simple,
+  .mobile-topbar{
+    padding-bottom:4px !important;
+  }
+
+  /* 敵人意圖 UI 再縮小，靠右上，避免遮住敵人 */
+  .mobile-turn-wrap{
+    top:64px !important;
+    right:7px !important;
+    width:94px !important;
+    pointer-events:none !important;
+  }
+  .mobile-enemy-intent-panel{
+    width:94px !important;
+    padding:6px 7px !important;
+    border-radius:12px !important;
+    opacity:.78 !important;
+    background:linear-gradient(180deg, rgba(42,16,22,.50), rgba(14,16,24,.44)) !important;
+    border-color:rgba(255,106,106,.14) !important;
+  }
+  .mobile-enemy-intent-panel .intent-title-row{ gap:4px !important; }
+  .mobile-enemy-intent-panel .intent-title{ font-size:9px !important; }
+  .mobile-enemy-intent-panel strong{
+    font-size:12px !important;
+    line-height:1.1 !important;
+    margin-top:2px !important;
+  }
+  .mobile-enemy-intent-panel em{
+    font-size:9px !important;
+    line-height:1 !important;
+    margin-top:3px !important;
+  }
+  .mobile-turn-side-pill{
+    top:72px !important;
+    right:0 !important;
+    min-width:52px !important;
+    min-height:52px !important;
+    width:52px !important;
+    height:52px !important;
+    padding:4px !important;
+    opacity:.76 !important;
+    border-radius:13px !important;
+  }
+  .mobile-turn-side-pill strong{ font-size:20px !important; }
+
+  /* 中間資訊列再壓扁 */
+  .mobile-status-strip,
+  .compact-status-row{
+    min-height:36px !important;
+    max-height:36px !important;
+    padding:3px !important;
+    gap:3px !important;
+    border-radius:12px !important;
+  }
+  .mobile-status-strip .status-chip,
+  .compact-status-row .status-chip{
+    height:29px !important;
+    min-height:29px !important;
+    max-height:29px !important;
+    padding:2px 3px !important;
+    gap:3px !important;
+    border-radius:9px !important;
+  }
+  .mobile-status-strip .status-chip .chip-label,
+  .compact-status-row .status-chip .chip-label{
+    font-size:9px !important;
+  }
+  .mobile-status-strip .status-chip strong,
+  .compact-status-row .status-chip strong{
+    font-size:14px !important;
+  }
+
+  /* 夥伴技能列再壓縮 */
+  .mobile-companion-skill{
+    padding:3px 5px !important;
+    border-radius:11px !important;
+  }
+  .mobile-companion-skill .companion-btn-row{
+    gap:5px !important;
+  }
+  .mobile-companion-skill .companion-btn{
+    min-height:28px !important;
+    padding:5px 6px !important;
+    font-size:10px !important;
+    border-radius:9px !important;
+  }
+
+  /* 卡牌文字放大、文案更短 */
+  .card-meta{
+    padding:6px 6px !important;
+    background:rgba(8,18,34,.72) !important;
+  }
+  .card-meta strong{
+    font-size:14px !important;
+    line-height:1.08 !important;
+  }
+  .card-meta span{
+    font-size:12px !important;
+    line-height:1.15 !important;
+    font-weight:700 !important;
+    color:#f2f8ff !important;
+  }
+
+  /* 卡牌區微放大並降低間隔 */
+  .battle-hand-scroll,
+  .mobile-hand-scroll{
+    gap:5px !important;
+    min-height:230px !important;
+    padding-bottom:10px !important;
+  }
+  .card-btn{
+    min-width:106px !important;
+    max-width:106px !important;
+  }
+  .card-btn .card-image-wrap{
+    min-height:192px !important;
+  }
+}
+
+@media (max-width: 390px){
+  body{ padding-bottom:70px !important; }
+  .topbar .topbar-actions .icon-btn,
+  header.topbar .topbar-actions .icon-btn,
+  .mobile-topbar .topbar-actions .icon-btn{
+    min-height:36px !important;
+    font-size:11px !important;
+  }
+  .mobile-turn-wrap{ width:88px !important; top:60px !important; }
+  .mobile-enemy-intent-panel{ width:88px !important; padding:5px 6px !important; }
+  .mobile-enemy-intent-panel strong{ font-size:11px !important; }
+  .mobile-enemy-intent-panel .intent-title{ font-size:8px !important; }
+  .mobile-status-strip,
+  .compact-status-row{ min-height:34px !important; max-height:34px !important; }
+  .mobile-status-strip .status-chip,
+  .compact-status-row .status-chip{ height:27px !important; min-height:27px !important; max-height:27px !important; }
+  .mobile-status-strip .status-chip .chip-label,
+  .compact-status-row .status-chip .chip-label{ font-size:8px !important; }
+  .mobile-status-strip .status-chip strong,
+  .compact-status-row .status-chip strong{ font-size:13px !important; }
+  .card-btn{ min-width:100px !important; max-width:100px !important; }
+  .card-btn .card-image-wrap{ min-height:184px !important; }
+  .card-meta strong{ font-size:13px !important; }
+  .card-meta span{ font-size:11px !important; }
+}
+</style>
+
 </head>
 <body>
 <main class="app-shell mobile-app">
@@ -864,7 +1248,7 @@
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v43</span>
+<span class="badge alt">DEMO v45</span>
 </div>
 </div>
 </div>
@@ -923,23 +1307,13 @@
 </div>
 <div class="battle-dock-shell mobile-dock-shell">
 <div class="mobile-dock-top">
-<div class="mini-card-stack small-stack">
-<div class="stack-visual deck-visual"></div>
-<div class="stack-count" id="deckCount">14</div>
-<div class="stack-label">抽牌堆</div>
+<div class="mobile-status-strip compact-status-row">
+  <div class="status-chip"><span class="chip-label">階段</span><strong id="stageText">1/3</strong></div>
+  <div class="status-chip"><span class="chip-label">靈感</span><strong id="inspirationText">0</strong></div>
+  <div class="status-chip enemy-status-chip"><span class="chip-label">侵蝕</span><strong id="corruptionStatusText">0</strong></div>
+  <div class="status-chip"><span class="chip-label">抽牌</span><strong id="deckCount">14</strong></div>
+  <div class="status-chip"><span class="chip-label">棄牌</span><strong id="discardCount">0</strong></div>
 </div>
-<div class="mini-card-stack small-stack">
-<div class="stack-visual discard-visual"></div>
-<div class="stack-count" id="discardCount">0</div>
-<div class="stack-label">棄牌堆</div>
-</div>
-<div class="energy-panel compact-energy">
-<div class="energy-value" id="energyTextBottom">3 / 3</div>
-<div class="energy-label">能量</div>
-</div>
-<div class="resource-chip compact-chip stage-mobile-chip">階段 <strong id="stageText">1/3</strong><br/><small id="passiveText">能力 無</small></div>
-<div class="resource-chip compact-chip">靈感 <strong id="inspirationText">0</strong><br/><small>攻+ <b id="attackBoostText">0</b></small></div>
-<div class="resource-chip compact-chip corruption-mobile-chip">侵蝕 <strong id="corruptionStatusText">0</strong><br/><small id="corruptionEffectText">敵攻 +0</small></div>
 </div>
 <div class="companion-skill-panel mobile-companion-skill">
 <div class="companion-skill-title">夥伴技能</div>
@@ -1047,16 +1421,16 @@ const SPRITE_ASSETS = {
 };
 
 const CARDS = [
-  { id:'memory_slash', name:'記憶斬擊', cost:1, kind:'attack', art:CARD_ASSETS.memory_slash, desc:'12 傷＋抽 1', effect:(g)=>{ g.damageEnemy(12); g.drawCards(1, false); } },
-  { id:'paper_map', name:'紙本地圖', cost:1, kind:'skill', art:CARD_ASSETS.paper_map, desc:'格擋＋5', effect:(g)=>{ g.gainBlock(5); } },
-  { id:'koro_guide', name:'KORO 導覽', cost:1, kind:'skill', art:CARD_ASSETS.koro_guide, desc:'抽 2＋靈感 1', effect:(g)=>{ g.drawCards(2, false); g.gainInspiration(1, 'KORO 帶來導覽支援。'); } },
-  { id:'daini_courage', name:'呆尼熊的勇氣', cost:1, kind:'support', art:CARD_ASSETS.daini_courage, desc:'全隊格擋＋6', effect:(g)=>{ g.gainBlock(6); } },
-  { id:'ink_line', name:'手繪墨線', cost:1, kind:'skill', art:CARD_ASSETS.ink_line, desc:'格擋＋4，敵攻-3', effect:(g)=>{ g.gainBlock(4); g.enemyWeak = Math.max(g.enemyWeak, 3); } },
-  { id:'local_memory', name:'地方記憶', cost:1, kind:'skill', art:CARD_ASSETS.local_memory, desc:'格擋＋4＋抽 1', effect:(g)=>{ g.gainBlock(4); g.drawCards(1, false); } },
-  { id:'red_shard', name:'記憶石碎光', cost:2, kind:'attack', art:CARD_ASSETS.red_shard, desc:'18 傷；侵蝕時＋6', effect:(g)=>{ g.damageEnemy(18 + (g.corruption>0?6:0)); } },
-  { id:'tea_rest', name:'奉茶休息', cost:2, kind:'support', art:CARD_ASSETS.tea_rest, desc:'回 8＋抽 2', effect:(g)=>{ g.heal(8); g.drawCards(2, false); } },
-  { id:'inspiration_slash', name:'靈感斬擊', cost:1, kind:'attack', art:CARD_ASSETS.memory_slash, desc:'9 傷；耗 1 靈感再＋10', effect:(g)=>{ let bonus = g.consumeInspiration('靈感斬擊額外傷害') ? 10 : 0; g.damageEnemy(9 + bonus); } },
-  { id:'idea_burst', name:'靈感爆發', cost:1, kind:'skill', art:CARD_ASSETS.local_memory, desc:'有靈感：抽2回1能；否則靈感+1', effect:(g)=>{ if(g.consumeInspiration('靈感爆發')){ g.drawCards(2, false); g.gainEnergy(1); } else { g.gainInspiration(1, '靈感尚未累積，轉為收集靈感。'); } } },
+  { id:'memory_slash', name:'記憶斬擊', cost:1, kind:'attack', art:CARD_ASSETS.memory_slash, desc:'12傷｜抽1', effect:(g)=>{ g.damageEnemy(12); g.drawCards(1, false); } },
+  { id:'paper_map', name:'紙本地圖', cost:1, kind:'skill', art:CARD_ASSETS.paper_map, desc:'格擋5', effect:(g)=>{ g.gainBlock(5); } },
+  { id:'koro_guide', name:'KORO 導覽', cost:1, kind:'skill', art:CARD_ASSETS.koro_guide, desc:'抽2｜靈感1', effect:(g)=>{ g.drawCards(2, false); g.gainInspiration(1, 'KORO 帶來導覽支援。'); } },
+  { id:'daini_courage', name:'呆尼熊的勇氣', cost:1, kind:'support', art:CARD_ASSETS.daini_courage, desc:'全隊格擋6', effect:(g)=>{ g.gainBlock(6); } },
+  { id:'ink_line', name:'手繪墨線', cost:1, kind:'skill', art:CARD_ASSETS.ink_line, desc:'格擋4｜敵攻-3', effect:(g)=>{ g.gainBlock(4); g.enemyWeak = Math.max(g.enemyWeak, 3); } },
+  { id:'local_memory', name:'地方記憶', cost:1, kind:'skill', art:CARD_ASSETS.local_memory, desc:'格擋4｜抽1', effect:(g)=>{ g.gainBlock(4); g.drawCards(1, false); } },
+  { id:'red_shard', name:'記憶石碎光', cost:2, kind:'attack', art:CARD_ASSETS.red_shard, desc:'18傷｜侵蝕+6', effect:(g)=>{ g.damageEnemy(18 + (g.corruption>0?6:0)); } },
+  { id:'tea_rest', name:'奉茶休息', cost:2, kind:'support', art:CARD_ASSETS.tea_rest, desc:'回8｜抽2', effect:(g)=>{ g.heal(8); g.drawCards(2, false); } },
+  { id:'inspiration_slash', name:'靈感斬擊', cost:1, kind:'attack', art:CARD_ASSETS.memory_slash, desc:'9傷｜耗靈感+10', effect:(g)=>{ let bonus = g.consumeInspiration('靈感斬擊額外傷害') ? 10 : 0; g.damageEnemy(9 + bonus); } },
+  { id:'idea_burst', name:'靈感爆發', cost:1, kind:'skill', art:CARD_ASSETS.local_memory, desc:'有靈感抽2回1能', effect:(g)=>{ if(g.consumeInspiration('靈感爆發')){ g.drawCards(2, false); g.gainEnergy(1); } else { g.gainInspiration(1, '靈感尚未累積，轉為收集靈感。'); } } },
 ];
 
 const INTENTS = [
