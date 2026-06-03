@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 DEMO v45</title>
+<title>記憶旅人｜手機 DEMO v47</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -1238,6 +1238,100 @@
 }
 </style>
 
+
+<style id="v46-turn-pill-center">
+@media (max-width: 768px){
+  .mobile-scene-shell{ position:relative !important; }
+  /* keep enemy intent at right, but move turn pill to top-center of battle scene */
+  .mobile-turn-wrap{
+    right:8px !important;
+    top:78px !important;
+    width:96px !important;
+  }
+  .mobile-turn-wrap .mobile-enemy-intent-panel{
+    right:0 !important;
+    top:0 !important;
+  }
+  .mobile-scene-shell .mobile-turn-side-pill{
+    position:absolute !important;
+    top:8px !important;
+    left:50% !important;
+    right:auto !important;
+    transform:translateX(-50%) scale(.90) !important;
+    width:62px !important;
+    min-width:62px !important;
+    height:62px !important;
+    min-height:62px !important;
+    z-index:28 !important;
+    opacity:.92 !important;
+    pointer-events:none !important;
+  }
+  .mobile-scene-shell .mobile-turn-side-pill strong{ font-size:22px !important; }
+}
+@media (max-width: 390px){
+  .mobile-scene-shell .mobile-turn-side-pill{
+    top:6px !important;
+    width:58px !important;
+    min-width:58px !important;
+    height:58px !important;
+    min-height:58px !important;
+  }
+  .mobile-scene-shell .mobile-turn-side-pill strong{ font-size:20px !important; }
+}
+</style>
+
+
+<script id="v46-turn-pill-center-script">
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    const scene = document.querySelector('.mobile-scene-shell');
+    const pill = document.querySelector('.mobile-turn-side-pill');
+    if(scene && pill && pill.parentElement !== scene){
+      scene.appendChild(pill);
+    }
+  }catch(e){ console && console.warn && console.warn(e); }
+});
+</script>
+
+
+<style id="v47-mobile-card-and-turn-updates">
+@media (max-width: 768px){
+  /* option 2: give the card area more room */
+  .battle-demo-layout.mobile-layout{ gap:8px !important; }
+  .battle-dock-shell.mobile-dock-shell{ padding:8px 8px 12px !important; gap:6px !important; }
+  .mobile-dock-top{ margin-bottom:0 !important; }
+  .mobile-head{ margin:0 !important; align-items:center !important; }
+  .mobile-head p{ display:none !important; }
+  .mobile-head h3{ font-size:18px !important; margin:0 !important; }
+  .mobile-end-btn{ min-width:120px !important; padding:10px 14px !important; }
+  .mobile-companion-skill{ padding:8px !important; }
+  .companion-skill-title{ font-size:12px !important; margin-bottom:4px !important; }
+  .companion-btn-row{ display:grid !important; grid-template-columns:1fr 1fr !important; gap:6px !important; }
+  .companion-btn{ font-size:13px !important; padding:8px 10px !important; min-height:38px !important; }
+  .companion-hint{ margin-top:4px !important; font-size:11px !important; }
+  .battle-hand-scroll, .mobile-hand-scroll{ gap:6px !important; padding:2px 0 2px !important; min-height:248px !important; }
+  .mobile-hand-scroll .card-btn{ min-width:110px !important; max-width:110px !important; }
+  .card-btn .card-image-wrap{ min-height:152px !important; background:#eff5ff !important; }
+  .card-meta{ left:4px !important; right:4px !important; bottom:4px !important; padding:5px 6px !important; }
+  .card-meta strong{ font-size:12px !important; }
+  .card-meta span{ font-size:11px !important; }
+  /* option 3: make turn UI read as a single rounded badge */
+  .mobile-scene-shell .mobile-turn-side-pill{
+    position:absolute !important;
+    top:8px !important; left:50% !important; transform:translateX(-50%) !important;
+    min-width:70px !important; width:70px !important; height:70px !important; min-height:70px !important;
+    padding:10px 8px !important; border-radius:24px !important;
+    display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important;
+    background:linear-gradient(180deg, rgba(19,43,79,.96), rgba(8,20,38,.94)) !important;
+    border:2px solid rgba(217,179,106,.92) !important; box-shadow:0 10px 26px rgba(0,0,0,.32) !important;
+    z-index:30 !important; pointer-events:none !important;
+  }
+  .mobile-scene-shell .mobile-turn-side-pill strong{ font-size:28px !important; line-height:1 !important; margin-top:2px !important; }
+  .mobile-turn-wrap{ width:92px !important; right:8px !important; top:78px !important; }
+  .mobile-enemy-intent-panel{ right:0 !important; top:0 !important; }
+}
+</style>
+
 </head>
 <body>
 <main class="app-shell mobile-app">
@@ -1248,7 +1342,7 @@
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v45</span>
+<span class="badge alt">DEMO v47</span>
 </div>
 </div>
 </div>
@@ -1403,10 +1497,10 @@
 <script>
 const CARD_ASSETS = {
   memory_slash: 'assets/asset_014_aa5e03db.webp',
-  paper_map: 'assets/asset_015_3d1fc6e5.webp',
+  paper_map: 'assets/asset_015_3d1fc6e5.png',
   koro_guide: 'assets/asset_016_b4f69b6b.webp',
   daini_courage: 'assets/asset_017_3788328c.webp',
-  ink_line: 'assets/asset_018_40ed5fe5.webp',
+  ink_line: 'assets/asset_018_40ed5fe5.png',
   local_memory: 'assets/asset_019_0ce14595.webp',
   red_shard: 'assets/asset_020_6e76d18c.webp',
   tea_rest: 'assets/asset_021_f5eb0981.webp'
