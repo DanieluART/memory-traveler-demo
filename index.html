@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>記憶旅人｜手機 DEMO v36</title>
+  <title>記憶旅人｜手機 DEMO v37</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,7 +16,7 @@
       <div class="cover-entry-overlay mobile-cover-overlay">
         <div class="menu-badge-row">
           <span class="badge">MOBILE</span>
-          <span class="badge alt">DEMO v36</span>
+          <span class="badge alt">DEMO v37</span>
         </div>
       </div>
     </div>
@@ -34,15 +34,10 @@
 </section>
 
 <section id="gameScreen" class="screen game-screen hidden">
-  <header class="topbar mobile-topbar">
+  <header class="topbar mobile-topbar mobile-topbar-simple">
     <div class="topbar-brand">
       <div class="mini-brand-title">MEMORY TRAVELER</div>
       <div class="mini-brand-sub">手機直式版</div>
-    </div>
-    <div class="topbar-actions compact-actions">
-      <button id="helpButton" class="card-ui-btn icon-btn">規則</button>
-      <button id="artButton" class="card-ui-btn icon-btn">美術</button>
-      <button id="restartTopButton" class="card-ui-btn icon-btn">重開</button>
     </div>
   </header>
 
@@ -62,46 +57,49 @@
         <div class="hud-pill dark small player-energy-pill">能量 <strong id="energyText">3 / 3</strong></div>
       </div>
       <div class="mobile-chip-row right-row">
-        <div class="hud-pill dark small enemy-hp-pill">敵方 HP <strong id="enemyHpText">240 / 300</strong></div>
+        <div class="hud-pill dark small enemy-hp-pill enemy-red-text">敵方 HP <strong id="enemyHpText">240 / 300</strong></div>
       </div>
       <div class="block-bubble left">格擋 <strong id="playerBlockText">0</strong></div>
-      <div class="block-bubble right">敵格擋 <strong id="enemyBlockText">0</strong></div>
+      <div class="block-bubble right enemy-red-text">敵格擋 <strong id="enemyBlockText">0</strong></div>
       <div class="mobile-bottom-overlay mobile-turn-wrap">
         <div class="hud-pill dark center-turn-pill mobile-turn-side-pill">回合 <strong id="turnText">3</strong></div>
-        <div class="intent-bubble compact-intent mobile-enemy-ui formal-intent-panel mobile-enemy-intent-panel">
+        <div class="intent-bubble compact-intent mobile-enemy-ui formal-intent-panel mobile-enemy-intent-panel enemy-red-text">
           <div class="intent-title-row"><span class="intent-title">敵人意圖</span><span class="intent-dot"></span></div>
           <strong id="intentText">撲擊 10</strong>
           <em>侵蝕 <b id="corruptionText">0</b></em>
         </div>
       </div>
 
-      <div class="mobile-floating-ui">
-        <div class="mobile-side-ui mobile-side-ui-left">
-          <div class="mini-card-stack small-stack floating-panel stack-panel">
-            <div class="stack-visual deck-visual"></div>
-            <div class="stack-count" id="deckCount">14</div>
-            <div class="stack-label">抽牌堆</div>
-          </div>
-          <div class="mini-card-stack small-stack floating-panel stack-panel">
-            <div class="stack-visual discard-visual"></div>
-            <div class="stack-count" id="discardCount">0</div>
-            <div class="stack-label">棄牌堆</div>
-          </div>
-          <div class="energy-panel compact-energy floating-panel floating-energy-panel">
-            <div class="energy-value" id="energyTextBottom">3 / 3</div>
-            <div class="energy-label">能量</div>
-          </div>
-        </div>
-        <div class="mobile-side-ui mobile-side-ui-right">
-          <div class="resource-chip compact-chip floating-panel stage-mobile-chip">階段 <strong id="stageText">1/3</strong><br><small id="passiveText">能力 無</small></div>
-          <div class="resource-chip compact-chip floating-panel">靈感 <strong id="inspirationText">0</strong><br><small>攻+ <b id="attackBoostText">0</b></small></div>
-          <div class="resource-chip compact-chip floating-panel corruption-mobile-chip">侵蝕 <strong id="corruptionStatusText">0</strong><br><small id="corruptionEffectText">敵攻 +0</small></div>
-        </div>
-      </div>
-
     </div>
 
     <div class="battle-dock-shell mobile-dock-shell">
+      <div class="battle-status-strip compact-status-row" aria-label="戰鬥資訊橫列">
+        <div class="status-chip status-chip-stage">
+          <span class="chip-label">階段</span>
+          <strong id="stageText">1/3</strong>
+          <small id="passiveText">能力 無</small>
+        </div>
+        <div class="status-chip">
+          <span class="chip-label">靈感</span>
+          <strong id="inspirationText">0</strong>
+          <small>攻+ <b id="attackBoostText">0</b></small>
+        </div>
+        <div class="status-chip enemy-status-chip">
+          <span class="chip-label">侵蝕</span>
+          <strong id="corruptionStatusText">0</strong>
+          <small id="corruptionEffectText">敵攻 +0</small>
+        </div>
+        <div class="status-chip">
+          <span class="chip-label">抽牌堆</span>
+          <strong id="deckCount">14</strong>
+          <small>剩餘牌數</small>
+        </div>
+        <div class="status-chip">
+          <span class="chip-label">棄牌堆</span>
+          <strong id="discardCount">0</strong>
+          <small>已使用牌</small>
+        </div>
+      </div>
 <div class="companion-skill-panel mobile-companion-skill">
         <div class="companion-skill-title">夥伴技｜每 5 回合</div>
         <div class="companion-btn-row">
@@ -124,6 +122,12 @@
           <div id="logBox" class="log-box"></div>
         </div>
       </div>
+    </div>
+
+    <div class="topbar-actions compact-actions mobile-bottom-toolbar">
+      <button id="helpButton" class="card-ui-btn icon-btn">規則</button>
+      <button id="artButton" class="card-ui-btn icon-btn">美術</button>
+      <button id="restartTopButton" class="card-ui-btn icon-btn">重開</button>
     </div>
 </section>
 </section>

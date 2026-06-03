@@ -942,112 +942,74 @@ button, .card-btn{
 }
 
 
-/* v36 iPhone 11 mobile refinement */
-@media (max-width: 480px){
-  /* Battle HUD: make overlays more transparent so the scene is clearer */
-  .mobile-side-ui .floating-panel,
-  .mobile-scene-shell .hud-pill,
-  .mobile-scene-shell .mobile-turn-side-pill,
-  .mobile-scene-shell .block-bubble,
-  .mobile-scene-shell .mobile-enemy-intent-panel{
-    background:linear-gradient(180deg, rgba(10,24,45,.46), rgba(7,17,33,.42)) !important;
-    border-color:rgba(255,255,255,.10) !important;
-    box-shadow:0 6px 14px rgba(0,0,0,.12) !important;
-    backdrop-filter:blur(3px) !important;
-  }
-  .mobile-scene-shell .mobile-enemy-intent-panel{ opacity:.72 !important; }
-  .mobile-side-ui .resource-chip,
-  .mobile-side-ui .compact-energy,
-  .mobile-side-ui .small-stack{
-    background:transparent !important;
-  }
-
-  /* Companion skill buttons: smaller and aligned on one row */
-  .mobile-companion-skill{
-    padding:6px 8px !important;
-  }
-  .mobile-companion-skill .companion-skill-title,
-  .mobile-companion-skill .companion-hint{
-    display:none !important;
-  }
-  .mobile-companion-skill .companion-btn-row{
-    display:grid !important;
-    grid-template-columns:1fr 1fr !important;
-    gap:4px !important;
-    align-items:center !important;
-  }
-  .mobile-companion-skill .companion-btn{
-    min-height:30px !important;
-    padding:5px 6px !important;
-    font-size:10px !important;
-    line-height:1.1 !important;
-    border-radius:10px !important;
-    white-space:nowrap !important;
-    overflow:hidden !important;
-    text-overflow:ellipsis !important;
-  }
-
-  /* More room for cards */
-  .mobile-dock-shell{
-    padding:6px 6px 8px !important;
-    gap:5px !important;
-  }
-  .mobile-head{
-    gap:6px !important;
-    padding:0 2px !important;
-  }
-  .mobile-head h3{ font-size:14px !important; }
-  .mobile-head .mobile-end-btn{
-    min-width:88px !important;
-    min-height:34px !important;
-    padding:7px 10px !important;
-    font-size:11px !important;
-  }
-
-  /* Cards: reduce whitespace, show fuller card art/text */
-  .mobile-hand-scroll{
-    gap:4px !important;
-    padding:4px 0 6px !important;
-    scroll-padding-inline:4px !important;
-  }
-  .mobile-hand-scroll .card-btn,
-  .mobile-hand-scroll .card-btn.card-btn,
-  .mobile-hand-scroll .card-btn.disabled{
-    min-width:108px !important;
-    max-width:108px !important;
-  }
-  .mobile-hand-scroll .card-btn .card-image-wrap{
-    border-radius:12px !important;
-  }
-  .mobile-hand-scroll .card-meta{
-    left:3px !important;
-    right:3px !important;
-    bottom:3px !important;
-    padding:4px 4px !important;
-    border-radius:8px !important;
-    background:rgba(10,20,35,.66) !important;
-  }
-  .mobile-hand-scroll .card-meta strong{
-    font-size:8px !important;
-    line-height:1.05 !important;
-  }
-  .mobile-hand-scroll .card-meta span{
-    font-size:7px !important;
-    line-height:1.1 !important;
-    margin-top:1px !important;
-  }
-
-  /* Slightly tighten card row container */
-  #handContainer{ margin-top:0 !important; }
+/* v37 mobile UI re-layout */
+.mobile-topbar-simple{padding-bottom:6px;}
+.mobile-topbar-simple .topbar-brand{width:100%;}
+.mobile-bottom-toolbar{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:10px;
+  padding:10px;
+  border:2px solid rgba(217,179,106,.32);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(16,37,68,.95),rgba(9,24,44,.98));
+  box-shadow:0 14px 28px rgba(0,0,0,.26);
 }
+.mobile-bottom-toolbar .icon-btn{width:100%;justify-content:center;}
 
-/* Extra tuning for iPhone 11 / 390px wide screens */
-@media (min-width: 380px) and (max-width: 420px){
-  .mobile-hand-scroll .card-btn,
-  .mobile-hand-scroll .card-btn.card-btn,
-  .mobile-hand-scroll .card-btn.disabled{
-    min-width:112px !important;
-    max-width:112px !important;
-  }
-  .mobile-hand-scroll{ gap:5px !important; }
+.battle-status-strip{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:2px 0 2px;
+  scroll-snap-type:x proximity;
+}
+.battle-status-strip::-webkit-scrollbar{height:6px;}
+.battle-status-strip::-webkit-scrollbar-thumb{background:#8db6f088;border-radius:999px;}
+.status-chip{
+  flex:0 0 auto;
+  min-width:72px;
+  padding:8px 8px 7px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(14,33,60,.90),rgba(10,24,45,.88));
+  box-shadow:0 8px 16px rgba(0,0,0,.18);
+  text-align:center;
+}
+.status-chip .chip-label{display:block;font-size:10px;color:#cfe3ff;line-height:1.1;}
+.status-chip strong{display:block;font-size:18px;line-height:1.05;margin-top:2px;color:#fff7e1;}
+.status-chip small{display:block;margin-top:3px;font-size:9px;line-height:1.15;color:#d7e7ff;}
+.status-chip b{font-size:11px;}
+.status-chip-stage{min-width:84px;}
+.enemy-status-chip strong,
+.enemy-status-chip small,
+.enemy-red-text,
+.enemy-red-text strong,
+.enemy-red-text b,
+.enemy-red-text em,
+.enemy-red-text .intent-title,
+.enemy-red-text .intent-dot,
+.enemy-red-text .chip-label{
+  color:#ff6a6a !important;
+}
+.enemy-red-text .intent-dot{background:#ff6a6a !important;box-shadow:0 0 0 2px rgba(255,106,106,.18);}
+.enemy-hp-pill.enemy-red-text,
+.block-bubble.right.enemy-red-text,
+.mobile-enemy-intent-panel.enemy-red-text{
+  border-color:rgba(255,106,106,.22) !important;
+}
+.block-bubble.right.enemy-red-text{background:rgba(42,10,16,.60) !important;}
+.mobile-enemy-intent-panel.enemy-red-text{background:rgba(34,10,16,.68) !important;}
+
+@media (max-width:480px){
+  .battle-demo-layout{gap:8px;}
+  .battle-status-strip{margin-top:2px;gap:5px;padding-bottom:2px;}
+  .status-chip{min-width:70px;padding:7px 7px 6px;border-radius:12px;}
+  .status-chip .chip-label{font-size:10px;}
+  .status-chip strong{font-size:17px;}
+  .status-chip small{font-size:8px;}
+  .mobile-companion-skill{margin-top:2px;}
+  .mobile-bottom-toolbar{margin-top:8px;padding:8px;gap:6px;}
+  .mobile-bottom-toolbar .icon-btn{padding:10px 8px;min-height:40px;font-size:12px;}
 }

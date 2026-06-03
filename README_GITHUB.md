@@ -1,4 +1,4 @@
-# 記憶旅人 Mobile DEMO v36
+# 記憶旅人 Mobile DEMO v37
 
 這是 **GitHub Pages 專用版本**。  
 本版以手機與行動裝置介面為主，使用純靜態檔案，不需要 Node build、不需要 Vercel。
