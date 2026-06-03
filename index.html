@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 DEMO v42</title>
+<title>記憶旅人｜手機 DEMO v43</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -679,7 +679,181 @@
 }
 
 </style>
-<!-- v42 small-file GitHub Pages build: images externalized to avoid GitHub 25MB upload limit. -->
+<!-- v43 flat-info GitHub Pages build: images externalized to avoid GitHub 25MB upload limit. -->
+
+<style id="v43-flat-info-ui">
+/* v43：參考 V40，修正資訊列呈現失敗，壓成更扁平、更短的一行 */
+@media (max-width: 768px){
+  .battle-status-strip,
+  .compact-status-row{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:4px !important;
+    width:100% !important;
+    min-height:34px !important;
+    max-height:38px !important;
+    padding:3px 4px !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    border-radius:12px !important;
+    background:linear-gradient(180deg, rgba(9,24,44,.72), rgba(6,17,32,.68)) !important;
+    border:1px solid rgba(217,179,106,.22) !important;
+    box-shadow:0 6px 12px rgba(0,0,0,.16) !important;
+  }
+
+  .battle-status-strip .status-chip,
+  .compact-status-row .status-chip{
+    flex:1 1 0 !important;
+    min-width:0 !important;
+    width:auto !important;
+    height:28px !important;
+    min-height:28px !important;
+    max-height:28px !important;
+    padding:2px 3px !important;
+    margin:0 !important;
+    border-radius:9px !important;
+    display:grid !important;
+    grid-template-columns:auto auto !important;
+    grid-template-rows:1fr !important;
+    align-items:center !important;
+    justify-content:center !important;
+    column-gap:3px !important;
+    text-align:center !important;
+    background:rgba(13,34,62,.58) !important;
+    border:1px solid rgba(255,255,255,.06) !important;
+    box-shadow:none !important;
+  }
+
+  .battle-status-strip .status-chip .chip-label,
+  .compact-status-row .status-chip .chip-label{
+    display:inline !important;
+    font-size:9px !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+    color:#cfe3ff !important;
+    opacity:.92 !important;
+  }
+
+  .battle-status-strip .status-chip strong,
+  .compact-status-row .status-chip strong{
+    display:inline !important;
+    font-size:13px !important;
+    line-height:1 !important;
+    margin:0 !important;
+    padding:0 !important;
+    color:#fff3d6 !important;
+    white-space:nowrap !important;
+  }
+
+  .battle-status-strip .status-chip small,
+  .compact-status-row .status-chip small{
+    display:none !important;
+  }
+
+  .battle-status-strip .enemy-status-chip,
+  .compact-status-row .enemy-status-chip{
+    background:rgba(52,14,22,.48) !important;
+    border-color:rgba(255,106,106,.14) !important;
+  }
+
+  .battle-status-strip .enemy-status-chip .chip-label,
+  .battle-status-strip .enemy-status-chip strong,
+  .compact-status-row .enemy-status-chip .chip-label,
+  .compact-status-row .enemy-status-chip strong{
+    color:#ff7a7a !important;
+  }
+
+  /* 下方區塊再收緊，讓卡牌區保留更多高度 */
+  .mobile-dock-shell{
+    gap:4px !important;
+    padding:5px 6px 7px !important;
+  }
+
+  .mobile-companion-skill{
+    padding:4px 6px !important;
+    margin:0 !important;
+    border-radius:10px !important;
+  }
+
+  .mobile-companion-skill .companion-skill-title,
+  .mobile-companion-skill .companion-hint{
+    display:none !important;
+  }
+
+  .mobile-companion-skill .companion-btn-row{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    gap:5px !important;
+  }
+
+  .mobile-companion-skill .companion-btn{
+    flex:1 1 0 !important;
+    min-width:0 !important;
+    min-height:28px !important;
+    padding:5px 6px !important;
+    font-size:10px !important;
+    line-height:1 !important;
+    border-radius:10px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  .mobile-head{
+    margin-top:1px !important;
+    gap:5px !important;
+  }
+
+  .mobile-head h3{
+    font-size:13px !important;
+    line-height:1 !important;
+  }
+
+  .mobile-end-btn{
+    min-height:32px !important;
+    padding:7px 9px !important;
+    font-size:11px !important;
+  }
+
+  .battle-hand-scroll,
+  .mobile-hand-scroll{
+    padding-top:1px !important;
+    gap:5px !important;
+  }
+}
+
+@media (max-width: 390px){
+  .battle-status-strip,
+  .compact-status-row{
+    gap:3px !important;
+    padding:3px !important;
+  }
+
+  .battle-status-strip .status-chip,
+  .compact-status-row .status-chip{
+    height:26px !important;
+    min-height:26px !important;
+    max-height:26px !important;
+    padding:1px 2px !important;
+    column-gap:2px !important;
+  }
+
+  .battle-status-strip .status-chip .chip-label,
+  .compact-status-row .status-chip .chip-label{
+    font-size:8px !important;
+  }
+
+  .battle-status-strip .status-chip strong,
+  .compact-status-row .status-chip strong{
+    font-size:12px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <main class="app-shell mobile-app">
@@ -690,7 +864,7 @@
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v42</span>
+<span class="badge alt">DEMO v43</span>
 </div>
 </div>
 </div>
