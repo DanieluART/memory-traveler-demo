@@ -1,702 +1,211 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>MEMORY TRAVELER｜記憶旅人</title>
-  <meta name="description" content="MEMORY TRAVELER 記憶旅人 - 中興會堂手機版戰鬥 DEMO" />
-  <style>
-    :root{
-      --bg:#071833;
-      --panel:#0d254d;
-      --panel-2:#102b57;
-      --gold:#d9b56b;
-      --gold-soft:#f1d89e;
-      --line:rgba(223,194,125,.38);
-      --text:#f5f7fb;
-      --muted:#c8d2e7;
-      --pill:rgba(10,24,52,.72);
-      --red:#ff7f87;
-      --red-soft:#ffb2b7;
-      --blue:#95cfff;
-      --shadow:0 14px 40px rgba(0,0,0,.32);
-      --radius:22px;
-      --battle-h:332px;
-      --safe-bottom:max(18px, env(safe-area-inset-bottom));
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;background:linear-gradient(180deg,#07152d 0%, #061224 100%);color:var(--text)}
-    button{font:inherit}
-    .app{max-width:430px;margin:0 auto;min-height:100vh;padding:12px 10px calc(var(--safe-bottom) + 10px)}
-    .hidden{display:none!important}
-    .panel{background:linear-gradient(180deg,rgba(11,34,75,.98),rgba(6,23,52,.98));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
-    .section{margin-bottom:14px}
-    .app-title{padding:18px 18px 12px}
-    .app-title h1{margin:0;font-size:1.95rem;letter-spacing:.03em}
-    .app-title p{margin:4px 0 0;color:#d7e0f1;font-size:1rem}
-
-    /* Intro */
-    #intro-screen{display:flex;flex-direction:column;gap:14px}
-    .intro-card{overflow:hidden}
-    .intro-visual{position:relative;height:318px;border-radius:24px 24px 0 0;overflow:hidden;background:#081629}
-    .intro-visual .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.03) brightness(.92)}
-    .intro-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,14,31,.28) 0%, rgba(7,21,45,.12) 45%, rgba(6,19,42,.72) 100%)}
-    .intro-visual.page-1::before,
-    .intro-visual.page-3::before,
-    .intro-visual.page-4::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%, rgba(255,236,173,.55), rgba(255,236,173,0) 28%)}
-    .intro-visual.page-2::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,90,180,.18) 0%, rgba(25,25,25,0) 45%, rgba(75,14,26,.32) 100%)}
-    .intro-layer{position:absolute;inset:0;z-index:2}
-    .intro-layer img{position:absolute;display:block;max-width:none;user-select:none;pointer-events:none}
-    .spark{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(152,208,255,.8);box-shadow:0 0 10px rgba(124,198,255,.9),0 0 28px rgba(124,198,255,.55)}
-    .page-1 .koro{width:128px;left:26px;bottom:54px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.28))}
-    .page-1 .bear{width:132px;right:18px;bottom:48px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.28))}
-    .page-1 .pink{width:150px;left:94px;bottom:-14px}
-    .page-1 .black{width:148px;right:78px;bottom:-16px}
-    .page-2 .enemy{width:208px;right:10px;bottom:18px;filter:drop-shadow(0 0 12px rgba(255,72,72,.45))}
-    .page-2 .black{width:124px;left:16px;bottom:32px}
-    .page-2 .pink{width:124px;left:104px;bottom:26px}
-    .page-2 .koro{width:84px;left:186px;bottom:26px}
-    .page-3 .black{width:126px;left:20px;bottom:22px}
-    .page-3 .pink{width:126px;left:96px;bottom:20px}
-    .page-3 .koro{width:90px;left:178px;bottom:18px}
-    .page-3 .bear{width:94px;left:244px;bottom:22px}
-    .page-4 .black{width:130px;left:18px;bottom:22px}
-    .page-4 .pink{width:128px;left:90px;bottom:20px}
-    .page-4 .koro{width:92px;left:172px;bottom:18px}
-    .page-4 .bear{width:96px;left:232px;bottom:22px}
-    .page-4 .enemy{width:180px;right:8px;bottom:12px;filter:drop-shadow(0 0 16px rgba(255,58,58,.48))}
-    .intro-copy{padding:16px 18px 18px}
-    .eyebrow{display:flex;justify-content:space-between;align-items:center;color:#9ec9ff;font-size:.9rem;margin-bottom:8px}
-    .eyebrow .counter{font-weight:800;color:#d9e7ff}
-    .intro-copy h2{font-size:1.5rem;line-height:1.25;margin:0 0 10px}
-    .intro-copy p{margin:0;color:#edf3ff;line-height:1.75;font-size:1rem}
-    .intro-actions{display:flex;gap:10px;padding:0 18px 18px}
-
-    /* Buttons */
-    .btn{border:0;border-radius:18px;padding:13px 16px;font-weight:800;letter-spacing:.02em;cursor:pointer;transition:transform .15s ease, filter .15s ease, opacity .15s ease}
-    .btn:active{transform:scale(.985)}
-    .btn-primary{flex:1;color:white;background:linear-gradient(180deg,#3389ff,#2063c9);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 6px 18px rgba(25,82,172,.38);border:1px solid #7fb5ff;position:relative}
-    .btn-primary::before{content:"";position:absolute;inset:4px;border-radius:14px;border:1px solid rgba(255,255,255,.42);pointer-events:none}
-    .btn-secondary{flex:0 0 auto;color:#eaf2ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
-    .mini-btn{padding:10px 12px;border-radius:15px}
-    .btn:disabled{opacity:.5;cursor:not-allowed}
-
-    /* Game */
-    #game-screen{display:flex;flex-direction:column;gap:14px}
-    .battle-wrap{padding:14px}
-    .battle-scene{position:relative;height:var(--battle-h);border-radius:20px;overflow:hidden;background:#061224}
-    .battle-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .battle-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,14,34,.1) 0%, rgba(5,16,34,.14) 62%, rgba(5,16,34,.26) 100%)}
-    .hud-column{position:absolute;left:14px;top:14px;z-index:4;display:flex;flex-direction:column;gap:8px}
-    .enemy-column{position:absolute;right:14px;top:14px;z-index:4;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-    .hud-pill{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;background:rgba(9,24,50,.76);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
-    .hud-pill strong{font-size:1rem;letter-spacing:.01em}
-    .hud-pill.enemy{color:var(--red-soft)}
-    .turn-badge{position:absolute;right:14px;top:118px;z-index:5;padding:12px 16px;border-radius:18px;background:rgba(9,24,50,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);text-align:center;box-shadow:0 8px 18px rgba(0,0,0,.18)}
-    .turn-badge .label{font-size:.86rem;color:#dce8ff}
-    .turn-badge .num{font-size:2rem;font-weight:900;line-height:1.05;margin-top:2px}
-    .enemy-intent{position:absolute;right:14px;top:184px;z-index:5;padding:12px 14px;min-width:132px;border-radius:18px;background:rgba(51,14,22,.34);border:1px solid rgba(255,133,148,.18);backdrop-filter:blur(8px)}
-    .enemy-intent h4{margin:0 0 8px;font-size:.85rem;color:#ffb1ba;font-weight:800}
-    .enemy-intent p{margin:0;font-size:1rem;font-weight:800;color:#ffd6db}
-    .enemy-intent small{display:block;color:#ffb6c0;margin-top:6px;font-size:.84rem}
-    .battle-bottom{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 14px 12px;display:flex;justify-content:space-between;align-items:flex-end}
-    .ground-stat{padding:10px 14px;border-radius:16px;background:rgba(9,24,50,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 18px rgba(0,0,0,.16)}
-    .ground-stat.enemy{color:var(--red-soft)}
-    .char{position:absolute;z-index:3;user-select:none;pointer-events:none;filter:drop-shadow(0 7px 16px rgba(0,0,0,.35))}
-    .char.black{left:22px;bottom:26px;width:92px}
-    .char.pink{left:78px;bottom:24px;width:92px}
-    .char.koro{left:148px;bottom:22px;width:62px}
-    .char.bear{left:190px;bottom:22px;width:64px}
-    .char.enemy{right:12px;bottom:16px;width:152px;filter:drop-shadow(0 14px 24px rgba(0,0,0,.4))}
-    .battle-fx{position:absolute;inset:0;z-index:2;pointer-events:none}
-    .phase-glow{position:absolute;right:40px;bottom:36px;width:190px;height:190px;border-radius:50%;opacity:0;mix-blend-mode:screen;filter:blur(18px);transition:opacity .28s ease}
-    .phase-2{background:radial-gradient(circle, rgba(112,70,255,.36) 0%, rgba(112,70,255,.12) 42%, rgba(112,70,255,0) 72%)}
-    .phase-3{background:radial-gradient(circle, rgba(255,70,138,.38) 0%, rgba(255,146,60,.2) 28%, rgba(255,70,138,.08) 48%, rgba(255,70,138,0) 72%)}
-    .corrosion-glow{position:absolute;right:28px;bottom:32px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle, rgba(255,68,68,.18) 0%, rgba(255,68,68,.07) 34%, rgba(255,68,68,0) 64%);filter:blur(14px);opacity:0;transition:opacity .25s ease}
-    .corrosion-active{opacity:1}
-    .stage-2 .phase-2{opacity:1}
-    .stage-3 .phase-3{opacity:1}
-    .impact{position:absolute;inset:0;display:none;place-items:center;z-index:6}
-    .impact.show{display:grid;animation:fadePulse .45s ease}
-    .impact span{padding:10px 16px;border-radius:16px;background:rgba(11,22,44,.78);backdrop-filter:blur(12px);font-weight:900;font-size:1.05rem;box-shadow:0 10px 26px rgba(0,0,0,.26)}
-    .impact.attack span{color:#ffd8d8;border:1px solid rgba(255,130,130,.38)}
-    .impact.block span{color:#d6ecff;border:1px solid rgba(145,212,255,.34)}
-    .impact.buff span{color:#fff1c8;border:1px solid rgba(255,218,111,.36)}
-    @keyframes fadePulse{0%{opacity:0;transform:scale(.92)}20%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:scale(1.06)}}
-
-    .compact-strip{padding:0 14px 14px}
-    .strip-row{display:grid;grid-template-columns:repeat(5, minmax(0,1fr));gap:8px}
-    .strip-item{padding:10px 6px;border-radius:16px;background:rgba(11,27,58,.96);border:1px solid rgba(255,255,255,.06);text-align:center}
-    .strip-item .k{display:block;font-size:.86rem;color:#d9e7ff;margin-bottom:4px}
-    .strip-item .v{font-size:1.4rem;font-weight:900;line-height:1;color:#fff}
-    .strip-item small{display:block;margin-top:4px;font-size:.75rem;color:#aebddd}
-    .strip-item.red .v,.strip-item.red small{color:var(--red-soft)}
-
-    .skills-panel{padding:0 14px 14px}
-    .skills-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .skill-btn{position:relative;padding:12px 10px;border-radius:16px;border:1px solid #7fb5ff;background:linear-gradient(180deg,#2f83ef,#1d5ec6);color:#edf6ff;font-weight:900;box-shadow:inset 0 1px 0 rgba(255,255,255,.45);overflow:hidden}
-    .skill-btn small{display:block;margin-top:3px;font-size:.78rem;font-weight:700;opacity:.9}
-    .skill-btn.ready{box-shadow:inset 0 1px 0 rgba(255,255,255,.48), 0 0 14px rgba(125,192,255,.45)}
-
-    .cards-panel{padding:0 14px 14px}
-    .cards-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-    .cards-head h3{margin:0;font-size:1.42rem}
-    .end-row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
-    .end-row .btn-primary{padding-block:12px}
-    .cards-row{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-    .cards-row::-webkit-scrollbar{height:6px}
-    .cards-row::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:20px}
-    .card{flex:0 0 112px;scroll-snap-align:start;border:none;background:transparent;color:inherit;padding:0;cursor:pointer}
-    .card figure{margin:0}
-    .card-art{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03)}
-    .card-art img{width:100%;display:block;height:auto}
-    .card.playable .card-art img{filter:drop-shadow(0 0 10px rgba(255,216,103,.4))}
-    .card.playable .card-text{box-shadow:0 0 0 1px rgba(255,223,132,.32), 0 0 12px rgba(255,223,132,.18)}
-    .card.selected .card-art{transform:translateY(-3px)}
-    .card-art{transition:transform .18s ease}
-    .card-text{margin-top:6px;padding:8px 8px 10px;border-radius:16px;background:rgba(8,20,44,.88);text-align:center;line-height:1.2}
-    .card-text h4{margin:0 0 5px;font-size:1.02rem;line-height:1.15}
-    .card-text p{margin:0;font-size:.92rem;color:#eef4ff}
-    .card.unplayable{opacity:.52}
-
-    .footer-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px 14px}
-
-    /* Modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.58);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40}
-    .modal-panel{max-width:410px;width:100%;padding:18px;border-radius:24px;background:linear-gradient(180deg,#0d254d,#07172e);border:1px solid var(--line);box-shadow:var(--shadow)}
-    .modal-panel h3{margin:0 0 10px;font-size:1.4rem}
-    .modal-panel p,.modal-panel li{line-height:1.7;color:#edf3ff}
-    .modal-panel ul{padding-left:1.2em}
-    .modal-actions{margin-top:14px;display:flex;justify-content:flex-end}
-
-    .toast{position:fixed;left:50%;bottom:calc(var(--safe-bottom) + 14px);transform:translateX(-50%);z-index:50;background:rgba(7,18,38,.92);color:#fff;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 28px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(-2px)}
-
-    @media (max-width:380px){
-      :root{--battle-h:312px}
-      .char.black{left:16px;width:86px}
-      .char.pink{left:68px;width:86px}
-      .char.koro{left:132px;width:58px}
-      .char.bear{left:170px;width:60px}
-      .char.enemy{width:140px}
-      .cards-row{gap:8px}
-      .card{flex-basis:106px}
-      .cards-head h3{font-size:1.3rem}
-      .strip-row{gap:6px}
-      .strip-item .k{font-size:.78rem}
-      .strip-item .v{font-size:1.25rem}
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>MEMORY TRAVELER｜記憶旅人</title>
+<meta name="description" content="MEMORY TRAVELER 記憶旅人｜中興會堂手機版 DEMO" />
+<style>
+:root{
+  --text:#f3f7ff;
+  --line:rgba(214,179,102,.36);
+  --enemy:#ff9aa6;
+  --pill:rgba(10,27,57,.82);
+  --shadow:0 14px 34px rgba(0,0,0,.28);
+  --safe-bottom:max(18px, env(safe-area-inset-bottom));
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:linear-gradient(180deg,#05132b 0%,#031024 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC",sans-serif}
+body{min-height:100vh}
+button{font:inherit;border:0;cursor:pointer}
+img{max-width:100%;display:block}
+.hidden{display:none !important}
+.app{max-width:430px;margin:0 auto;min-height:100vh;padding:12px 10px calc(var(--safe-bottom) + 10px)}
+.panel{background:linear-gradient(180deg,rgba(11,35,72,.98),rgba(5,21,45,.98));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.section{margin-bottom:14px}
+.title-panel{padding:16px 18px 18px}
+.title-panel h1{margin:0;font-size:1.95rem;letter-spacing:.03em}
+.title-panel p{margin:6px 0 0;color:#dde8fa;font-size:1rem}
+.btn-primary{position:relative;border-radius:18px;padding:13px 16px;background:linear-gradient(180deg,#3a90ff,#235fbe);color:#fff;font-weight:900;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 8px 18px rgba(26,84,176,.32);border:1px solid #7fb5ff}
+.btn-primary::before{content:"";position:absolute;inset:4px;border-radius:14px;border:1px solid rgba(255,255,255,.38);pointer-events:none}
+.btn-secondary{border-radius:18px;padding:13px 16px;background:rgba(255,255,255,.08);color:#fff;font-weight:800;border:1px solid rgba(255,255,255,.14)}
+.mini-btn{padding:11px 12px;border-radius:16px}
+.btn-primary:disabled,.skill-btn:disabled{opacity:.52;cursor:not-allowed}
+#storyScreen .story-card{overflow:hidden}
+.story-visual{position:relative;height:338px;background:#08162d;border-radius:24px 24px 0 0;overflow:hidden}
+.story-visual img{width:100%;height:100%;object-fit:cover}
+.story-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,13,30,.16) 0%, rgba(4,13,30,.12) 55%, rgba(4,13,30,.65) 100%)}
+.story-copy{padding:16px 18px 18px}
+.story-topline{display:flex;justify-content:space-between;align-items:center;color:#9ec9ff;font-size:.9rem;margin-bottom:8px}
+.story-topline .count{font-weight:800;color:#dcebff}
+.story-copy h2{margin:0 0 10px;font-size:1.45rem;line-height:1.25}
+.story-copy p{margin:0;color:#eef4ff;line-height:1.72;font-size:1rem}
+.story-actions{display:flex;gap:10px;padding:0 18px 18px}
+.story-actions .btn-primary{flex:1}
+.cover-panel{padding:14px}
+.cover-frame{overflow:hidden;border-radius:20px;position:relative;background:#08162b;border:1px solid rgba(255,255,255,.06)}
+.cover-frame img{width:100%;height:auto}
+.cover-overlay{position:absolute;inset:auto 0 0 0;padding:16px;background:linear-gradient(180deg,rgba(4,13,30,0) 0%, rgba(4,13,30,.9) 88%)}
+.cover-overlay h2{margin:0 0 6px;font-size:1.52rem}
+.cover-overlay p{margin:0;color:#dbe7fa;line-height:1.5;font-size:.96rem}
+.cover-actions{display:flex;gap:10px;padding:14px 4px 4px}
+.cover-actions .btn-primary{flex:1}
+.battle-wrap{padding:14px}
+.battle-scene{position:relative;height:336px;border-radius:20px;overflow:hidden;background:#061224}
+.battle-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.battle-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,14,34,.10) 0%, rgba(4,14,34,.08) 48%, rgba(4,14,34,.20) 100%)}
+.hud-col{position:absolute;left:14px;top:14px;z-index:4;display:flex;flex-direction:column;gap:8px}
+.enemy-col{position:absolute;right:14px;top:14px;z-index:4;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;background:var(--pill);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+.pill strong{font-size:1.02rem;letter-spacing:.01em}
+.pill.enemy{color:var(--enemy)}
+.turn-badge{position:absolute;right:18px;top:116px;z-index:4;width:78px;padding:12px 10px;border-radius:18px;background:rgba(12,30,63,.78);text-align:center;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+.turn-badge .t1{font-size:.88rem;color:#e0ebff}
+.turn-badge .t2{font-size:2.05rem;font-weight:900;line-height:1.05;margin-top:2px}
+.enemy-intent{position:absolute;right:18px;top:192px;z-index:4;width:146px;padding:12px 14px;border-radius:20px;background:rgba(65,19,28,.34);border:1px solid rgba(255,135,150,.18);backdrop-filter:blur(8px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.enemy-intent h4{margin:0 0 8px;font-size:.86rem;color:#ffb4be;font-weight:800}
+.enemy-intent p{margin:0;font-size:1rem;font-weight:900;color:#ffd0d6}
+.enemy-intent small{display:block;color:#ffbdc6;margin-top:5px;font-size:.83rem}
+.char{position:absolute;z-index:3;pointer-events:none;user-select:none;filter:drop-shadow(0 8px 16px rgba(0,0,0,.35))}
+.char.black{left:28px;bottom:22px;width:88px}
+.char.pink{left:82px;bottom:20px;width:88px}
+.char.koro{left:150px;bottom:18px;width:58px}
+.char.bear{left:188px;bottom:18px;width:60px}
+.char.enemy{right:12px;bottom:16px;width:150px;filter:drop-shadow(0 12px 22px rgba(0,0,0,.36))}
+.scene-bottom{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 14px 12px;display:flex;justify-content:space-between;align-items:flex-end}
+.ground-pill{padding:10px 14px;border-radius:16px;background:rgba(10,27,57,.74);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
+.ground-pill.enemy{color:var(--enemy)}
+.fx-layer{position:absolute;inset:0;z-index:2;pointer-events:none}
+.phase-glow{position:absolute;right:26px;bottom:18px;width:190px;height:190px;border-radius:50%;opacity:0;mix-blend-mode:screen;filter:blur(18px);transition:opacity .28s ease}
+.phase-2{background:radial-gradient(circle, rgba(113,77,255,.32) 0%, rgba(113,77,255,.12) 40%, rgba(113,77,255,0) 72%)}
+.phase-3{background:radial-gradient(circle, rgba(255,72,148,.40) 0%, rgba(255,176,67,.22) 26%, rgba(255,72,148,.10) 48%, rgba(255,72,148,0) 76%)}
+.corrosion-glow{position:absolute;right:28px;bottom:26px;width:195px;height:195px;border-radius:50%;background:radial-gradient(circle, rgba(255,76,76,.18) 0%, rgba(255,76,76,.08) 34%, rgba(255,76,76,0) 70%);filter:blur(14px);opacity:0;transition:opacity .25s ease}
+.stage-2 .phase-2{opacity:1}
+.stage-3 .phase-3{opacity:1}
+.corrosion-on{opacity:1}
+.impact{position:absolute;inset:0;display:none;place-items:center;z-index:6}
+.impact.show{display:grid;animation:impactFade .42s ease}
+.impact span{padding:10px 16px;border-radius:16px;background:rgba(11,22,44,.78);backdrop-filter:blur(10px);font-weight:900;box-shadow:0 10px 24px rgba(0,0,0,.24)}
+.impact.attack span{color:#ffd4d8;border:1px solid rgba(255,141,141,.34)}
+.impact.block span{color:#d8f0ff;border:1px solid rgba(145,212,255,.34)}
+.impact.buff span{color:#fff0b9;border:1px solid rgba(255,218,111,.34)}
+@keyframes impactFade{0%{opacity:0;transform:scale(.94)}20%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:scale(1.05)}}
+.compact-wrap{padding:0 14px 14px}
+.compact-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.info-item{padding:10px 6px;border-radius:16px;background:rgba(11,27,58,.94);border:1px solid rgba(255,255,255,.06);text-align:center}
+.info-item .k{display:block;font-size:.86rem;color:#dde8fd;margin-bottom:4px}
+.info-item .v{display:block;font-size:1.45rem;font-weight:900;line-height:1;color:#fff}
+.info-item small{display:block;margin-top:4px;color:#c2d0e9;font-size:.74rem;line-height:1.2}
+.info-item.red .v,.info-item.red small{color:var(--enemy)}
+.skills-wrap{padding:0 14px 14px}
+.skills-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.skill-btn{position:relative;padding:14px 10px;border-radius:18px;background:linear-gradient(180deg,#368dff,#225fbe);color:#fff;font-weight:900;border:1px solid #79b3ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.skill-btn small{display:block;margin-top:4px;font-size:.85rem;font-weight:800;opacity:.96}
+.skill-btn.ready{box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 0 14px rgba(129,201,255,.36)}
+.cards-wrap{padding:0 14px 14px}
+.cards-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cards-head h3{margin:0;font-size:1.4rem}
+.end-row{margin-bottom:10px}
+.end-row .btn-primary{width:100%}
+.cards-row{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+.cards-row::-webkit-scrollbar{height:6px}
+.cards-row::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:10px}
+.card{flex:0 0 112px;scroll-snap-align:start;background:transparent;padding:0;color:inherit}
+.card-art{border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03)}
+.card-art img{width:100%;height:auto}
+.card.playable .card-art img{filter:drop-shadow(0 0 9px rgba(255,222,118,.36))}
+.card.playable .card-meta{box-shadow:0 0 0 1px rgba(255,223,132,.28),0 0 10px rgba(255,223,132,.15)}
+.card.unplayable{opacity:.56}
+.card-meta{margin-top:6px;padding:8px 8px 10px;border-radius:16px;background:rgba(8,20,44,.9);text-align:center;line-height:1.15}
+.card-meta h4{margin:0 0 4px;font-size:1.02rem;line-height:1.15}
+.card-meta p{margin:0;color:#eef4ff;font-size:.92rem}
+.bottom-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px 14px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal-panel{max-width:410px;width:100%;padding:18px;border-radius:24px;background:linear-gradient(180deg,#0d254d,#07172f);border:1px solid var(--line);box-shadow:var(--shadow)}
+.modal-panel h3{margin:0 0 10px;font-size:1.38rem}
+.modal-panel p,.modal-panel li{color:#eef4ff;line-height:1.7}
+.modal-panel ul{padding-left:1.2em}
+.modal-actions{display:flex;justify-content:flex-end;margin-top:14px}
+.toast{position:fixed;left:50%;bottom:calc(var(--safe-bottom) + 14px);transform:translateX(-50%);background:rgba(7,18,38,.94);padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 26px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:60}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-2px)}
+@media (max-width:385px){.battle-scene{height:324px}.char.black{left:22px;width:84px}.char.pink{left:74px;width:84px}.char.koro{left:138px;width:56px}.char.bear{left:174px;width:58px}.char.enemy{width:144px}.turn-badge{width:74px;right:14px}.enemy-intent{width:134px;right:14px}.compact-row{gap:6px}.info-item .k{font-size:.78rem}.info-item .v{font-size:1.28rem}.card{flex-basis:108px}}
+</style>
 </head>
 <body>
-  <div class="app">
-    <section id="intro-screen" class="section">
-      <div class="panel intro-card">
-        <div id="introVisual" class="intro-visual page-1">
-          <img class="bg" src="assets/battle_bg.webp" alt="中興會堂背景" />
-          <div id="introLayer" class="intro-layer"></div>
-        </div>
-        <div class="intro-copy">
-          <div class="eyebrow"><span>開場前言</span><span id="introCounter" class="counter">1 / 4</span></div>
-          <h2 id="introTitle">當記憶開始消失</h2>
-          <p id="introBody"></p>
-        </div>
-        <div class="intro-actions">
-          <button id="skipIntroBtn" class="btn btn-secondary">略過</button>
-          <button id="nextIntroBtn" class="btn btn-primary">下一頁</button>
-        </div>
+<div class="app">
+  <section id="storyScreen" class="section">
+    <div class="panel story-card">
+      <div class="story-visual"><img id="storyImage" src="assets/story_1.webp" alt="故事畫面" /></div>
+      <div class="story-copy">
+        <div class="story-topline"><span>故事前言</span><span id="storyCount" class="count">1 / 4</span></div>
+        <h2 id="storyTitle">記憶，正在流失</h2>
+        <p id="storyBody"></p>
       </div>
-    </section>
-
-    <section id="game-screen" class="section hidden">
-      <div class="panel app-title">
-        <h1>MEMORY TRAVELER</h1>
-        <p>記憶旅人｜中興會堂手機版 DEMO</p>
+      <div class="story-actions">
+        <button id="skipStoryBtn" class="btn-secondary">略過前言</button>
+        <button id="nextStoryBtn" class="btn-primary">下一頁</button>
       </div>
-
-      <div class="panel battle-wrap section">
-        <div id="battleScene" class="battle-scene stage-1">
-          <img class="battle-bg" src="assets/battle_bg.webp" alt="中興會堂場景背景" />
-          <div class="hud-column">
-            <div class="hud-pill"><strong>生命 <span id="playerHpText">110 / 110</span></strong></div>
-            <div class="hud-pill"><strong>能量 <span id="energyText">3 / 3</span></strong></div>
-          </div>
-          <div class="enemy-column">
-            <div class="hud-pill enemy"><strong>敵方 HP <span id="enemyHpText">75 / 75</span></strong></div>
-          </div>
-          <div class="turn-badge"><div class="label">回合</div><div id="turnText" class="num">1</div></div>
-          <div class="enemy-intent">
-            <h4>敵人意圖</h4>
-            <p id="intentText">撲擊 10</p>
-            <small id="intentSub">侵蝕 0</small>
-          </div>
-          <div class="battle-fx">
-            <div class="phase-glow phase-2"></div>
-            <div class="phase-glow phase-3"></div>
-            <div id="corrosionGlow" class="corrosion-glow"></div>
-            <div id="impactFx" class="impact"><span>效果發動</span></div>
-          </div>
-          <img class="char black" src="assets/hero_black.webp" alt="黑髮主角" />
-          <img class="char pink" src="assets/hero_pink.webp" alt="粉髮主角" />
-          <img class="char koro" src="assets/koro.webp" alt="KORO" />
-          <img class="char bear" src="assets/bear.webp" alt="呆尼熊" />
-          <img class="char enemy" src="assets/enemy.webp" alt="噬憶獸" />
-          <div class="battle-bottom">
-            <div class="ground-stat">格擋 <strong id="blockText">0</strong></div>
-            <div class="ground-stat enemy">敵格擋 <strong id="enemyBlockText">0</strong></div>
-          </div>
-        </div>
+    </div>
+  </section>
+  <section id="coverScreen" class="section hidden">
+    <div class="panel cover-panel">
+      <div class="cover-frame">
+        <img src="assets/cover.webp" alt="MEMORY TRAVELER 遊戲封面" />
+        <div class="cover-overlay"><h2>MEMORY TRAVELER</h2><p>記憶旅人｜中興會堂手機版 DEMO<br>完成前言後，選擇開始遊戲。</p></div>
       </div>
-
-      <div class="panel compact-strip section">
-        <div class="strip-row">
-          <div class="strip-item"><span class="k">階段</span><span id="stageText" class="v">1 / 3</span><small id="stageBonusText">攻+0 靈+0 格+0</small></div>
-          <div class="strip-item"><span class="k">靈感</span><span id="insightText" class="v">0</span><small id="insightBonusText">攻+0</small></div>
-          <div class="strip-item red"><span class="k">侵蝕</span><span id="corrosionText" class="v">0</span><small id="corrosionBonusText">敵攻 +0</small></div>
-          <div class="strip-item"><span class="k">抽牌堆</span><span id="drawPileText" class="v">0</span><small>剩餘牌數</small></div>
-          <div class="strip-item"><span class="k">棄牌堆</span><span id="discardPileText" class="v">0</span><small>已使用牌</small></div>
-        </div>
+      <div class="cover-actions"><button id="backToStoryBtn" class="btn-secondary">返回前言</button><button id="startGameBtn" class="btn-primary">開始遊戲</button></div>
+    </div>
+  </section>
+  <section id="gameScreen" class="section hidden">
+    <div class="panel title-panel section"><h1>MEMORY TRAVELER</h1><p>記憶旅人｜中興會堂手機版 DEMO</p></div>
+    <div class="panel battle-wrap section">
+      <div id="battleScene" class="battle-scene stage-1">
+        <img class="battle-bg" src="assets/battle_bg.webp" alt="中興會堂背景" />
+        <div class="hud-col"><div class="pill"><strong>生命 <span id="playerHpText">110 / 110</span></strong></div><div class="pill"><strong>能量 <span id="energyText">3 / 3</span></strong></div></div>
+        <div class="enemy-col"><div class="pill enemy"><strong>敵方 HP <span id="enemyHpText">75 / 75</span></strong></div></div>
+        <div class="turn-badge"><div class="t1">回合</div><div id="turnText" class="t2">1</div></div>
+        <div class="enemy-intent"><h4>敵人意圖</h4><p id="intentText">撲擊 10</p><small id="intentSub">侵蝕 0</small></div>
+        <div class="fx-layer"><div class="phase-glow phase-2"></div><div class="phase-glow phase-3"></div><div id="corrosionGlow" class="corrosion-glow"></div><div id="impactFx" class="impact"><span>效果發動</span></div></div>
+        <img class="char black" src="assets/hero_black.webp" alt="黑髮主角" />
+        <img class="char pink" src="assets/hero_pink.webp" alt="粉髮主角" />
+        <img class="char koro" src="assets/koro.webp" alt="KORO" />
+        <img class="char bear" src="assets/bear.webp" alt="呆尼熊" />
+        <img class="char enemy" src="assets/enemy.webp" alt="噬憶獸" />
+        <div class="scene-bottom"><div class="ground-pill">格擋 <strong id="blockText">0</strong></div><div class="ground-pill enemy">敵格擋 <strong id="enemyBlockText">0</strong></div></div>
       </div>
-
-      <div class="panel skills-panel section">
-        <div class="skills-row">
-          <button id="koroSkill" class="skill-btn">KORO 護盾<small id="koroSkillMeta">CD 0</small></button>
-          <button id="bearSkill" class="skill-btn">呆尼熊 鼓舞<small id="bearSkillMeta">CD 0</small></button>
-        </div>
-      </div>
-
-      <div class="panel cards-panel section">
-        <div class="cards-head"><h3>可使用卡牌</h3></div>
-        <div class="end-row">
-          <button id="endTurnBtn" class="btn btn-primary">結束回合</button>
-        </div>
-        <div id="handRow" class="cards-row"></div>
-      </div>
-
-      <div class="panel footer-actions section">
-        <button id="rulesBtn" class="btn btn-primary mini-btn">規則</button>
-        <button id="storyBtn" class="btn btn-primary mini-btn">前言</button>
-        <button id="resetBtn" class="btn btn-primary mini-btn">重開</button>
-      </div>
-    </section>
-  </div>
-
-  <div id="modalRoot"></div>
-  <div id="toast" class="toast"></div>
-
-  <script>
-  const INTRO_PAGES = [
-    {
-      title: '當記憶開始消失',
-      body: '在這個世界裡，每一段被人遺忘的回憶，都會化作碎片，飄向另一個地方。那裡被稱作遺忘世界。而當遺忘過多，現實中的人、地方與故事，也會逐漸失去原本的光芒。',
-      layout: 'page-1',
-      visual(){
-        return `
-          <img class="koro" src="assets/koro.webp" alt="KORO" />
-          <img class="bear" src="assets/bear.webp" alt="呆尼熊" />
-          <img class="pink" src="assets/hero_pink.webp" alt="粉髮主角" />
-          <img class="black" src="assets/hero_black.webp" alt="黑髮主角" />
-          <span class="spark" style="left:50px;top:36px"></span>
-          <span class="spark" style="left:110px;top:82px"></span>
-          <span class="spark" style="right:62px;top:60px"></span>
-          <span class="spark" style="right:118px;top:96px"></span>`;
-      }
-    },
-    {
-      title: '中興會堂，正在失去記憶',
-      body: '這一次，異變發生在中興會堂。原本承載地方回憶的光，正在被噬憶獸與紅色記憶石侵蝕。如果這些記憶被完全吞噬，人們對中興會堂的情感、故事與存在感，也將一點一點消散。',
-      layout: 'page-2',
-      visual(){
-        return `
-          <img class="black" src="assets/hero_black.webp" alt="黑髮主角" />
-          <img class="pink" src="assets/hero_pink.webp" alt="粉髮主角" />
-          <img class="koro" src="assets/koro.webp" alt="KORO" />
-          <img class="enemy" src="assets/enemy.webp" alt="噬憶獸" />`;
-      }
-    },
-    {
-      title: '記憶旅人，準備出發',
-      body: '為了守住正在消失的地方記憶，記憶旅人小隊再次啟程。你將與夥伴 KORO、呆尼熊一同深入記憶世界，運用卡牌、夥伴能力與記憶之力，找回散落的碎片，對抗噬憶獸。',
-      layout: 'page-3',
-      visual(){
-        return `
-          <img class="black" src="assets/hero_black.webp" alt="黑髮主角" />
-          <img class="pink" src="assets/hero_pink.webp" alt="粉髮主角" />
-          <img class="koro" src="assets/koro.webp" alt="KORO" />
-          <img class="bear" src="assets/bear.webp" alt="呆尼熊" />`;
-      }
-    },
-    {
-      title: '修復記憶之光',
-      body: '你的任務很簡單——在戰鬥中蒐集記憶、穩住局勢、擊退噬憶獸。每一次出牌，都是一次守護地方故事的行動。讓中興會堂再次發出記憶之光。',
-      layout: 'page-4',
-      visual(){
-        return `
-          <img class="black" src="assets/hero_black.webp" alt="黑髮主角" />
-          <img class="pink" src="assets/hero_pink.webp" alt="粉髮主角" />
-          <img class="koro" src="assets/koro.webp" alt="KORO" />
-          <img class="bear" src="assets/bear.webp" alt="呆尼熊" />
-          <img class="enemy" src="assets/enemy.webp" alt="噬憶獸" />`;
-      }
-    }
-  ];
-
-  const CARD_LIBRARY = {
-    slash: { id:'slash', name:'記憶斬擊', cost:1, type:'attack', img:'assets/card_slash.webp', short:'12傷｜抽1', text:'造成 12 點傷害，並抽 1 張牌。', play(s){ attackEnemy(12 + s.attackBuff); drawCards(1); consumeEmpower('attack'); impact('attack', '記憶斬擊'); } },
-    map: { id:'map', name:'紙本地圖', cost:1, type:'skill', img:'assets/card_map.webp', short:'格擋5｜抽1', text:'獲得 5 點格擋，並抽 1 張牌。', play(s){ gainBlock(5); drawCards(1); impact('block', '紙本地圖'); } },
-    koro: { id:'koro', name:'KORO 導覽', cost:1, type:'skill', img:'assets/card_koro.webp', short:'抽2｜連技能再抽1', text:'抽 2 張牌；若本回合已打出技能卡，再額外抽 1。', play(s){ const extra = s.playedSkillThisTurn ? 1 : 0; drawCards(2 + extra); impact('buff', extra ? 'KORO 加成抽牌' : 'KORO 導覽'); } },
-    bear: { id:'bear', name:'呆尼熊的勇氣', cost:1, type:'skill', img:'assets/card_bear.webp', short:'格擋6｜勇氣+1', text:'賦予所有隊友 6 點格擋，並獲得 1 層勇氣。', play(s){ gainBlock(6); s.courage += 1; impact('buff', '勇氣提升'); } },
-    crystal: { id:'crystal', name:'記憶石碎光', cost:2, type:'attack', img:'assets/card_crystal.webp', short:'18傷｜侵蝕時+6', text:'造成 18 點傷害；若敵方有侵蝕，額外造成 6 點傷害。', play(s){ const bonus = s.enemyCorrosion > 0 ? 6 : 0; attackEnemy(18 + bonus + s.attackBuff); consumeEmpower('attack'); impact('attack', bonus ? '碎光爆裂' : '記憶石碎光'); } },
-    memory: { id:'memory', name:'地方記憶', cost:1, type:'skill', img:'assets/card_memory.webp', short:'格擋4｜抽1', text:'獲得 4 點格擋並抽 1 張牌；若手牌中有組合卡，再抽 1。', play(s){ gainBlock(4); drawCards(1 + hasComboCard()); impact('block', '地方記憶'); } }
-  };
-
-  const STARTER_DECK = ['slash','map','koro','bear','crystal','memory','slash','map','slash','memory','koro','crystal','map','bear','memory'];
-
-  const state = {
-    storyIndex: 0,
-    playerMaxHp: 110,
-    playerHp: 110,
-    energyMax: 3,
-    energy: 3,
-    block: 0,
-    enemyMaxHp: 75,
-    enemyHp: 75,
-    enemyBlock: 0,
-    enemyCorrosion: 0,
-    corrosionAttackBonus: 0,
-    insight: 0,
-    stage: 1,
-    drawPile: [],
-    discardPile: [],
-    hand: [],
-    turn: 1,
-    intent: {type:'attack', amount:10, label:'撲擊 10'},
-    playedSkillThisTurn: false,
-    courage: 0,
-    attackBuff: 0,
-    attackBuffUses: 0,
-    skillCooldown: { koro: 0, bear: 0 },
-    canAct: true,
-  };
-
-  const el = {};
-  ['intro-screen','game-screen','introTitle','introBody','introCounter','introVisual','introLayer','nextIntroBtn','skipIntroBtn','playerHpText','enemyHpText','energyText','turnText','intentText','intentSub','blockText','enemyBlockText','stageText','stageBonusText','insightText','insightBonusText','corrosionText','corrosionBonusText','drawPileText','discardPileText','handRow','endTurnBtn','koroSkill','bearSkill','koroSkillMeta','bearSkillMeta','rulesBtn','storyBtn','resetBtn','modalRoot','toast','battleScene','corrosionGlow','impactFx'].forEach(id => el[id.replace(/-([a-z])/g, (_,c)=>c.toUpperCase())] = document.getElementById(id));
-
-  function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
-  function showToast(msg){
-    el.toast.textContent = msg;
-    el.toast.classList.add('show');
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(()=>el.toast.classList.remove('show'), 1500);
-  }
-  function impact(kind, text){
-    el.impactFx.className = `impact ${kind} show`;
-    el.impactFx.querySelector('span').textContent = text;
-    setTimeout(()=>el.impactFx.className='impact', 420);
-  }
-
-  // Simple synth SFX
-  let audioCtx;
-  function beep(type='click'){
-    try{
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const ctx = audioCtx;
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.type = type==='attack' ? 'sawtooth' : type==='block' ? 'triangle' : type==='victory' ? 'sine' : 'square';
-      const now = ctx.currentTime;
-      let freq = 440, dur = .09;
-      if(type==='attack'){ freq=210; dur=.14; }
-      if(type==='block'){ freq=540; dur=.12; }
-      if(type==='buff'){ freq=680; dur=.16; }
-      if(type==='enemy'){ freq=160; dur=.18; }
-      if(type==='victory'){ freq=740; dur=.28; }
-      if(type==='defeat'){ freq=110; dur=.35; }
-      o.frequency.setValueAtTime(freq, now);
-      o.frequency.exponentialRampToValueAtTime(freq*(type==='defeat'?0.55:1.4), now+dur);
-      g.gain.setValueAtTime(.0001, now);
-      g.gain.exponentialRampToValueAtTime(.04, now+.01);
-      g.gain.exponentialRampToValueAtTime(.0001, now+dur);
-      o.connect(g); g.connect(ctx.destination); o.start(now); o.stop(now+dur);
-    }catch(e){}
-  }
-
-  function renderIntro(){
-    const page = INTRO_PAGES[state.storyIndex];
-    el.introTitle.textContent = page.title;
-    el.introBody.textContent = page.body;
-    el.introCounter.textContent = `${state.storyIndex + 1} / ${INTRO_PAGES.length}`;
-    el.introVisual.className = `intro-visual ${page.layout}`;
-    el.introLayer.innerHTML = page.visual();
-    el.nextIntroBtn.textContent = state.storyIndex === INTRO_PAGES.length - 1 ? '開始旅程' : '下一頁';
-  }
-
-  function showModal(title, html){
-    el.modalRoot.innerHTML = `
-      <div class="modal-backdrop" role="dialog" aria-modal="true">
-        <div class="modal-panel panel">
-          <h3>${title}</h3>
-          <div>${html}</div>
-          <div class="modal-actions"><button class="btn btn-primary mini-btn" id="closeModalBtn">關閉</button></div>
-        </div>
-      </div>`;
-    document.getElementById('closeModalBtn').onclick = ()=>el.modalRoot.innerHTML='';
-  }
-
-  function initDeck(){
-    state.drawPile = shuffle(STARTER_DECK);
-    state.discardPile = [];
-    state.hand = [];
-  }
-  function refillIfNeeded(){
-    if(state.drawPile.length===0 && state.discardPile.length){
-      state.drawPile = shuffle(state.discardPile);
-      state.discardPile = [];
-    }
-  }
-  function drawCards(n){
-    for(let i=0;i<n;i++){
-      refillIfNeeded();
-      if(!state.drawPile.length) return;
-      const id = state.drawPile.shift();
-      state.hand.push(id);
-    }
-  }
-  function hasComboCard(){
-    return state.hand.some(id => id==='memory' || id==='koro') ? 1 : 0;
-  }
-  function gainBlock(n){ state.block += n; beep('block'); }
-  function attackEnemy(n){
-    beep('attack');
-    let dmg = Math.max(0, n);
-    if(state.enemyBlock>0){
-      const blocked = Math.min(state.enemyBlock, dmg);
-      state.enemyBlock -= blocked;
-      dmg -= blocked;
-    }
-    state.enemyHp = Math.max(0, state.enemyHp - dmg);
-  }
-  function damagePlayer(n){
-    beep('enemy');
-    let dmg = Math.max(0, n);
-    if(state.block>0){
-      const blocked = Math.min(state.block, dmg);
-      state.block -= blocked;
-      dmg -= blocked;
-    }
-    state.playerHp = Math.max(0, state.playerHp - dmg);
-  }
-  function consumeEmpower(kind){
-    if(kind==='attack' && state.attackBuffUses>0){
-      state.attackBuffUses -= 1;
-      if(state.attackBuffUses===0) state.attackBuff = 0;
-    }
-  }
-  function nextIntent(){
-    const roll = Math.random();
-    if(roll < .42){
-      state.intent = {type:'attack', amount:10 + Math.min(4, state.stage-1)*2 + state.corrosionAttackBonus, label:`撲擊 ${10 + Math.min(4, state.stage-1)*2 + state.corrosionAttackBonus}`};
-    }else if(roll < .72){
-      state.intent = {type:'corrode', amount:1, label:'記憶吞噬 1'};
-    }else{
-      state.intent = {type:'shield', amount:8, label:'黑霧硬殼 8'};
-    }
-  }
-  function updateSkills(){
-    const koroReady = state.skillCooldown.koro===0;
-    const bearReady = state.skillCooldown.bear===0;
-    el.koroSkill.disabled = !koroReady;
-    el.bearSkill.disabled = !bearReady;
-    el.koroSkill.classList.toggle('ready', koroReady);
-    el.bearSkill.classList.toggle('ready', bearReady);
-    el.koroSkillMeta.textContent = koroReady ? '可發動' : `CD ${state.skillCooldown.koro}`;
-    el.bearSkillMeta.textContent = bearReady ? '可發動' : `CD ${state.skillCooldown.bear}`;
-  }
-  function renderHand(){
-    el.handRow.innerHTML = '';
-    state.hand.forEach((id, index)=>{
-      const card = CARD_LIBRARY[id];
-      const playable = state.energy >= card.cost && state.canAct;
-      const article = document.createElement('button');
-      article.className = `card ${playable ? 'playable' : 'unplayable'}`;
-      article.innerHTML = `
-        <figure>
-          <div class="card-art"><img src="${card.img}" alt="${card.name}" loading="lazy" /></div>
-          <figcaption class="card-text"><h4>${card.name}</h4><p>${card.short}</p></figcaption>
-        </figure>`;
-      article.onclick = ()=>playCard(index);
-      el.handRow.appendChild(article);
-    });
-  }
-  function updatePhaseClass(){
-    el.battleScene.classList.remove('stage-1','stage-2','stage-3');
-    el.battleScene.classList.add(`stage-${state.stage}`);
-  }
-  function render(){
-    el.playerHpText.textContent = `${state.playerHp} / ${state.playerMaxHp}`;
-    el.enemyHpText.textContent = `${state.enemyHp} / ${state.enemyMaxHp}`;
-    el.energyText.textContent = `${state.energy} / ${state.energyMax}`;
-    el.turnText.textContent = state.turn;
-    el.intentText.textContent = state.intent.label;
-    el.intentSub.textContent = `侵蝕 ${state.enemyCorrosion}`;
-    el.blockText.textContent = state.block;
-    el.enemyBlockText.textContent = state.enemyBlock;
-    el.stageText.textContent = `${state.stage} / 3`;
-    el.stageBonusText.textContent = `攻+${state.attackBuff} 靈+${state.insight} 格+${state.block}`;
-    el.insightText.textContent = state.insight;
-    el.insightBonusText.textContent = `攻+${Math.floor(state.insight/2)}`;
-    el.corrosionText.textContent = state.enemyCorrosion;
-    el.corrosionBonusText.textContent = `敵攻 +${state.corrosionAttackBonus}`;
-    el.drawPileText.textContent = state.drawPile.length;
-    el.discardPileText.textContent = state.discardPile.length;
-    el.endTurnBtn.disabled = !state.canAct;
-    el.corrosionGlow.classList.toggle('corrosion-active', state.enemyCorrosion>0);
-    updatePhaseClass();
-    renderHand();
-    updateSkills();
-  }
-
-  function checkBattleState(){
-    if(state.enemyHp <= 0){
-      beep('victory');
-      state.canAct = false;
-      showModal('戰鬥勝利', `<p>你成功修復了中興會堂這一階段的記憶之光。</p><p>這個 GitHub 版本先保留手機測試用單場戰鬥 DEMO；之後可再接續完整三階段與獎勵選擇。</p>`);
-      return true;
-    }
-    if(state.playerHp <= 0){
-      beep('defeat');
-      state.canAct = false;
-      showModal('戰鬥失敗', `<p>記憶旅人小隊暫時被噬憶獸擊退了。</p><p>按下「重開」可重新進行本場戰鬥。</p>`);
-      return true;
-    }
-    return false;
-  }
-
-  function playCard(index){
-    if(!state.canAct) return;
-    const id = state.hand[index];
-    const card = CARD_LIBRARY[id];
-    if(!card) return;
-    if(state.energy < card.cost){ showToast('能量不足'); return; }
-    state.energy -= card.cost;
-    state.hand.splice(index, 1);
-    state.discardPile.push(id);
-    if(card.type==='skill') state.playedSkillThisTurn = true;
-    card.play(state);
-    render();
-    checkBattleState();
-  }
-
-  function resolveEnemyTurn(){
-    if(state.intent.type==='attack'){
-      damagePlayer(state.intent.amount);
-      impact('attack', `敵人攻擊 ${state.intent.amount}`);
-    }else if(state.intent.type==='corrode'){
-      state.enemyCorrosion += 1;
-      state.corrosionAttackBonus += 1;
-      damagePlayer(4 + state.corrosionAttackBonus);
-      impact('attack', '侵蝕蔓延');
-    }else if(state.intent.type==='shield'){
-      state.enemyBlock += state.intent.amount;
-      impact('buff', `黑霧硬殼 +${state.intent.amount}`);
-    }
-  }
-
-  function endTurn(){
-    if(!state.canAct) return;
-    state.canAct = false;
-    state.hand.forEach(id => state.discardPile.push(id));
-    state.hand = [];
-    resolveEnemyTurn();
-    if(checkBattleState()) { render(); return; }
-    state.turn += 1;
-    state.block = 0;
-    state.energy = state.energyMax;
-    state.playedSkillThisTurn = false;
-    if(state.skillCooldown.koro>0) state.skillCooldown.koro -= 1;
-    if(state.skillCooldown.bear>0) state.skillCooldown.bear -= 1;
-    nextIntent();
-    drawCards(4);
-    state.canAct = true;
-    render();
-  }
-
-  function useKoro(){
-    if(state.skillCooldown.koro!==0 || !state.canAct) return;
-    const bonus = state.insight > 0 ? 8 : 5;
-    gainBlock(bonus);
-    state.skillCooldown.koro = 5;
-    beep('buff');
-    impact('buff', `KORO 護盾 +${bonus}`);
-    showToast(`KORO 發動記憶護盾，格擋 +${bonus}`);
-    render();
-  }
-  function useBear(){
-    if(state.skillCooldown.bear!==0 || !state.canAct) return;
-    state.attackBuff = 4;
-    state.attackBuffUses = 2;
-    state.skillCooldown.bear = 5;
-    beep('buff');
-    impact('buff', '呆尼熊鼓舞，攻擊 +4');
-    showToast('呆尼熊鼓舞：下 2 次攻擊 +4');
-    render();
-  }
-
-  function resetGame(){
-    state.playerMaxHp = 110; state.playerHp = 110;
-    state.energyMax = 3; state.energy = 3;
-    state.block = 0;
-    state.enemyMaxHp = 75; state.enemyHp = 75; state.enemyBlock = 0;
-    state.enemyCorrosion = 0; state.corrosionAttackBonus = 0;
-    state.insight = 0; state.stage = 1;
-    state.turn = 1;
-    state.playedSkillThisTurn = false;
-    state.courage = 0;
-    state.attackBuff = 0; state.attackBuffUses = 0;
-    state.skillCooldown = {koro:0, bear:0};
-    state.canAct = true;
-    initDeck();
-    nextIntent();
-    drawCards(4);
-    render();
-  }
-
-  // Events
-  el.nextIntroBtn.addEventListener('click', ()=>{
-    if(state.storyIndex < INTRO_PAGES.length - 1){
-      beep('buff');
-      state.storyIndex += 1;
-      renderIntro();
-    }else{
-      beep('victory');
-      el.introScreen.classList.add('hidden');
-      el.gameScreen.classList.remove('hidden');
-      resetGame();
-    }
-  });
-  el.skipIntroBtn.addEventListener('click', ()=>{
-    el.introScreen.classList.add('hidden');
-    el.gameScreen.classList.remove('hidden');
-    resetGame();
-  });
-  el.endTurnBtn.addEventListener('click', endTurn);
-  el.koroSkill.addEventListener('click', useKoro);
-  el.bearSkill.addEventListener('click', useBear);
-  el.resetBtn.addEventListener('click', ()=>{ resetGame(); showToast('已重新開始戰鬥'); });
-  el.storyBtn.addEventListener('click', ()=>{
-    state.storyIndex = 0; renderIntro();
-    el.gameScreen.classList.add('hidden');
-    el.introScreen.classList.remove('hidden');
-  });
-  el.rulesBtn.addEventListener('click', ()=>showModal('遊戲規則', `
-    <ul>
-      <li>每回合有 3 點能量，可打出手牌與發動夥伴技能。</li>
-      <li>記憶斬擊與記憶石碎光為主要輸出卡；紙本地圖與地方記憶提供防禦與抽牌。</li>
-      <li>KORO 可提供護盾；呆尼熊可讓下 2 次攻擊傷害 +4。</li>
-      <li>敵方若累積侵蝕，攻擊會逐漸變強，請盡快壓制。</li>
-    </ul>`));
-
-  renderIntro();
-  </script>
+    </div>
+    <div class="panel compact-wrap section"><div class="compact-row"><div class="info-item"><span class="k">階段</span><span id="stageText" class="v">1 / 3</span><small id="stageBonusText">攻+0 靈+0 格+0</small></div><div class="info-item"><span class="k">靈感</span><span id="insightText" class="v">0</span><small id="insightBonusText">攻+0</small></div><div class="info-item red"><span class="k">侵蝕</span><span id="corrosionText" class="v">0</span><small id="corrosionBonusText">敵攻 +0</small></div><div class="info-item"><span class="k">抽牌堆</span><span id="drawPileText" class="v">0</span><small>剩餘牌數</small></div><div class="info-item"><span class="k">棄牌堆</span><span id="discardPileText" class="v">0</span><small>已使用牌</small></div></div></div>
+    <div class="panel skills-wrap section"><div class="skills-row"><button id="koroSkill" class="skill-btn">KORO 護盾<small id="koroSkillMeta">可發動</small></button><button id="bearSkill" class="skill-btn">呆尼熊 鼓舞<small id="bearSkillMeta">可發動</small></button></div></div>
+    <div class="panel cards-wrap section"><div class="cards-head"><h3>可使用卡牌</h3></div><div class="end-row"><button id="endTurnBtn" class="btn-primary">結束回合</button></div><div id="handRow" class="cards-row"></div></div>
+    <div class="panel bottom-actions section"><button id="rulesBtn" class="btn-primary mini-btn">規則</button><button id="storyBtn" class="btn-primary mini-btn">前言</button><button id="resetBtn" class="btn-primary mini-btn">重開</button></div>
+  </section>
+</div>
+<div id="modalRoot"></div><div id="toast" class="toast"></div>
+<script>
+const STORY_PAGES=[{img:'assets/story_1.webp',title:'在記憶消散之前',body:'每當一段回憶被遺忘，記憶世界就會落下一枚碎片。碎片越多，現實中的地方便越黯淡。'},{img:'assets/story_2.webp',title:'黑霧逼近中興會堂',body:'如今，噬憶獸已盯上中興會堂。它操弄紅色記憶石與黑霧，準備吞沒人們珍視的地方記憶。'},{img:'assets/story_3.webp',title:'記憶旅人小隊出發',body:'黑髮主角、粉髮主角、KORO 與呆尼熊已整裝待發。穿越記憶碎片，正是奪回光芒的第一步。'},{img:'assets/story_4.webp',title:'點亮記憶之光',body:'前往中興會堂，擊退噬憶獸，找回散落的記憶。當記憶再度被喚醒，世界也將重新發光。'}];
+const CARD_LIBRARY={slash:{id:'slash',name:'記憶斬擊',cost:1,type:'attack',img:'assets/card_slash.webp',short:'12傷｜抽1',play(s){attackEnemy(12+s.attackBuff);drawCards(1);consumeAttackBuff();impact('attack','記憶斬擊');}},map:{id:'map',name:'紙本地圖',cost:1,type:'skill',img:'assets/card_map.webp',short:'格擋5｜抽1',play(s){gainBlock(5);drawCards(1);impact('block','紙本地圖');}},koro:{id:'koro',name:'KORO 導覽',cost:1,type:'skill',img:'assets/card_koro.webp',short:'抽2｜連技能再抽1',play(s){const extra=s.playedSkillThisTurn?1:0;drawCards(2+extra);impact('buff',extra?'KORO 加成':'KORO 導覽');}},bear:{id:'bear',name:'呆尼熊的勇氣',cost:1,type:'skill',img:'assets/card_bear.webp',short:'格擋6｜勇氣+1',play(s){gainBlock(6);s.courage+=1;impact('buff','勇氣提升');}},crystal:{id:'crystal',name:'記憶石碎光',cost:2,type:'attack',img:'assets/card_crystal.webp',short:'18傷｜侵蝕+6',play(s){const bonus=s.enemyCorrosion>0?6:0;attackEnemy(18+bonus+s.attackBuff);consumeAttackBuff();impact('attack',bonus?'碎光爆裂':'記憶石碎光');}},memory:{id:'memory',name:'地方記憶',cost:1,type:'skill',img:'assets/card_memory.webp',short:'格擋4｜抽1',play(s){gainBlock(4);drawCards(1+hasComboCard());impact('block','地方記憶');}}};
+const STARTER_DECK=['slash','map','koro','bear','crystal','memory','slash','map','slash','memory','koro','crystal','map','bear','memory'];
+const state={storyIndex:0,playerMaxHp:110,playerHp:110,energyMax:3,energy:3,block:0,enemyMaxHp:75,enemyHp:75,enemyBlock:0,enemyCorrosion:0,corrosionAttackBonus:0,insight:0,stage:1,drawPile:[],discardPile:[],hand:[],turn:1,intent:{type:'attack',amount:10,label:'撲擊 10'},playedSkillThisTurn:false,courage:0,attackBuff:0,attackBuffUses:0,skillCooldown:{koro:0,bear:0},canAct:true};
+const $=id=>document.getElementById(id);const els={storyScreen:$('storyScreen'),coverScreen:$('coverScreen'),gameScreen:$('gameScreen'),storyImage:$('storyImage'),storyCount:$('storyCount'),storyTitle:$('storyTitle'),storyBody:$('storyBody'),nextStoryBtn:$('nextStoryBtn'),skipStoryBtn:$('skipStoryBtn'),backToStoryBtn:$('backToStoryBtn'),startGameBtn:$('startGameBtn'),playerHpText:$('playerHpText'),enemyHpText:$('enemyHpText'),energyText:$('energyText'),turnText:$('turnText'),intentText:$('intentText'),intentSub:$('intentSub'),blockText:$('blockText'),enemyBlockText:$('enemyBlockText'),stageText:$('stageText'),stageBonusText:$('stageBonusText'),insightText:$('insightText'),insightBonusText:$('insightBonusText'),corrosionText:$('corrosionText'),corrosionBonusText:$('corrosionBonusText'),drawPileText:$('drawPileText'),discardPileText:$('discardPileText'),handRow:$('handRow'),endTurnBtn:$('endTurnBtn'),koroSkill:$('koroSkill'),bearSkill:$('bearSkill'),koroSkillMeta:$('koroSkillMeta'),bearSkillMeta:$('bearSkillMeta'),rulesBtn:$('rulesBtn'),storyBtn:$('storyBtn'),resetBtn:$('resetBtn'),modalRoot:$('modalRoot'),toast:$('toast'),battleScene:$('battleScene'),corrosionGlow:$('corrosionGlow'),impactFx:$('impactFx')};
+function showScreen(name){els.storyScreen.classList.add('hidden');els.coverScreen.classList.add('hidden');els.gameScreen.classList.add('hidden');if(name==='story')els.storyScreen.classList.remove('hidden');if(name==='cover')els.coverScreen.classList.remove('hidden');if(name==='game')els.gameScreen.classList.remove('hidden');}
+function renderStory(){const p=STORY_PAGES[state.storyIndex];els.storyImage.src=p.img;els.storyTitle.textContent=p.title;els.storyBody.textContent=p.body;els.storyCount.textContent=`${state.storyIndex+1} / ${STORY_PAGES.length}`;els.nextStoryBtn.textContent=state.storyIndex===STORY_PAGES.length-1?'前往封面':'下一頁';}
+function gotoCover(){showScreen('cover');}
+function gotoGame(){resetGame();showScreen('game');}
+function shuffle(arr){return [...arr].sort(()=>Math.random()-0.5);}
+function toast(msg){els.toast.textContent=msg;els.toast.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>els.toast.classList.remove('show'),1500);}
+function impact(kind,text){els.impactFx.className=`impact ${kind} show`;els.impactFx.querySelector('span').textContent=text;setTimeout(()=>els.impactFx.className='impact',420);}
+let audioCtx;function beep(type='click'){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ctx=audioCtx,o=ctx.createOscillator(),g=ctx.createGain(),now=ctx.currentTime;let freq=420,dur=.09,end=1.25;if(type==='attack'){o.type='sawtooth';freq=220;dur=.12;end=1.6;}else if(type==='block'){o.type='triangle';freq=560;dur=.11;end=1.1;}else if(type==='buff'){o.type='sine';freq=700;dur=.16;end=1.35;}else if(type==='enemy'){o.type='square';freq=165;dur=.18;end=.75;}else if(type==='victory'){o.type='sine';freq=740;dur=.28;end=1.55;}else if(type==='defeat'){o.type='sawtooth';freq=120;dur=.32;end=.55;}else{o.type='square';}o.frequency.setValueAtTime(freq,now);o.frequency.exponentialRampToValueAtTime(freq*end,now+dur);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.04,now+.01);g.gain.exponentialRampToValueAtTime(.0001,now+dur);o.connect(g);g.connect(ctx.destination);o.start(now);o.stop(now+dur);}catch(err){}}
+function showModal(title,html){els.modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal-panel panel"><h3>${title}</h3><div>${html}</div><div class="modal-actions"><button id="closeModalBtn" class="btn-primary mini-btn">關閉</button></div></div></div>`;$('closeModalBtn').onclick=()=>els.modalRoot.innerHTML='';}
+function initDeck(){state.drawPile=shuffle(STARTER_DECK);state.discardPile=[];state.hand=[];}function refillIfNeeded(){if(state.drawPile.length===0&&state.discardPile.length){state.drawPile=shuffle(state.discardPile);state.discardPile=[];}}function drawCards(n){for(let i=0;i<n;i++){refillIfNeeded();if(!state.drawPile.length)return;state.hand.push(state.drawPile.shift());}}function hasComboCard(){return state.hand.some(id=>id==='memory'||id==='koro')?1:0;}function gainBlock(n){state.block+=n;beep('block');}function consumeAttackBuff(){if(state.attackBuffUses>0){state.attackBuffUses-=1;if(state.attackBuffUses===0)state.attackBuff=0;}}function attackEnemy(n){beep('attack');let dmg=Math.max(0,n);if(state.enemyBlock>0){const blocked=Math.min(state.enemyBlock,dmg);state.enemyBlock-=blocked;dmg-=blocked;}state.enemyHp=Math.max(0,state.enemyHp-dmg);}function damagePlayer(n){beep('enemy');let dmg=Math.max(0,n);if(state.block>0){const blocked=Math.min(state.block,dmg);state.block-=blocked;dmg-=blocked;}state.playerHp=Math.max(0,state.playerHp-dmg);}function nextIntent(){const roll=Math.random();if(roll<.42){const amt=10+Math.min(4,state.stage-1)*2+state.corrosionAttackBonus;state.intent={type:'attack',amount:amt,label:`撲擊 ${amt}`};}else if(roll<.72){state.intent={type:'corrode',amount:1,label:'記憶吞噬 1'};}else{state.intent={type:'shield',amount:8,label:'黑霧硬殼 8'};}}function updateSkillUI(){const kr=state.skillCooldown.koro===0&&state.canAct,br=state.skillCooldown.bear===0&&state.canAct;els.koroSkill.disabled=!kr;els.bearSkill.disabled=!br;els.koroSkill.classList.toggle('ready',kr);els.bearSkill.classList.toggle('ready',br);els.koroSkillMeta.textContent=state.skillCooldown.koro===0?'可發動':`CD ${state.skillCooldown.koro}`;els.bearSkillMeta.textContent=state.skillCooldown.bear===0?'可發動':`CD ${state.skillCooldown.bear}`;}function renderHand(){els.handRow.innerHTML='';state.hand.forEach((id,index)=>{const card=CARD_LIBRARY[id];const playable=state.energy>=card.cost&&state.canAct;const btn=document.createElement('button');btn.className=`card ${playable?'playable':'unplayable'}`;btn.innerHTML=`<div class="card-art"><img src="${card.img}" alt="${card.name}" loading="lazy"></div><div class="card-meta"><h4>${card.name}</h4><p>${card.short}</p></div>`;btn.onclick=()=>playCard(index);els.handRow.appendChild(btn);});}
+function render(){els.playerHpText.textContent=`${state.playerHp} / ${state.playerMaxHp}`;els.enemyHpText.textContent=`${state.enemyHp} / ${state.enemyMaxHp}`;els.energyText.textContent=`${state.energy} / ${state.energyMax}`;els.turnText.textContent=state.turn;els.intentText.textContent=state.intent.label;els.intentSub.textContent=`侵蝕 ${state.enemyCorrosion}`;els.blockText.textContent=state.block;els.enemyBlockText.textContent=state.enemyBlock;els.stageText.textContent=`${state.stage} / 3`;els.stageBonusText.textContent=`攻+${state.attackBuff} 靈+${state.insight} 格+${state.block}`;els.insightText.textContent=state.insight;els.insightBonusText.textContent=`攻+${Math.floor(state.insight/2)}`;els.corrosionText.textContent=state.enemyCorrosion;els.corrosionBonusText.textContent=`敵攻 +${state.corrosionAttackBonus}`;els.drawPileText.textContent=state.drawPile.length;els.discardPileText.textContent=state.discardPile.length;els.endTurnBtn.disabled=!state.canAct;els.battleScene.classList.remove('stage-1','stage-2','stage-3');els.battleScene.classList.add(`stage-${state.stage}`);els.corrosionGlow.classList.toggle('corrosion-on',state.enemyCorrosion>0);renderHand();updateSkillUI();}
+function checkBattleState(){if(state.enemyHp<=0){state.canAct=false;beep('victory');showModal('戰鬥勝利','<p>你成功擊退噬憶獸，守住了中興會堂的記憶之光。</p><p>這個版本先以 GitHub 測試用的 V50 手機介面與故事流程為主。</p>');render();return true;}if(state.playerHp<=0){state.canAct=false;beep('defeat');showModal('戰鬥失敗','<p>記憶旅人小隊暫時被擊退了。</p><p>按下「重開」可以重新開始戰鬥。</p>');render();return true;}return false;}
+function playCard(index){if(!state.canAct)return;const id=state.hand[index],card=CARD_LIBRARY[id];if(!card)return;if(state.energy<card.cost){toast('能量不足');return;}state.energy-=card.cost;state.hand.splice(index,1);state.discardPile.push(id);if(card.type==='skill')state.playedSkillThisTurn=true;card.play(state);render();checkBattleState();}
+function resolveEnemyTurn(){if(state.intent.type==='attack'){damagePlayer(state.intent.amount);impact('attack',`敵人攻擊 ${state.intent.amount}`);}else if(state.intent.type==='corrode'){state.enemyCorrosion+=1;state.corrosionAttackBonus+=1;damagePlayer(4+state.corrosionAttackBonus);impact('attack','侵蝕蔓延');}else if(state.intent.type==='shield'){state.enemyBlock+=state.intent.amount;impact('buff',`黑霧硬殼 +${state.intent.amount}`);}}
+function endTurn(){if(!state.canAct)return;state.canAct=false;state.hand.forEach(id=>state.discardPile.push(id));state.hand=[];resolveEnemyTurn();if(checkBattleState())return;state.turn+=1;state.block=0;state.energy=state.energyMax;state.playedSkillThisTurn=false;if(state.skillCooldown.koro>0)state.skillCooldown.koro-=1;if(state.skillCooldown.bear>0)state.skillCooldown.bear-=1;nextIntent();drawCards(4);state.canAct=true;render();}
+function useKoro(){if(state.skillCooldown.koro!==0||!state.canAct)return;const bonus=state.insight>0?8:5;gainBlock(bonus);state.skillCooldown.koro=5;beep('buff');impact('buff',`KORO 護盾 +${bonus}`);toast(`KORO 護盾 +${bonus}`);render();}
+function useBear(){if(state.skillCooldown.bear!==0||!state.canAct)return;state.attackBuff=4;state.attackBuffUses=2;state.skillCooldown.bear=5;beep('buff');impact('buff','呆尼熊鼓舞');toast('下 2 次攻擊 +4');render();}
+function resetGame(){state.playerMaxHp=110;state.playerHp=110;state.energyMax=3;state.energy=3;state.block=0;state.enemyMaxHp=75;state.enemyHp=75;state.enemyBlock=0;state.enemyCorrosion=0;state.corrosionAttackBonus=0;state.insight=0;state.stage=1;state.turn=1;state.playedSkillThisTurn=false;state.courage=0;state.attackBuff=0;state.attackBuffUses=0;state.skillCooldown={koro:0,bear:0};state.canAct=true;initDeck();nextIntent();drawCards(4);render();}
+els.nextStoryBtn.onclick=()=>{beep('buff');if(state.storyIndex<STORY_PAGES.length-1){state.storyIndex+=1;renderStory();}else{gotoCover();}};els.skipStoryBtn.onclick=()=>gotoCover();els.backToStoryBtn.onclick=()=>{state.storyIndex=0;renderStory();showScreen('story');};els.startGameBtn.onclick=()=>{beep('victory');gotoGame();};els.endTurnBtn.onclick=endTurn;els.koroSkill.onclick=useKoro;els.bearSkill.onclick=useBear;els.resetBtn.onclick=()=>{resetGame();toast('已重新開始戰鬥');};els.storyBtn.onclick=()=>{state.storyIndex=0;renderStory();showScreen('story');};els.rulesBtn.onclick=()=>showModal('遊戲規則','<ul><li>每回合有 3 點能量，可出牌與發動夥伴技能。</li><li>KORO 可提供護盾；呆尼熊可讓下 2 次攻擊 +4。</li><li>侵蝕越高，敵人的攻擊會逐漸增強。</li><li>本版流程為：故事前言 → 遊戲封面 → 開始遊戲。</li><li>本版戰鬥介面採用 V50 版本。</li></ul>');renderStory();showScreen('story');
+</script>
 </body>
 </html>
