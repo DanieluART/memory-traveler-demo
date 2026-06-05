@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 DEMO v50</title>
+<title>記憶旅人｜手機 WEB DEMO v51 三消整合版</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -679,7 +679,7 @@
 }
 
 </style>
-<!-- v45 mobile-polish GitHub Pages build: images externalized to avoid GitHub 25MB upload limit. -->
+<!-- v51 match-3 integration build: story -> cover -> match-3 memory collection -> card battle. -->
 
 <style id="v43-flat-info-ui">
 /* v43：參考 V40，修正資訊列呈現失敗，壓成更扁平、更短的一行 */
@@ -1766,6 +1766,263 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 </style>
 
+
+
+<style id="v51-match3-memory-flow">
+/* v51：三消蒐集記憶碎片，接入原本卡牌戰鬥 */
+.match3-screen{
+  min-height:calc(100vh - 16px);
+  display:grid;
+  gap:8px;
+}
+.match3-shell{
+  display:grid;
+  gap:8px;
+  padding:8px;
+  border:2px solid rgba(217,179,106,.32);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(16,37,68,.95),rgba(9,24,44,.98));
+  box-shadow:0 14px 28px rgba(0,0,0,.32);
+}
+.match3-hero{
+  position:relative;
+  overflow:hidden;
+  min-height:150px;
+  border-radius:16px;
+  border:2px solid rgba(217,179,106,.36);
+  background:
+    radial-gradient(circle at 70% 24%, rgba(255,207,92,.18), transparent 28%),
+    radial-gradient(circle at 30% 58%, rgba(88,176,255,.16), transparent 30%),
+    linear-gradient(180deg,#142d52,#08182d);
+}
+.match3-hero::before{
+  content:"中興會堂";
+  position:absolute;
+  left:50%;
+  top:44%;
+  transform:translate(-50%,-50%);
+  width:72%;
+  max-width:360px;
+  height:88px;
+  display:grid;
+  place-items:center;
+  color:rgba(255,229,178,.9);
+  font-size:28px;
+  font-weight:1000;
+  letter-spacing:.1em;
+  border:3px solid rgba(217,179,106,.55);
+  border-radius:20px 20px 10px 10px;
+  background:linear-gradient(180deg,rgba(116,84,50,.76),rgba(50,36,32,.72));
+  box-shadow:0 0 30px rgba(255,190,90,.15) inset, 0 12px 24px rgba(0,0,0,.28);
+}
+.match3-hero::after{
+  content:"";
+  position:absolute;
+  inset:-10%;
+  background:
+    radial-gradient(circle at 84% 8%, rgba(0,0,0,.86) 0%, rgba(0,0,0,.54) 20%, transparent 33%),
+    radial-gradient(circle at 12% 26%, rgba(0,0,0,.66) 0%, rgba(0,0,0,.36) 18%, transparent 36%),
+    radial-gradient(circle at 62% 78%, rgba(0,0,0,.54) 0%, transparent 28%);
+  filter:blur(8px);
+  opacity:.82;
+  animation:match3Fog 4.2s ease-in-out infinite;
+}
+.match3-hero-title{
+  position:absolute;
+  z-index:2;
+  left:12px;
+  right:12px;
+  top:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:flex-start;
+}
+.match3-hero-title .match3-title-block{
+  padding:8px 10px;
+  border-radius:14px;
+  background:rgba(8,18,33,.76);
+  border:1px solid rgba(217,179,106,.36);
+  backdrop-filter:blur(8px);
+}
+.match3-hero-title h2{
+  margin:0;
+  font-size:18px;
+}
+.match3-hero-title p{
+  margin:4px 0 0;
+  color:#d8e9ff;
+  font-size:12px;
+  line-height:1.35;
+}
+.match3-moves-pill{
+  min-width:86px;
+  padding:8px;
+  border-radius:14px;
+  text-align:center;
+  border:1px solid rgba(217,179,106,.55);
+  background:rgba(8,18,33,.76);
+  backdrop-filter:blur(8px);
+}
+.match3-moves-pill span{
+  display:block;
+  color:#9cc8ff;
+  font-size:11px;
+  font-weight:900;
+}
+.match3-moves-pill strong{
+  display:block;
+  margin-top:2px;
+  color:#fff0bf;
+  font-size:28px;
+  line-height:1;
+}
+.match3-objectives{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+.match3-objective{
+  display:grid;
+  place-items:center;
+  min-height:58px;
+  padding:7px 5px;
+  border-radius:13px;
+  background:linear-gradient(180deg,rgba(13,34,62,.88),rgba(8,21,39,.9));
+  border:1px solid rgba(217,179,106,.28);
+  text-align:center;
+}
+.match3-objective .pixel-icon{
+  font-size:20px;
+  line-height:1;
+  filter:drop-shadow(0 3px 0 rgba(0,0,0,.28));
+}
+.match3-objective span{
+  margin-top:2px;
+  font-size:10px;
+  color:#d6e6ff;
+  white-space:nowrap;
+}
+.match3-objective strong{
+  margin-top:2px;
+  font-size:14px;
+  color:#fff0bf;
+}
+.match3-objective.done{
+  border-color:rgba(124,255,164,.7);
+  box-shadow:0 0 14px rgba(97,255,160,.18);
+}
+.match3-board{
+  display:grid;
+  grid-template-columns:repeat(7, 1fr);
+  gap:4px;
+  padding:8px;
+  border-radius:18px;
+  border:2px solid rgba(217,179,106,.48);
+  background:linear-gradient(180deg,rgba(34,39,48,.96),rgba(17,24,34,.98));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04), 0 12px 24px rgba(0,0,0,.28);
+  touch-action:manipulation;
+}
+.match3-cell{
+  aspect-ratio:1/1;
+  display:grid;
+  place-items:center;
+  position:relative;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,#223047,#121b2b);
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  transition:transform .12s ease, border-color .12s ease, filter .12s ease;
+}
+.match3-cell.selected{
+  transform:translateY(-2px) scale(1.04);
+  border-color:#ffdf7c;
+  box-shadow:0 0 0 2px rgba(255,223,124,.24),0 0 16px rgba(255,223,124,.3);
+  z-index:2;
+}
+.match3-cell.matched{
+  animation:match3Pop .28s ease-out both;
+}
+.match3-cell.invalid{
+  animation:match3Shake .26s linear both;
+}
+.match3-cell .m3-icon{
+  width:72%;
+  height:72%;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  font-size:20px;
+  font-weight:1000;
+  line-height:1;
+  image-rendering:pixelated;
+  text-shadow:0 2px 0 rgba(0,0,0,.22);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.16), inset 0 -3px 0 rgba(0,0,0,.18), 0 5px 8px rgba(0,0,0,.24);
+}
+.m3-person{background:#d85f8b;color:#fff;}
+.m3-building{background:#67a8df;color:#eef9ff;}
+.m3-sound{background:#4fb86f;color:#eaffec;}
+.m3-image{background:#bd9361;color:#fff4df;}
+.m3-light{background:#f2c849;color:#543a00;}
+.m3-fog{background:radial-gradient(circle,#2b2036,#0b0710 72%);color:#5c4968;box-shadow:inset 0 0 12px rgba(0,0,0,.8),0 0 12px rgba(35,20,55,.38)!important;}
+.match3-hint-panel{
+  display:grid;
+  gap:6px;
+  padding:10px;
+  border-radius:15px;
+  background:linear-gradient(180deg,rgba(8,24,48,.72),rgba(5,16,30,.76));
+  border:1px solid rgba(217,179,106,.2);
+}
+.match3-status{
+  color:#dbe9ff;
+  line-height:1.5;
+  font-size:13px;
+}
+.match3-bonus-preview{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+}
+.match3-bonus-preview div{
+  padding:7px 4px;
+  border-radius:10px;
+  text-align:center;
+  font-size:11px;
+  color:#d6e6ff;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.06);
+}
+.match3-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.match3-actions button{
+  min-height:46px;
+}
+.match3-actions button:disabled{
+  opacity:.48;
+  cursor:not-allowed;
+  filter:grayscale(.35);
+}
+@keyframes match3Fog{0%,100%{transform:translateX(0) scale(1);opacity:.72;}50%{transform:translateX(-2%) scale(1.04);opacity:.92;}}
+@keyframes match3Pop{0%{transform:scale(1);}55%{transform:scale(1.18);}100%{transform:scale(.1);opacity:0;}}
+@keyframes match3Shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}50%{transform:translateX(4px);}75%{transform:translateX(-3px);}}
+@media (max-width:420px){
+  .match3-screen{gap:6px;}
+  .match3-shell{padding:6px;}
+  .match3-hero{min-height:132px;}
+  .match3-hero-title h2{font-size:16px;}
+  .match3-objective{min-height:52px;}
+  .match3-board{gap:3px;padding:6px;border-radius:15px;}
+  .match3-cell{border-radius:8px;}
+  .match3-cell .m3-icon{font-size:18px;border-radius:7px;}
+  .match3-bonus-preview{grid-template-columns:1fr;}
+}
+</style>
+
 </head>
 <body>
 <main class="app-shell mobile-app">
@@ -1794,7 +2051,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v50</span>
+<span class="badge alt">DEMO v51</span>
 </div>
 </div>
 </div>
@@ -1810,6 +2067,40 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 </article>
 </section>
+
+
+<section class="screen match3-screen hidden" id="match3Screen">
+  <article class="match3-shell fade-in-up">
+    <div class="match3-hero">
+      <div class="match3-hero-title">
+        <div class="match3-title-block">
+          <h2>蒐集記憶碎片</h2>
+          <p>交換相鄰碎片，完成三連消。蒐集成功後，記憶會轉化成卡牌戰鬥加成。</p>
+        </div>
+        <div class="match3-moves-pill"><span>剩餘步數</span><strong id="match3MovesText">20</strong></div>
+      </div>
+    </div>
+    <div class="match3-objectives" id="match3Objectives">
+      <div class="match3-objective" data-goal="person"><div class="pixel-icon">♥</div><span>人物記憶</span><strong id="m3GoalPerson">0 / 5</strong></div>
+      <div class="match3-objective" data-goal="building"><div class="pixel-icon">堂</div><span>建築記憶</span><strong id="m3GoalBuilding">0 / 5</strong></div>
+      <div class="match3-objective" data-goal="light"><div class="pixel-icon">✦</div><span>光之碎片</span><strong id="m3GoalLight">0 / 3</strong></div>
+    </div>
+    <div aria-label="三消棋盤" class="match3-board" id="match3Board"></div>
+    <div class="match3-hint-panel">
+      <div class="match3-status" id="match3Status">點選一枚碎片，再點選相鄰碎片即可交換。黑霧格會被旁邊的消除淨化。</div>
+      <div class="match3-bonus-preview">
+        <div>人物記憶達標：起始手牌 +1</div>
+        <div>建築記憶達標：開場格擋 +5</div>
+        <div>光之碎片達標：開場削弱噬憶獸</div>
+      </div>
+    </div>
+    <div class="match3-actions">
+      <button class="card-ui-btn secondary-btn" id="restartMatch3Button">重置三消</button>
+      <button class="card-ui-btn primary-btn" id="match3ContinueButton" disabled>進入卡牌戰鬥</button>
+    </div>
+  </article>
+</section>
+
 <section class="screen game-screen hidden" id="gameScreen">
 <header class="topbar mobile-topbar">
 <div class="topbar-brand">
@@ -2000,6 +2291,308 @@ document.addEventListener('DOMContentLoaded', function(){
       try{ if(typeof playSfx === 'function') playSfx('tap'); }catch(_){}
       showCover();
     });
+  });
+})();
+</script>
+
+
+
+<script id="v51-match3-memory-flow-script">
+(function(){
+  const SIZE = 7;
+  const MAX_MOVES = 20;
+  const TILE_TYPES = ['person','building','sound','image','light'];
+  const TILE_UI = {
+    person:{label:'人物記憶', icon:'♥', cls:'m3-person'},
+    building:{label:'建築記憶', icon:'堂', cls:'m3-building'},
+    sound:{label:'聲音記憶', icon:'♪', cls:'m3-sound'},
+    image:{label:'影像記憶', icon:'像', cls:'m3-image'},
+    light:{label:'光之碎片', icon:'✦', cls:'m3-light'},
+    fog:{label:'黑霧', icon:'霧', cls:'m3-fog'}
+  };
+  const GOALS = { person:5, building:5, light:3 };
+  let board = [];
+  let moves = MAX_MOVES;
+  let selected = null;
+  let collected = { person:0, building:0, sound:0, image:0, light:0 };
+  let completed = false;
+  let busy = false;
+
+  function el(id){ return document.getElementById(id); }
+  function sfx(kind){ try{ if(typeof playSfx === 'function') playSfx(kind); }catch(_){} }
+  function randTile(){ return TILE_TYPES[Math.floor(Math.random() * TILE_TYPES.length)]; }
+  function indexOf(r,c){ return r * SIZE + c; }
+  function cellAt(r,c){ return board[indexOf(r,c)]; }
+  function setCell(r,c,value){ board[indexOf(r,c)] = value; }
+  function adjacent(a,b){ return Math.abs(a.r-b.r) + Math.abs(a.c-b.c) === 1; }
+  function cloneBoard(){ return board.slice(); }
+  function setStatus(text){ const node = el('match3Status'); if(node) node.textContent = text; }
+  function goalDone(){ return collected.person >= GOALS.person && collected.building >= GOALS.building && collected.light >= GOALS.light; }
+
+  function createBoard(){
+    board = [];
+    for(let r=0;r<SIZE;r++){
+      for(let c=0;c<SIZE;c++){
+        let t = randTile();
+        let guard = 0;
+        while(guard++ < 20){
+          const left1 = c >= 1 ? board[indexOf(r,c-1)] : null;
+          const left2 = c >= 2 ? board[indexOf(r,c-2)] : null;
+          const up1 = r >= 1 ? board[indexOf(r-1,c)] : null;
+          const up2 = r >= 2 ? board[indexOf(r-2,c)] : null;
+          if(t !== left1 || t !== left2){
+            if(t !== up1 || t !== up2) break;
+          }
+          t = randTile();
+        }
+        board.push(t);
+      }
+    }
+    // 固定放入幾格黑霧障礙，避免三消版本太空
+    [[2,2],[3,1],[4,4],[5,5]].forEach(([r,c]) => setCell(r,c,'fog'));
+  }
+
+  function findMatches(){
+    const hits = new Set();
+    for(let r=0;r<SIZE;r++){
+      let runType = null, runStart = 0, runLen = 0;
+      for(let c=0;c<=SIZE;c++){
+        const t = c < SIZE ? cellAt(r,c) : null;
+        if(t && t !== 'fog' && t === runType){
+          runLen++;
+        } else {
+          if(runType && runLen >= 3){
+            for(let cc=runStart; cc<runStart+runLen; cc++) hits.add(indexOf(r,cc));
+          }
+          runType = t;
+          runStart = c;
+          runLen = t && t !== 'fog' ? 1 : 0;
+        }
+      }
+    }
+    for(let c=0;c<SIZE;c++){
+      let runType = null, runStart = 0, runLen = 0;
+      for(let r=0;r<=SIZE;r++){
+        const t = r < SIZE ? cellAt(r,c) : null;
+        if(t && t !== 'fog' && t === runType){
+          runLen++;
+        } else {
+          if(runType && runLen >= 3){
+            for(let rr=runStart; rr<runStart+runLen; rr++) hits.add(indexOf(rr,c));
+          }
+          runType = t;
+          runStart = r;
+          runLen = t && t !== 'fog' ? 1 : 0;
+        }
+      }
+    }
+    return hits;
+  }
+
+  function adjacentFogToClear(matchSet){
+    const fog = new Set();
+    for(const idx of matchSet){
+      const r = Math.floor(idx / SIZE), c = idx % SIZE;
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(([dr,dc])=>{
+        const nr = r + dr, nc = c + dc;
+        if(nr < 0 || nc < 0 || nr >= SIZE || nc >= SIZE) return;
+        if(cellAt(nr,nc) === 'fog') fog.add(indexOf(nr,nc));
+      });
+    }
+    return fog;
+  }
+
+  function collapseBoard(matchSet, fogSet){
+    for(const idx of matchSet){
+      const t = board[idx];
+      if(collected[t] !== undefined) collected[t] += 1;
+      board[idx] = null;
+    }
+    for(const idx of fogSet){
+      board[idx] = null;
+    }
+    for(let c=0;c<SIZE;c++){
+      const stack = [];
+      for(let r=SIZE-1;r>=0;r--){
+        const t = cellAt(r,c);
+        if(t) stack.push(t);
+      }
+      for(let r=SIZE-1;r>=0;r--){
+        const next = stack.shift() || randTile();
+        setCell(r,c,next);
+      }
+    }
+  }
+
+  async function resolveMatches(){
+    let total = 0;
+    let loopGuard = 0;
+    while(loopGuard++ < 8){
+      const matches = findMatches();
+      if(matches.size === 0) break;
+      total += matches.size;
+      const fogSet = adjacentFogToClear(matches);
+      document.querySelectorAll('.match3-cell').forEach((node,idx)=>{
+        if(matches.has(idx) || fogSet.has(idx)) node.classList.add('matched');
+      });
+      sfx(matches.size >= 4 ? 'effect' : 'card');
+      await new Promise(resolve => setTimeout(resolve, 240));
+      collapseBoard(matches, fogSet);
+      renderBoard();
+      await new Promise(resolve => setTimeout(resolve, 120));
+    }
+    if(total > 0){
+      setStatus(`成功消除 ${total} 枚記憶碎片。${goalDone() ? '記憶蒐集完成，可以進入卡牌戰鬥。' : '繼續蒐集目標碎片。'}`);
+    }
+    return total;
+  }
+
+  function renderBoard(){
+    const box = el('match3Board');
+    if(!box) return;
+    box.innerHTML = '';
+    board.forEach((t,idx)=>{
+      const r = Math.floor(idx / SIZE), c = idx % SIZE;
+      const ui = TILE_UI[t] || TILE_UI.person;
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'match3-cell';
+      if(selected && selected.r === r && selected.c === c) cell.classList.add('selected');
+      cell.innerHTML = `<span class="m3-icon ${ui.cls}" aria-hidden="true">${ui.icon}</span>`;
+      cell.setAttribute('aria-label', `${ui.label} ${r+1}-${c+1}`);
+      cell.addEventListener('click', () => handleCell(r,c));
+      cell.addEventListener('touchend', (e) => { e.preventDefault(); handleCell(r,c); }, {passive:false});
+      box.appendChild(cell);
+    });
+    renderHud();
+  }
+
+  function renderHud(){
+    const movesText = el('match3MovesText');
+    if(movesText) movesText.textContent = moves;
+    const gp = el('m3GoalPerson'), gb = el('m3GoalBuilding'), gl = el('m3GoalLight');
+    if(gp) gp.textContent = `${Math.min(collected.person, GOALS.person)} / ${GOALS.person}`;
+    if(gb) gb.textContent = `${Math.min(collected.building, GOALS.building)} / ${GOALS.building}`;
+    if(gl) gl.textContent = `${Math.min(collected.light, GOALS.light)} / ${GOALS.light}`;
+    document.querySelectorAll('.match3-objective').forEach(node => {
+      const goal = node.dataset.goal;
+      node.classList.toggle('done', collected[goal] >= GOALS[goal]);
+    });
+    const btn = el('match3ContinueButton');
+    completed = goalDone();
+    if(btn){
+      btn.disabled = !completed;
+      btn.textContent = completed ? '進入卡牌戰鬥' : '尚未完成蒐集';
+    }
+  }
+
+  async function handleCell(r,c){
+    if(busy || completed) return;
+    if(moves <= 0){
+      setStatus('步數已用完。可重置三消，或直接修改目標數值進行測試。');
+      return;
+    }
+    if(cellAt(r,c) === 'fog'){
+      setStatus('黑霧格無法直接交換，請在旁邊完成三消來淨化。');
+      sfx('enemySkill');
+      return;
+    }
+    if(!selected){
+      selected = {r,c};
+      renderBoard();
+      return;
+    }
+    if(selected.r === r && selected.c === c){
+      selected = null;
+      renderBoard();
+      return;
+    }
+    if(!adjacent(selected,{r,c})){
+      selected = {r,c};
+      renderBoard();
+      return;
+    }
+    busy = true;
+    const a = selected, b = {r,c};
+    selected = null;
+    const old = cloneBoard();
+    const t = cellAt(a.r,a.c);
+    setCell(a.r,a.c,cellAt(b.r,b.c));
+    setCell(b.r,b.c,t);
+    const matches = findMatches();
+    if(matches.size === 0){
+      board = old;
+      renderBoard();
+      document.querySelectorAll('.match3-cell').forEach((node,idx)=>{
+        if(idx === indexOf(a.r,a.c) || idx === indexOf(b.r,b.c)) node.classList.add('invalid');
+      });
+      setStatus('沒有形成三連消，交換取消。');
+      sfx('tap');
+      busy = false;
+      return;
+    }
+    moves -= 1;
+    renderBoard();
+    await resolveMatches();
+    busy = false;
+    if(goalDone()){
+      completed = true;
+      renderHud();
+      setStatus('記憶碎片蒐集完成！人物、建築與光之碎片將轉化為卡牌戰鬥加成。');
+      sfx('win');
+    } else if(moves <= 0){
+      setStatus('步數用完，尚未完成蒐集。請重置三消再試一次。');
+      sfx('lose');
+    }
+    renderHud();
+  }
+
+  function buildBonus(){
+    return {
+      counts:{...collected},
+      startCardsBonus: collected.person >= GOALS.person ? 1 : 0,
+      startBlock: collected.building >= GOALS.building ? 5 : 0,
+      enemyOpeningDamage: collected.light >= GOALS.light ? 8 : 0,
+      extraEnergy: collected.sound >= 5 ? 1 : 0,
+      source:'match3-memory-shards'
+    };
+  }
+
+  window.startMatch3Flow = function(){
+    el('storyScreen')?.classList.add('hidden');
+    el('startScreen')?.classList.add('hidden');
+    el('resultScreen')?.classList.add('hidden');
+    el('gameScreen')?.classList.add('hidden');
+    el('match3Screen')?.classList.remove('hidden');
+    moves = MAX_MOVES;
+    selected = null;
+    completed = false;
+    busy = false;
+    collected = { person:0, building:0, sound:0, image:0, light:0 };
+    createBoard();
+    renderBoard();
+    setStatus('點選一枚碎片，再點選相鄰碎片即可交換。黑霧格會被旁邊的消除淨化。');
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  window.resetMatch3Flow = function(){
+    sfx('tap');
+    window.startMatch3Flow();
+  };
+
+  window.finishMatch3AndStartBattle = function(){
+    if(!completed) return;
+    const bonus = buildBonus();
+    window.match3Bonus = bonus;
+    sfx('effect');
+    if(typeof window.startCardBattleFromMatch3 === 'function'){
+      window.startCardBattleFromMatch3(bonus);
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function(){
+    el('restartMatch3Button')?.addEventListener('click', function(e){ e.preventDefault(); window.resetMatch3Flow(); });
+    el('match3ContinueButton')?.addEventListener('click', function(e){ e.preventDefault(); window.finishMatch3AndStartBattle(); });
   });
 })();
 </script>
@@ -2769,10 +3362,29 @@ class DemoGame {
 
 let game = null;
 function startGame(){
+  if(typeof window.startMatch3Flow === 'function'){
+    window.startMatch3Flow();
+  } else {
+    startCardBattleFromMatch3(null);
+  }
+}
+function startCardBattleFromMatch3(match3Bonus = null){
+  $('storyScreen')?.classList.add('hidden');
   $('startScreen')?.classList.add('hidden');
+  $('match3Screen')?.classList.add('hidden');
   $('resultScreen')?.classList.add('hidden');
   $('gameScreen')?.classList.remove('hidden');
   game = new DemoGame();
+  if(match3Bonus){
+    const parts = [];
+    if(match3Bonus.startCardsBonus){ game.drawCards(match3Bonus.startCardsBonus, false); parts.push(`起始手牌 +${match3Bonus.startCardsBonus}`); }
+    if(match3Bonus.startBlock){ game.playerBlock += match3Bonus.startBlock; parts.push(`開場格擋 +${match3Bonus.startBlock}`); }
+    if(match3Bonus.enemyOpeningDamage){ game.enemyHp = Math.max(0, game.enemyHp - match3Bonus.enemyOpeningDamage); parts.push(`噬憶獸 HP -${match3Bonus.enemyOpeningDamage}`); }
+    if(match3Bonus.extraEnergy){ game.maxEnergy += match3Bonus.extraEnergy; game.energy = Math.min(game.maxEnergy, game.energy + match3Bonus.extraEnergy); parts.push(`能量上限 +${match3Bonus.extraEnergy}`); }
+    game.log(`三消蒐集完成：${parts.length ? parts.join('／') : '保留基礎戰鬥數值'}。`, false);
+    game.log(`帶入碎片：人物 ${match3Bonus.counts.person}、建築 ${match3Bonus.counts.building}、聲音 ${match3Bonus.counts.sound}、影像 ${match3Bonus.counts.image}、光 ${match3Bonus.counts.light}。`, false);
+    game.render();
+  }
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 function openSettings(){ $('settingsDialog')?.showModal(); }
