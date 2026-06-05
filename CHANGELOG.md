@@ -26,3 +26,10 @@
 - Added dedicated clear, combo, and objective-complete sound effects using Web Audio.
 - Enhanced tile clear sparkle and board flash animation.
 - Added completion dialog glow/pop visual treatment.
+
+
+## v54 - Card battle UI restore
+- 修正 v53 加入三消後，卡牌戰鬥畫面資訊列在部分螢幕寬度下直向堆疊。
+- 將卡牌戰鬥 HUD、階段/靈感/侵蝕/抽牌/棄牌資訊列恢復為橫向一行。
+- 壓縮上方標題列與夥伴技能列高度，避免遮擋戰鬥場景與手牌區。
+- 此修正僅作用於 #gameScreen，不影響三消流程、美術元件、消除音效與完成提示。

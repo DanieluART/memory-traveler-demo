@@ -39,3 +39,5 @@ assets/m3_sound.svg
 assets/m3_image.svg
 assets/m3_light.svg
 assets/m3_fog.svg
+
+V54: index.html patched with scoped #gameScreen card battle UI restoration CSS.
