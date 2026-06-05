@@ -1768,8 +1768,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-<style id="v52-match3-memory-flow">
-/* v52：三消目標強化、消除閃爍、完成提示，接入原本卡牌戰鬥 */
+<style id="v53-match3-memory-flow">
+/* v53：三消美術元件、消除音效、完成音效與強化閃爍，接入原本卡牌戰鬥 */
 .match3-screen{
   min-height:calc(100vh - 16px);
   display:grid;
@@ -1943,43 +1943,84 @@ document.addEventListener('DOMContentLoaded', function(){
   z-index:2;
 }
 .match3-cell.matched{
-  animation:match3Pop .42s ease-out both;
+  animation:match3Pop .62s ease-out both;
 }
 .match3-cell.matched .m3-icon{
-  animation:match3Flash .42s ease-out both;
+  animation:match3Flash .62s ease-out both;
 }
-.match3-cell.matched::after{
+.match3-cell.matched::before{
   content:"";
   position:absolute;
-  inset:-4px;
-  border-radius:12px;
+  inset:-8px;
+  border-radius:16px;
   pointer-events:none;
-  border:2px solid rgba(255,241,176,.92);
-  box-shadow:0 0 16px rgba(255,220,90,.64),0 0 28px rgba(90,190,255,.28);
-  animation:match3Spark .42s ease-out both;
+  background:radial-gradient(circle, rgba(255,246,188,.92) 0%, rgba(255,224,92,.58) 32%, rgba(102,196,255,.22) 58%, transparent 72%);
+  filter:blur(2px);
+  animation:match3BurstGlow .62s ease-out both;
+  z-index:0;
+}
+.match3-cell.matched::after{
+  content:"✦";
+  position:absolute;
+  inset:-7px;
+  border-radius:14px;
+  pointer-events:none;
+  display:grid;
+  place-items:center;
+  color:#fff4ba;
+  font-size:22px;
+  border:2px solid rgba(255,241,176,.98);
+  box-shadow:0 0 18px rgba(255,220,90,.86),0 0 34px rgba(90,190,255,.38), inset 0 0 14px rgba(255,255,255,.22);
+  animation:match3Spark .62s ease-out both;
+  z-index:3;
+}
+.match3-board.combo-flash{
+  animation:match3BoardFlash .42s ease-out both;
 }
 .match3-cell.invalid{
   animation:match3Shake .26s linear both;
 }
 .match3-cell .m3-icon{
-  width:72%;
-  height:72%;
+  width:78%;
+  height:78%;
   display:grid;
   place-items:center;
-  border-radius:9px;
+  border-radius:11px;
   font-size:20px;
   font-weight:1000;
   line-height:1;
   image-rendering:pixelated;
   text-shadow:0 2px 0 rgba(0,0,0,.22);
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.16), inset 0 -3px 0 rgba(0,0,0,.18), 0 5px 8px rgba(0,0,0,.24);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.22), inset 0 -4px 0 rgba(0,0,0,.22), 0 6px 10px rgba(0,0,0,.26);
+  position:relative;
+  z-index:1;
+  overflow:hidden;
 }
-.m3-person{background:#d85f8b;color:#fff;}
-.m3-building{background:#67a8df;color:#eef9ff;}
-.m3-sound{background:#4fb86f;color:#eaffec;}
-.m3-image{background:#bd9361;color:#fff4df;}
-.m3-light{background:#f2c849;color:#543a00;}
-.m3-fog{background:radial-gradient(circle,#2b2036,#0b0710 72%);color:#5c4968;box-shadow:inset 0 0 12px rgba(0,0,0,.8),0 0 12px rgba(35,20,55,.38)!important;}
+.match3-cell .m3-icon::after{
+  content:"";
+  position:absolute;
+  left:16%;
+  top:10%;
+  width:34%;
+  height:18%;
+  border-radius:999px;
+  background:rgba(255,255,255,.22);
+  transform:rotate(-18deg);
+  pointer-events:none;
+}
+.match3-cell .m3-icon img{
+  width:70%;
+  height:70%;
+  object-fit:contain;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 2px 0 rgba(0,0,0,.25));
+}
+.m3-person{background:linear-gradient(180deg,#ff8caf,#cf4778);color:#fff;}
+.m3-building{background:linear-gradient(180deg,#7ec8ff,#317bbf);color:#eef9ff;}
+.m3-sound{background:linear-gradient(180deg,#68de88,#259b4d);color:#eaffec;}
+.m3-image{background:linear-gradient(180deg,#d7a876,#966c3f);color:#fff4df;}
+.m3-light{background:linear-gradient(180deg,#ffe87a,#e4a914);color:#543a00;}
+.m3-fog{background:radial-gradient(circle at 45% 32%,#4b3a62 0%,#24182f 42%,#0b0710 82%);color:#5c4968;box-shadow:inset 0 0 14px rgba(0,0,0,.86),0 0 16px rgba(84,49,128,.42)!important;}
 .match3-hint-panel{
   display:grid;
   gap:6px;
@@ -2055,10 +2096,34 @@ document.addEventListener('DOMContentLoaded', function(){
   grid-template-columns:1fr;
   gap:8px;
 }
+
+.match3-complete-modal::before{
+  content:"";
+  position:absolute;
+  inset:-18%;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255,236,151,.42), transparent 18%),
+    radial-gradient(circle at 84% 20%, rgba(101,195,255,.32), transparent 18%),
+    radial-gradient(circle at 50% 92%, rgba(255,236,151,.28), transparent 22%);
+  filter:blur(8px);
+  animation:match3CompleteAura 2.4s ease-in-out infinite;
+}
+.match3-complete-modal h3,
+.match3-complete-modal p,
+.match3-complete-summary,
+.match3-complete-actions{position:relative;z-index:1;}
+.match3-complete-modal.complete-pop{animation:match3CompletePop .58s cubic-bezier(.2,1.2,.28,1) both;}
+.match3-complete-summary div{animation:match3SummaryGlow 1.6s ease-in-out infinite;}
 @keyframes match3Fog{0%,100%{transform:translateX(0) scale(1);opacity:.72;}50%{transform:translateX(-2%) scale(1.04);opacity:.92;}}
-@keyframes match3Pop{0%{transform:scale(1);filter:brightness(1);}26%{transform:scale(1.08);filter:brightness(1.7);}58%{transform:scale(1.18);filter:brightness(2.1);}100%{transform:scale(.1);opacity:0;filter:brightness(2.4);}}
-@keyframes match3Flash{0%,100%{filter:brightness(1);}22%{filter:brightness(2.7) drop-shadow(0 0 8px rgba(255,240,160,.9));}42%{filter:brightness(1.15);}62%{filter:brightness(2.2) drop-shadow(0 0 10px rgba(105,190,255,.68));}}
-@keyframes match3Spark{0%{opacity:0;transform:scale(.8);}28%{opacity:1;transform:scale(1.08);}100%{opacity:0;transform:scale(1.28);}}
+@keyframes match3Pop{0%{transform:scale(1) rotate(0deg);filter:brightness(1);opacity:1;}18%{transform:scale(1.08) rotate(-2deg);filter:brightness(2.2);opacity:1;}38%{transform:scale(1.2) rotate(2deg);filter:brightness(2.8);opacity:1;}64%{transform:scale(.82) rotate(0deg);filter:brightness(3.1);opacity:.86;}100%{transform:scale(.14);opacity:0;filter:brightness(3.4);}}
+@keyframes match3Flash{0%,100%{filter:brightness(1);}16%{filter:brightness(3.1) drop-shadow(0 0 9px rgba(255,246,188,.95));}34%{filter:brightness(1.22);}52%{filter:brightness(2.8) drop-shadow(0 0 12px rgba(105,190,255,.78));}72%{filter:brightness(1.36) drop-shadow(0 0 10px rgba(255,220,90,.58));}}
+@keyframes match3BurstGlow{0%{opacity:0;transform:scale(.82);}20%{opacity:.95;transform:scale(1.06);}100%{opacity:0;transform:scale(1.55);}}
+@keyframes match3Spark{0%{opacity:0;transform:scale(.68) rotate(0deg);}24%{opacity:1;transform:scale(1.08) rotate(12deg);}58%{opacity:.9;transform:scale(1.24) rotate(-10deg);}100%{opacity:0;transform:scale(1.45) rotate(18deg);}}
+@keyframes match3BoardFlash{0%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 12px 24px rgba(0,0,0,.28);}35%{box-shadow:inset 0 0 0 2px rgba(255,246,188,.55),0 0 24px rgba(255,217,97,.42),0 12px 24px rgba(0,0,0,.28);}100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 12px 24px rgba(0,0,0,.28);}}
+@keyframes match3CompleteAura{0%,100%{opacity:.72;transform:scale(.98);}50%{opacity:1;transform:scale(1.04);}}
+@keyframes match3CompletePop{0%{opacity:0;transform:translateY(14px) scale(.92);}70%{opacity:1;transform:translateY(-2px) scale(1.02);}100%{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes match3SummaryGlow{0%,100%{box-shadow:0 0 0 rgba(255,220,90,0);}50%{box-shadow:0 0 14px rgba(255,220,90,.22);}}
 @keyframes match3Shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}50%{transform:translateX(4px);}75%{transform:translateX(-3px);}}
 @media (max-width:420px){
   .match3-screen{gap:6px;}
@@ -2360,18 +2425,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-<script id="v52-match3-memory-flow-script">
+<script id="v53-match3-memory-flow-script">
 (function(){
   const SIZE = 7;
   const MAX_MOVES = 30;
   const TILE_TYPES = ['person','building','sound','image','light'];
   const TILE_UI = {
-    person:{label:'人物記憶', icon:'♥', cls:'m3-person'},
-    building:{label:'建築記憶', icon:'堂', cls:'m3-building'},
-    sound:{label:'聲音記憶', icon:'♪', cls:'m3-sound'},
-    image:{label:'影像記憶', icon:'像', cls:'m3-image'},
-    light:{label:'光之碎片', icon:'✦', cls:'m3-light'},
-    fog:{label:'黑霧', icon:'霧', cls:'m3-fog'}
+    person:{label:'人物記憶', icon:'♥', cls:'m3-person', art:'assets/m3_person.svg'},
+    building:{label:'建築記憶', icon:'堂', cls:'m3-building', art:'assets/m3_building.svg'},
+    sound:{label:'聲音記憶', icon:'♪', cls:'m3-sound', art:'assets/m3_sound.svg'},
+    image:{label:'影像記憶', icon:'像', cls:'m3-image', art:'assets/m3_image.svg'},
+    light:{label:'光之碎片', icon:'✦', cls:'m3-light', art:'assets/m3_light.svg'},
+    fog:{label:'黑霧', icon:'霧', cls:'m3-fog', art:'assets/m3_fog.svg'}
   };
   const GOALS = { person:10, building:10, light:6 };
   let board = [];
@@ -2384,6 +2449,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function el(id){ return document.getElementById(id); }
   function sfx(kind){ try{ if(typeof playSfx === 'function') playSfx(kind); }catch(_){} }
+  function match3SfxClear(count){
+    if(count >= 5) sfx('match3Combo');
+    else sfx('match3Clear');
+  }
+  function match3SfxComplete(){ sfx('match3Complete'); }
   function randTile(){ return TILE_TYPES[Math.floor(Math.random() * TILE_TYPES.length)]; }
   function indexOf(r,c){ return r * SIZE + c; }
   function cellAt(r,c){ return board[indexOf(r,c)]; }
@@ -2496,11 +2566,13 @@ document.addEventListener('DOMContentLoaded', function(){
       if(matches.size === 0) break;
       total += matches.size;
       const fogSet = adjacentFogToClear(matches);
+      const boardNode = el('match3Board');
+      if(boardNode){ boardNode.classList.remove('combo-flash'); void boardNode.offsetWidth; boardNode.classList.add('combo-flash'); }
       document.querySelectorAll('.match3-cell').forEach((node,idx)=>{
         if(matches.has(idx) || fogSet.has(idx)) node.classList.add('matched');
       });
-      sfx(matches.size >= 4 ? 'effect' : 'card');
-      await new Promise(resolve => setTimeout(resolve, 420));
+      match3SfxClear(matches.size);
+      await new Promise(resolve => setTimeout(resolve, 620));
       collapseBoard(matches, fogSet);
       renderBoard();
       await new Promise(resolve => setTimeout(resolve, 120));
@@ -2522,7 +2594,7 @@ document.addEventListener('DOMContentLoaded', function(){
       cell.type = 'button';
       cell.className = 'match3-cell';
       if(selected && selected.r === r && selected.c === c) cell.classList.add('selected');
-      cell.innerHTML = `<span class="m3-icon ${ui.cls}" aria-hidden="true">${ui.icon}</span>`;
+      cell.innerHTML = `<span class="m3-icon ${ui.cls}" aria-hidden="true"><img src="${ui.art}" alt="" onerror="this.remove();this.parentElement.textContent='${ui.icon}'"></span>`;
       cell.setAttribute('aria-label', `${ui.label} ${r+1}-${c+1}`);
       cell.addEventListener('click', () => handleCell(r,c));
       cell.addEventListener('touchend', (e) => { e.preventDefault(); handleCell(r,c); }, {passive:false});
@@ -2562,7 +2634,13 @@ document.addEventListener('DOMContentLoaded', function(){
     completionPromptShown = true;
     updateCompleteDialog();
     const dialog = el('match3CompleteDialog');
-    if(dialog && typeof dialog.showModal === 'function') dialog.showModal();
+    match3SfxComplete();
+    if(dialog && typeof dialog.showModal === 'function'){
+      dialog.classList.remove('complete-pop');
+      void dialog.offsetWidth;
+      dialog.classList.add('complete-pop');
+      dialog.showModal();
+    }
     else setStatus('記憶碎片蒐集完成！請點擊「完成，前進下一關」。');
   }
 
@@ -2619,7 +2697,6 @@ document.addEventListener('DOMContentLoaded', function(){
       completed = true;
       renderHud();
       setStatus('記憶碎片蒐集完成！人物、建築與光之碎片將轉化為卡牌戰鬥加成。');
-      sfx('win');
       showCompletePrompt();
     } else if(moves <= 0){
       setStatus('步數用完，尚未完成蒐集。請重置三消再試一次。');
@@ -2798,6 +2875,20 @@ function playSfx(kind='tap'){
     } else if(kind === 'enemySkill'){
       playTone(ctx, 180, 0.12, 'sine', 0.035, 0);
       playTone(ctx, 250, 0.16, 'triangle', 0.025, 0.08);
+    } else if(kind === 'match3Clear'){
+      playTone(ctx, 760, 0.055, 'triangle', 0.032, 0);
+      playTone(ctx, 1040, 0.070, 'triangle', 0.026, 0.045);
+      playNoise(ctx, 0.055, 0.012, 0.025);
+    } else if(kind === 'match3Combo'){
+      playTone(ctx, 680, 0.055, 'triangle', 0.035, 0);
+      playTone(ctx, 920, 0.060, 'triangle', 0.030, 0.045);
+      playTone(ctx, 1240, 0.090, 'sine', 0.028, 0.105);
+      playNoise(ctx, 0.065, 0.014, 0.035);
+    } else if(kind === 'match3Complete'){
+      playTone(ctx, 523.25, 0.10, 'triangle', 0.035, 0);
+      playTone(ctx, 659.25, 0.11, 'triangle', 0.033, 0.09);
+      playTone(ctx, 783.99, 0.13, 'triangle', 0.032, 0.18);
+      playTone(ctx, 1046.50, 0.18, 'sine', 0.026, 0.32);
     } else if(kind === 'win'){
       playTone(ctx, 523.25, 0.10, 'triangle', 0.035, 0);
       playTone(ctx, 659.25, 0.12, 'triangle', 0.032, 0.10);

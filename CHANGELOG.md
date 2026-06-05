@@ -18,3 +18,11 @@
 - 新增 `startCardBattleFromMatch3(match3Bonus)`：三消完成後才建立原本卡牌戰鬥。
 - 新增三消轉卡牌加成資料：起始手牌、開場格擋、噬憶獸開場削弱、能量上限。
 - 保留 v50 主要 UI、卡牌、音效、階段戰鬥與結果畫面邏輯。
+
+
+## v53 - Match-3 Art & Audio Polish
+
+- Improved match-3 tile art with lightweight SVG assets.
+- Added dedicated clear, combo, and objective-complete sound effects using Web Audio.
+- Enhanced tile clear sparkle and board flash animation.
+- Added completion dialog glow/pop visual treatment.
