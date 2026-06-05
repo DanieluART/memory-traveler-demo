@@ -1,7 +1,8 @@
 .gitignore	152 bytes
 .nojekyll	0 bytes
-CHANGELOG.md	505 bytes
-README.md	1469 bytes
+CHANGELOG.md	1012 bytes
+PACKAGE_MANIFEST.txt	1242 bytes
+README.md	1653 bytes
 assets/_PLACEHOLDER_ASSETS_README.txt	167 bytes
 assets/asset_001_6eb67549.webp	39992 bytes
 assets/asset_002_f2b2699f.webp	17528 bytes
@@ -30,4 +31,4 @@ assets/story_2.webp	25386 bytes
 assets/story_3.webp	28230 bytes
 assets/story_4.webp	26736 bytes
 docs/上傳說明.md	781 bytes
-index.html	147029 bytes
+index.html	150216 bytes

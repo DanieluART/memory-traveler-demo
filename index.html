@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>記憶旅人｜手機 WEB DEMO v51 三消整合版</title>
+<title>記憶旅人｜手機 WEB DEMO v52 三消目標強化版</title>
 <style>
 :root { --bg:#07111f; --panel:#102544; --panel2:#0e2d54; --line:#d9b36a; --text:#ffffff; --soft:#d6e6ff; --blue:#1d82ff; --blue2:#0f4da8; --shadow:rgba(0,0,0,.32); }
 *{box-sizing:border-box;} html,body{margin:0;padding:0;background:radial-gradient(circle at top,#0b1a33 0%,#07111f 62%);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;} body{min-height:100vh;} img{display:block;max-width:100%;} button{font:inherit;} .hidden{display:none!important;} .app-shell{padding:8px;max-width:520px;margin:0 auto;} .screen{width:100%;}.start-screen,.result-screen{min-height:calc(100vh - 16px);display:grid;place-items:center;}
@@ -679,7 +679,7 @@
 }
 
 </style>
-<!-- v51 match-3 integration build: story -> cover -> match-3 memory collection -> card battle. -->
+<!-- v52 match-3 integration build: story -> cover -> match-3 memory collection -> card battle. -->
 
 <style id="v43-flat-info-ui">
 /* v43：參考 V40，修正資訊列呈現失敗，壓成更扁平、更短的一行 */
@@ -1768,8 +1768,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-<style id="v51-match3-memory-flow">
-/* v51：三消蒐集記憶碎片，接入原本卡牌戰鬥 */
+<style id="v52-match3-memory-flow">
+/* v52：三消目標強化、消除閃爍、完成提示，接入原本卡牌戰鬥 */
 .match3-screen{
   min-height:calc(100vh - 16px);
   display:grid;
@@ -1943,7 +1943,20 @@ document.addEventListener('DOMContentLoaded', function(){
   z-index:2;
 }
 .match3-cell.matched{
-  animation:match3Pop .28s ease-out both;
+  animation:match3Pop .42s ease-out both;
+}
+.match3-cell.matched .m3-icon{
+  animation:match3Flash .42s ease-out both;
+}
+.match3-cell.matched::after{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:12px;
+  pointer-events:none;
+  border:2px solid rgba(255,241,176,.92);
+  box-shadow:0 0 16px rgba(255,220,90,.64),0 0 28px rgba(90,190,255,.28);
+  animation:match3Spark .42s ease-out both;
 }
 .match3-cell.invalid{
   animation:match3Shake .26s linear both;
@@ -2007,8 +2020,45 @@ document.addEventListener('DOMContentLoaded', function(){
   cursor:not-allowed;
   filter:grayscale(.35);
 }
+
+.match3-complete-modal{
+  max-width:520px;
+  text-align:center;
+}
+.match3-complete-modal h3{
+  margin:0 0 8px;
+  color:#fff0bf;
+  font-size:26px;
+}
+.match3-complete-modal p{
+  margin:0 0 14px;
+  color:#dbe9ff;
+  line-height:1.65;
+}
+.match3-complete-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  margin:12px 0 14px;
+}
+.match3-complete-summary div{
+  padding:9px 5px;
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(217,179,106,.24);
+  color:#fff0bf;
+  font-weight:900;
+  font-size:12px;
+}
+.match3-complete-actions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
 @keyframes match3Fog{0%,100%{transform:translateX(0) scale(1);opacity:.72;}50%{transform:translateX(-2%) scale(1.04);opacity:.92;}}
-@keyframes match3Pop{0%{transform:scale(1);}55%{transform:scale(1.18);}100%{transform:scale(.1);opacity:0;}}
+@keyframes match3Pop{0%{transform:scale(1);filter:brightness(1);}26%{transform:scale(1.08);filter:brightness(1.7);}58%{transform:scale(1.18);filter:brightness(2.1);}100%{transform:scale(.1);opacity:0;filter:brightness(2.4);}}
+@keyframes match3Flash{0%,100%{filter:brightness(1);}22%{filter:brightness(2.7) drop-shadow(0 0 8px rgba(255,240,160,.9));}42%{filter:brightness(1.15);}62%{filter:brightness(2.2) drop-shadow(0 0 10px rgba(105,190,255,.68));}}
+@keyframes match3Spark{0%{opacity:0;transform:scale(.8);}28%{opacity:1;transform:scale(1.08);}100%{opacity:0;transform:scale(1.28);}}
 @keyframes match3Shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}50%{transform:translateX(4px);}75%{transform:translateX(-3px);}}
 @media (max-width:420px){
   .match3-screen{gap:6px;}
@@ -2051,7 +2101,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="cover-entry-overlay mobile-cover-overlay">
 <div class="menu-badge-row">
 <span class="badge">MOBILE</span>
-<span class="badge alt">DEMO v51</span>
+<span class="badge alt">DEMO v52</span>
 </div>
 </div>
 </div>
@@ -2077,13 +2127,13 @@ document.addEventListener('DOMContentLoaded', function(){
           <h2>蒐集記憶碎片</h2>
           <p>交換相鄰碎片，完成三連消。蒐集成功後，記憶會轉化成卡牌戰鬥加成。</p>
         </div>
-        <div class="match3-moves-pill"><span>剩餘步數</span><strong id="match3MovesText">20</strong></div>
+        <div class="match3-moves-pill"><span>剩餘步數</span><strong id="match3MovesText">30</strong></div>
       </div>
     </div>
     <div class="match3-objectives" id="match3Objectives">
-      <div class="match3-objective" data-goal="person"><div class="pixel-icon">♥</div><span>人物記憶</span><strong id="m3GoalPerson">0 / 5</strong></div>
-      <div class="match3-objective" data-goal="building"><div class="pixel-icon">堂</div><span>建築記憶</span><strong id="m3GoalBuilding">0 / 5</strong></div>
-      <div class="match3-objective" data-goal="light"><div class="pixel-icon">✦</div><span>光之碎片</span><strong id="m3GoalLight">0 / 3</strong></div>
+      <div class="match3-objective" data-goal="person"><div class="pixel-icon">♥</div><span>人物記憶</span><strong id="m3GoalPerson">0 / 10</strong></div>
+      <div class="match3-objective" data-goal="building"><div class="pixel-icon">堂</div><span>建築記憶</span><strong id="m3GoalBuilding">0 / 10</strong></div>
+      <div class="match3-objective" data-goal="light"><div class="pixel-icon">✦</div><span>光之碎片</span><strong id="m3GoalLight">0 / 6</strong></div>
     </div>
     <div aria-label="三消棋盤" class="match3-board" id="match3Board"></div>
     <div class="match3-hint-panel">
@@ -2096,10 +2146,23 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
     <div class="match3-actions">
       <button class="card-ui-btn secondary-btn" id="restartMatch3Button">重置三消</button>
-      <button class="card-ui-btn primary-btn" id="match3ContinueButton" disabled>進入卡牌戰鬥</button>
+      <button class="card-ui-btn primary-btn" id="match3ContinueButton" disabled>完成後前進下一關</button>
     </div>
   </article>
 </section>
+
+<dialog class="modal match3-complete-modal" id="match3CompleteDialog">
+  <h3>記憶碎片蒐集完成</h3>
+  <p>中興會堂的記憶之光已經凝聚。這些碎片將轉化為卡牌戰鬥加成，準備前進下一關。</p>
+  <div class="match3-complete-summary">
+    <div id="match3CompletePerson">人物記憶 0</div>
+    <div id="match3CompleteBuilding">建築記憶 0</div>
+    <div id="match3CompleteLight">光之碎片 0</div>
+  </div>
+  <div class="match3-complete-actions">
+    <button class="card-ui-btn primary-btn" id="match3CompleteNextButton">前進下一關：卡牌戰鬥</button>
+  </div>
+</dialog>
 
 <section class="screen game-screen hidden" id="gameScreen">
 <header class="topbar mobile-topbar">
@@ -2297,10 +2360,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-<script id="v51-match3-memory-flow-script">
+<script id="v52-match3-memory-flow-script">
 (function(){
   const SIZE = 7;
-  const MAX_MOVES = 20;
+  const MAX_MOVES = 30;
   const TILE_TYPES = ['person','building','sound','image','light'];
   const TILE_UI = {
     person:{label:'人物記憶', icon:'♥', cls:'m3-person'},
@@ -2310,12 +2373,13 @@ document.addEventListener('DOMContentLoaded', function(){
     light:{label:'光之碎片', icon:'✦', cls:'m3-light'},
     fog:{label:'黑霧', icon:'霧', cls:'m3-fog'}
   };
-  const GOALS = { person:5, building:5, light:3 };
+  const GOALS = { person:10, building:10, light:6 };
   let board = [];
   let moves = MAX_MOVES;
   let selected = null;
   let collected = { person:0, building:0, sound:0, image:0, light:0 };
   let completed = false;
+  let completionPromptShown = false;
   let busy = false;
 
   function el(id){ return document.getElementById(id); }
@@ -2436,13 +2500,13 @@ document.addEventListener('DOMContentLoaded', function(){
         if(matches.has(idx) || fogSet.has(idx)) node.classList.add('matched');
       });
       sfx(matches.size >= 4 ? 'effect' : 'card');
-      await new Promise(resolve => setTimeout(resolve, 240));
+      await new Promise(resolve => setTimeout(resolve, 420));
       collapseBoard(matches, fogSet);
       renderBoard();
       await new Promise(resolve => setTimeout(resolve, 120));
     }
     if(total > 0){
-      setStatus(`成功消除 ${total} 枚記憶碎片。${goalDone() ? '記憶蒐集完成，可以進入卡牌戰鬥。' : '繼續蒐集目標碎片。'}`);
+      setStatus(`成功消除 ${total} 枚記憶碎片。${goalDone() ? '記憶蒐集完成，請前進下一關。' : '繼續蒐集目標碎片。'}`);
     }
     return total;
   }
@@ -2482,8 +2546,24 @@ document.addEventListener('DOMContentLoaded', function(){
     completed = goalDone();
     if(btn){
       btn.disabled = !completed;
-      btn.textContent = completed ? '進入卡牌戰鬥' : '尚未完成蒐集';
+      btn.textContent = completed ? '完成，前進下一關' : '尚未完成蒐集';
     }
+  }
+
+  function updateCompleteDialog(){
+    const p = el('match3CompletePerson'), b = el('match3CompleteBuilding'), l = el('match3CompleteLight');
+    if(p) p.textContent = `人物記憶 ${collected.person}`;
+    if(b) b.textContent = `建築記憶 ${collected.building}`;
+    if(l) l.textContent = `光之碎片 ${collected.light}`;
+  }
+
+  function showCompletePrompt(){
+    if(completionPromptShown) return;
+    completionPromptShown = true;
+    updateCompleteDialog();
+    const dialog = el('match3CompleteDialog');
+    if(dialog && typeof dialog.showModal === 'function') dialog.showModal();
+    else setStatus('記憶碎片蒐集完成！請點擊「完成，前進下一關」。');
   }
 
   async function handleCell(r,c){
@@ -2540,6 +2620,7 @@ document.addEventListener('DOMContentLoaded', function(){
       renderHud();
       setStatus('記憶碎片蒐集完成！人物、建築與光之碎片將轉化為卡牌戰鬥加成。');
       sfx('win');
+      showCompletePrompt();
     } else if(moves <= 0){
       setStatus('步數用完，尚未完成蒐集。請重置三消再試一次。');
       sfx('lose');
@@ -2567,6 +2648,7 @@ document.addEventListener('DOMContentLoaded', function(){
     moves = MAX_MOVES;
     selected = null;
     completed = false;
+    completionPromptShown = false;
     busy = false;
     collected = { person:0, building:0, sound:0, image:0, light:0 };
     createBoard();
@@ -2582,6 +2664,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
   window.finishMatch3AndStartBattle = function(){
     if(!completed) return;
+    const completeDialog = el('match3CompleteDialog');
+    if(completeDialog && completeDialog.open) completeDialog.close();
     const bonus = buildBonus();
     window.match3Bonus = bonus;
     sfx('effect');
@@ -2593,6 +2677,7 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('DOMContentLoaded', function(){
     el('restartMatch3Button')?.addEventListener('click', function(e){ e.preventDefault(); window.resetMatch3Flow(); });
     el('match3ContinueButton')?.addEventListener('click', function(e){ e.preventDefault(); window.finishMatch3AndStartBattle(); });
+    el('match3CompleteNextButton')?.addEventListener('click', function(e){ e.preventDefault(); window.finishMatch3AndStartBattle(); });
   });
 })();
 </script>
