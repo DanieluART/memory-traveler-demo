@@ -41,3 +41,11 @@ assets/m3_light.svg
 assets/m3_fog.svg
 
 V54: index.html patched with scoped #gameScreen card battle UI restoration CSS.
+
+
+## v55 BGM 更新
+- 新增 3 首背景音樂檔案至 `assets/audio/`。
+- `00Luke Bergs - Aurora`：開場故事與三消遊戲循環播放。
+- `01Aylex - Live It`：卡牌戰鬥第 1、2 階段循環播放。
+- `02Aylex - Where We Belong`：卡牌戰鬥第 3 階段循環播放。
+- 背景音樂音量設定為 24%，低於音效回饋，避免壓過消除、完成與戰鬥音效。

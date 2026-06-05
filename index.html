@@ -2652,6 +2652,7 @@ body:has(#gameScreen:not(.hidden)){
 <h3>設定</h3>
 <div class="settings-list">
 <div class="settings-row"><span>音效</span><strong>開啟｜Web Audio</strong></div>
+<div class="settings-row"><span>背景音樂</span><strong>開啟｜音量 24%</strong></div>
 <div class="settings-row"><span>畫質</span><strong>標準</strong></div>
 <div class="settings-row"><span>操作模式</span><strong>點選出牌</strong></div>
 </div>
@@ -2686,6 +2687,7 @@ body:has(#gameScreen:not(.hidden)){
   let i = 0;
   function el(id){ return document.getElementById(id); }
   function showCover(){
+    try{ if(typeof setBgmForPhase === 'function') setBgmForPhase('story'); }catch(_){}
     el('storyScreen')?.classList.add('hidden');
     el('startScreen')?.classList.remove('hidden');
     window.scrollTo({top:0, behavior:'smooth'});
@@ -2701,6 +2703,7 @@ body:has(#gameScreen:not(.hidden)){
   }
   document.addEventListener('DOMContentLoaded', function(){
     render();
+    try{ if(typeof setBgmForPhase === 'function') setBgmForPhase('story'); }catch(_){}
     el('nextStoryButton')?.addEventListener('click', function(e){
       e.preventDefault();
       try{ if(typeof playSfx === 'function') playSfx('tap'); }catch(_){}
@@ -3052,6 +3055,76 @@ body:has(#gameScreen:not(.hidden)){
 })();
 </script>
 
+
+<script id="v55-bgm-manager">
+const BGM_TRACKS = {
+  story: 'assets/audio/bgm_00_luke_aurora.mp3',
+  battle12: 'assets/audio/bgm_01_aylex_live_it.mp3',
+  battle3: 'assets/audio/bgm_02_aylex_where_we_belong.mp3'
+};
+
+const BgmManager = (() => {
+  const bgm = new Audio();
+  bgm.loop = true;
+  bgm.preload = 'auto';
+  bgm.volume = 0.24; // 背景樂略小於音效，避免蓋過三消與卡牌回饋音。
+  let currentKey = '';
+  let desiredKey = '';
+  let unlocked = false;
+
+  function unlock(){
+    unlocked = true;
+    if(desiredKey) play(desiredKey, true);
+  }
+
+  function play(key, force=false){
+    if(!BGM_TRACKS[key]) return;
+    desiredKey = key;
+    if(!force && currentKey === key && !bgm.paused) return;
+    const src = BGM_TRACKS[key];
+    if(currentKey !== key || !bgm.src.includes(src)){
+      bgm.pause();
+      bgm.src = src;
+      bgm.currentTime = 0;
+      currentKey = key;
+    }
+    if(!unlocked) return;
+    bgm.play().catch(()=>{});
+  }
+
+  function stop(){
+    bgm.pause();
+    bgm.currentTime = 0;
+  }
+
+  function setVolume(value){
+    const v = Number(value);
+    if(Number.isFinite(v)) bgm.volume = Math.max(0, Math.min(1, v));
+  }
+
+  return { play, stop, unlock, setVolume };
+})();
+
+['pointerdown','touchstart','click','keydown'].forEach(type => {
+  window.addEventListener(type, () => BgmManager.unlock(), { once:true, passive:true });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 開場故事與三消共用 00Luke。實際播放會等玩家首次互動後啟動。
+  BgmManager.play('story');
+});
+
+function setBgmForPhase(phase){
+  if(phase === 'story' || phase === 'match3') BgmManager.play('story');
+  else if(phase === 'battle3') BgmManager.play('battle3');
+  else if(phase === 'battle12') BgmManager.play('battle12');
+}
+
+function setBgmForBattleStage(stage){
+  setBgmForPhase(Number(stage) >= 3 ? 'battle3' : 'battle12');
+}
+</script>
+
 <script>
 const CARD_ASSETS = {
   memory_slash: 'assets/asset_014_aa5e03db.webp',
@@ -3257,6 +3330,7 @@ class DemoGame {
   }
 
   startStageBattle(isFirst=false){
+    try{ if(typeof setBgmForBattleStage === 'function') setBgmForBattleStage(this.stage); }catch(_){}
     const range = this.stageHpRanges[this.stage - 1] || this.stageHpRanges[2];
     this.maxEnemyHp = randomInt(range.min, range.max);
     this.enemyHp = this.maxEnemyHp;
@@ -3838,6 +3912,7 @@ function startGame(){
   }
 }
 function startCardBattleFromMatch3(match3Bonus = null){
+  try{ if(typeof setBgmForBattleStage === 'function') setBgmForBattleStage(1); }catch(_){}
   $('storyScreen')?.classList.add('hidden');
   $('startScreen')?.classList.add('hidden');
   $('match3Screen')?.classList.add('hidden');
