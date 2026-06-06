@@ -2652,7 +2652,7 @@ body:has(#gameScreen:not(.hidden)){
 <h3>設定</h3>
 <div class="settings-list">
 <div class="settings-row"><span>音效</span><strong>開啟｜Web Audio</strong></div>
-<div class="settings-row"><span>背景音樂</span><strong>開啟｜音量 24%</strong></div>
+<div class="settings-row"><span>背景音樂</span><strong>開啟｜音量 18%</strong></div>
 <div class="settings-row"><span>畫質</span><strong>標準</strong></div>
 <div class="settings-row"><span>操作模式</span><strong>點選出牌</strong></div>
 </div>
@@ -3056,7 +3056,7 @@ body:has(#gameScreen:not(.hidden)){
 </script>
 
 
-<script id="v55-bgm-manager">
+<script id="v56-bgm-manager">
 const BGM_TRACKS = {
   story: 'assets/audio/bgm_00_luke_aurora.mp3',
   battle12: 'assets/audio/bgm_01_aylex_live_it.mp3',
@@ -3067,7 +3067,7 @@ const BgmManager = (() => {
   const bgm = new Audio();
   bgm.loop = true;
   bgm.preload = 'auto';
-  bgm.volume = 0.24; // 背景樂略小於音效，避免蓋過三消與卡牌回饋音。
+  bgm.volume = 0.18; // 背景樂調整為 18%，略小於音效，避免蓋過三消與卡牌回饋音。
   let currentKey = '';
   let desiredKey = '';
   let unlocked = false;
