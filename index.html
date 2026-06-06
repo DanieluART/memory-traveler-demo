@@ -3178,7 +3178,7 @@ function getAudioCtx(){
   if(audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
   return audioCtx;
 }
-function playTone(ctx, freq, duration=0.08, type='sine', gainValue=0.08, delay=0){
+function playTone(ctx, freq, duration=0.08, type='sine', gainValue=0.1, delay=0){
   const t0 = ctx.currentTime + delay;
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
