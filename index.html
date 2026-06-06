@@ -3067,7 +3067,7 @@ const BgmManager = (() => {
   const bgm = new Audio();
   bgm.loop = true;
   bgm.preload = 'auto';
-  bgm.volume = 0.1; // 背景樂調整為 10%，略小於音效，避免蓋過三消與卡牌回饋音。
+  bgm.volume = 0.06; // 背景樂調整為 6%，略小於音效，避免蓋過三消與卡牌回饋音。
   let currentKey = '';
   let desiredKey = '';
   let unlocked = false;
